@@ -1,0 +1,14 @@
+{
+  "name": "hackathorg-leaderboards",
+  "version": "0.0.1",
+  "description": "Some description of hackathorg-leaderboards",
+  "author": {
+    "name": "mean scaffold"
+  },
+  "mean": "0.7.0",
+  "dependencies": {},
+  "license": "MIT",
+  "scripts": {
+    "postinstall" : "bower install"
+  }
+}
