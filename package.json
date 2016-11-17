@@ -1,14 +1,14 @@
 {
-  "name": "mean",
-  "description": "MEAN.io: A fullstack JavaScript framework powered by MongoDB, ExpressJS, AngularJS, NodeJS.",
+  "name": "hackathorg-mainsite",
+  "description": "Hackath.org - The Hackathon Management Tool",
   "version": "0.7.0",
   "private": false,
-  "author": "Linnovate <mean@linnovate.net>",
-  "contributors": "https://github.com/linnovate/mean/graphs/contributors",
+  "author": "Hackath.org",
+  "contributors": ["Michael Holtom", "Jamie Mahoney", "Domenico Pignatario"],
   "mean": "0.7.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/linnovate/mean.git"
+    "url": "https://github.com/mholtom/Hackath.org"
   },
   "license": "MIT",
   "scripts": {
@@ -45,6 +45,7 @@
     "debug": "^2.2.0",
     "express": "^4.14.0",
     "file-loader": "^0.9.0",
+    "forever": "^0.15.3",
     "helmet": "^2.2.0",
     "jasmine": "^2.5.2",
     "lodash": "latest",
