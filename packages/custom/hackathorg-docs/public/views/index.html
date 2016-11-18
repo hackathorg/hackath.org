@@ -21,4 +21,114 @@
   </br>
   <h3><a href="http://learn.mean.io">Documentation</a></h3>
   </br>
+  <div layout="row" layout-align="space-around start" layout-padding flex>
+    <div class="left" layout="column" flex="33">
+      <div class="next-steps">
+        <p class="md-headline">Browse the Documentation</p>
+        <p>
+          Before you jump in it's important to read the documentation and learn about the different aspects of extending and developing MEAN.
+        </p>
+        <p>
+          Mean is based on MongoDB, Express.js, Angular.js and Node.js and even basic proficiency in these technologies will help you dive in to mean development - luckily there are plenty of <a href="http://learn.mean.io/" target="_blank">tutorials around</a>.
+        </p>
+        <md-list>
+          <md-list-item class="secondary-button-padding" ng-repeat="doc in docs" ng-click="null">
+            <p>
+              {{doc.text}}
+            </p>
+            <md-button class="md-secondary" ng-href="{{doc.link}}" target="_blank">More Info</md-button>
+          </md-list-item>
+        </md-list>
+      </div>
+      <md-divider></md-divider>
+      <div class="packages">
+        <p class="md-headline">Browse our packages
+          <md-button href="http://mean.io/#!/packages">All Packages</md-button>
+        </p>
+        <md-card ng-repeat="package in packages">
+          <img ng-src="{{package.image}}" class="md-card-image" alt="Site Image">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">{{package.name}} - {{package.author}}</span>
+              <span class="md-subhead">{{package.text}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-href="{{package.link}}" target="_blank">More Info</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+    </div>
+    <div class="center" layout="column" flex="33">
+      <div class="next-steps">
+        <p class="md-headline">Browse the Documentation</p>
+        <p>
+          Before you jump in it's important to read the documentation and learn about the different aspects of extending and developing MEAN.
+        </p>
+        <p>
+          Mean is based on MongoDB, Express.js, Angular.js and Node.js and even basic proficiency in these technologies will help you dive in to mean development - luckily there are plenty of <a href="http://learn.mean.io/" target="_blank">tutorials around</a>.
+        </p>
+        <md-list>
+          <md-list-item class="secondary-button-padding" ng-repeat="doc in docs" ng-click="null">
+            <p>
+              {{doc.text}}
+            </p>
+            <md-button class="md-secondary" ng-href="{{doc.link}}" target="_blank">More Info</md-button>
+          </md-list-item>
+        </md-list>
+      </div>
+      <md-divider></md-divider>
+      <div class="packages">
+        <p class="md-headline">Browse our packages
+          <md-button href="http://mean.io/#!/packages">All Packages</md-button>
+        </p>
+        <md-card ng-repeat="package in packages">
+          <img ng-src="{{package.image}}" class="md-card-image" alt="Site Image">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">{{package.name}} - {{package.author}}</span>
+              <span class="md-subhead">{{package.text}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-href="{{package.link}}" target="_blank">More Info</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+    </div>
+    <div class="right" layout="column" flex="33">
+      <div class="next-steps">
+        <p class="md-headline">Browse the Documentation</p>
+        <p>
+          Before you jump in it's important to read the documentation and learn about the different aspects of extending and developing MEAN.
+        </p>
+        <p>
+          Mean is based on MongoDB, Express.js, Angular.js and Node.js and even basic proficiency in these technologies will help you dive in to mean development - luckily there are plenty of <a href="http://learn.mean.io/" target="_blank">tutorials around</a>.
+        </p>
+        <md-list>
+          <md-list-item class="secondary-button-padding" ng-repeat="doc in docs" ng-click="null">
+            <p>
+              {{doc.text}}
+            </p>
+            <md-button class="md-secondary" ng-href="{{doc.link}}" target="_blank">More Info</md-button>
+          </md-list-item>
+        </md-list>
+      </div>
+      <md-divider></md-divider>
+      <div class="featured-websites">
+        <md-card ng-repeat="site in sites">
+          <img ng-src="{{site.image}}" class="md-card-image" alt="Site image">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">{{site.name}} - {{site.author}}</span>
+              <span class="md-subhead">{{site.text}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-href="{{site.link}}" target="_blank">More Info</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+    </div>
+  </div>
 </div>

@@ -10,7 +10,6 @@
         };
 
         $scope.checkCircle = function() {
-            console.log("checking circle" + $stateParams.circle);
             HackathorgDocs.checkCircle($stateParams.circle).then(function(response) {
                 $scope.res = response;
                 $scope.resStatus = 'info';
