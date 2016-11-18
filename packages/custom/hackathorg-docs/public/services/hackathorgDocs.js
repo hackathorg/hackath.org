@@ -7,7 +7,6 @@
             checkCircle: function(circle) {
                 var deferred = $q.defer();
 
-                $http.get('/api/hackathorgDocs/example/' + circle).success(function(response) {
                     deferred.resolve(response);
                 }).error(function(response) {
                     deferred.reject(response);

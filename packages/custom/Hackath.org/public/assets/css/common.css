@@ -6,4 +6,5 @@
     font-weight: 300;
     font-size: 32px;
     letter-spacing: -.01em;
+    text-transform: lowercase;
 }

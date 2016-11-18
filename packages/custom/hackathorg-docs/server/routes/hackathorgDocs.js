@@ -8,19 +8,15 @@
         var requiresAdmin = circles.controller.hasCircle('admin');
         var requiresLogin = circles.controller.hasCircle('authenticated');
 
-        app.get('/api/hackathorgDocs/example/anyone', function(req, res) {
             res.send('Anyone can access this');
         });
 
-        app.get('/api/hackathorgDocs/example/auth', requiresLogin, function(req, res) {
             res.send('Only authenticated users can access this');
         });
 
-        app.get('/api/hackathorgDocs/example/admin', requiresAdmin, function(req, res) {
             res.send('Only users with Admin role can access this');
         });
 
-        app.get('/api/hackathorgDocs/example/render', function(req, res) {
             HackathorgDocs.render('index', {
                 package: 'hackathorg-docs'
             }, function(err, html) {

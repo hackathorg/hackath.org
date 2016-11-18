@@ -18,8 +18,8 @@ HackathorgDocs.register(function(app, auth, database, circles) {
 
   //We are adding a link to the main menu for all authenticated users
   HackathorgDocs.menus.add({
-    title: 'hackathorgDocs example page',
-    link: 'hackathorgDocs example page',
+    title: 'docs',
+    link: 'docs',
     roles: ['authenticated'],
     menu: 'main'
   });
