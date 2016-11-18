@@ -2,11 +2,11 @@
     'use strict';
 
     function HackathorgDocs($stateProvider) {
-        $stateProvider.state('hackathorgDocs example page', {
-            url: '/hackathorgDocs/example',
+        $stateProvider.state('docs', {
+            url: '/docs',
             templateUrl: 'hackathorg-docs/views/index.html'
-        }).state('hackathorgDocs circles example', {
-            url: '/hackathorgDocs/example/:circle',
+        }).state('docs circles example', {
+            url: '/docs/:circle',
             templateUrl: 'hackathorg-docs/views/example.html'
         });
     }
