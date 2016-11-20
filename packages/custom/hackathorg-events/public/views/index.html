@@ -1,5 +1,6 @@
-<div class="hackathorgEvents-example" ng-controller="HackathorgEventsController">
-  <h1>Example view from your new awesome package</h1>
+<div layout="column" flex class="hackathorgEvents-example" ng-controller="HackathorgEventsController">
+  <md-content layout="column" layout-padding flex>
+<!--   <h1>Example view from your new awesome package</h1>
   <h2>Package: <span>{{package.name}}</span></h2>
   <ol>
     <li>
@@ -20,5 +21,62 @@
   <p class="alert alert-info">You can find your package in /packages/hackathorg-events</p>
   </br>
   <h3><a href="http://learn.mean.io">Documentation</a></h3>
-  </br>
+  </br> -->
+    <div layout="row" style=" min-height:250px" layout-align="space-around start" layout-padding flex>
+      <md-card style="max-width:400px"flex="33">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Options</span>
+              <span class="md-subhead">Find events which interest you bish -  BASICALLY location based discovery, new events, skill level, recommended, and a search function (to add)</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-actions layout="row" layout-align="space-around end">
+            <md-checkbox ng-disabled="isDisabled">
+               Recommended
+            </md-checkbox>
+            <md-checkbox>
+               New
+            </md-checkbox>
+            <md-checkbox ng-disabled="isDisabled">
+               Virtual
+            </md-checkbox>
+            <md-checkbox ng-model="isDisabled">Near you</md-checkbox>
+          </md-card-actions>
+      </md-card>
+    </div>
+    <div layout="row" layout-wrap>
+        <md-card flex style="min-width:300px" ng-repeat="site in sites">
+          <img ng-src="{{site.image}}" class="md-card-image" alt="user avatar">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{site.name}} - {{site.author}}</span>
+                <span class="md-subhead">{{site.text}}</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button ng-href="{{site.link}}" target="_blank">More Info</md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+<!--     <div layout="row" layout-align="space-around start" layout-padding flex>
+      <div flex="33">
+        <md-content layout="column" layout-padding flex>
+            <div class="featured-websites">
+              <md-card ng-repeat="site in sites">
+                <img ng-src="{{site.image}}" class="md-card-image" alt="Site image">
+                <md-card-title>
+                  <md-card-title-text>
+                    <span class="md-headline">{{site.name}} - {{site.author}}</span>
+                    <span class="md-subhead">{{site.text}}</span>
+                  </md-card-title-text>
+                </md-card-title>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-href="{{site.link}}" target="_blank">More Info</md-button>
+              </md-card-actions>
+            </md-card>
+          </div>
+        </md-content>
+      </div>
+    </div> -->
+  </md-content>
 </div>

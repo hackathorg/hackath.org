@@ -18,7 +18,7 @@ HackathorgProfile.register(function(app, auth, database, circles) {
 
   //We are adding a link to the main menu for all authenticated users
   HackathorgProfile.menus.add({
-    title: 'hackathorgProfile example page',
+    title: 'Profile',
     link: 'hackathorgProfile example page',
     roles: ['authenticated'],
     menu: 'main'
