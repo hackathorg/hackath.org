@@ -1,0 +1,93 @@
+<div layout-wrap layout="row" layout-align="space-around start" layout-padding flex>
+  <md-card flex-gt-sm="66" flex-xs="100" flex-md="100" flex-gt-xs="100" flex-sm="100">
+<!--           <md-card-title>
+         <md-card-title-text>
+          <span class="md-headline">Discover events</span>
+          <span class="md-subhead"></span>
+        </md-card-title-text>
+      </md-card-title> -->
+      <md-card-actions layout-wrap layout="row" layout-align="space-around start">
+        <div layout-wrap layout="row" layout-align="space-around start" style="padding:20px;" flex-gt-sm="50" flex-xs="100" flex-gt-xs="100" flex-sm="100">
+        <!--<span flex="100"  class="md-headline">Discover events</span>-->
+          <md-input-container flex="100" style="padding-top:20px;"class="md-block">
+            <label>Search events</label>
+            <input ng-model="eventname">
+          </md-input-container>
+          <md-input-container class="md-block" flex="50">
+            <label>Skill level</label>
+            <md-select ng-disabled="data.recommended" ng-model="data.skill">
+              <md-option ng-repeat="skill in skills" value="{{skill.type}}">
+                {{skill.type}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex="50">
+            <label>Size</label>
+            <md-select ng-disabled="data.recommended" ng-model="data.size">
+              <md-option ng-repeat="size in sizes" value="{{size.type}}">
+                {{size.type}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:20px;padding-left:20px;padding-right:20px;" flex-gt-sm="50" flex-xs="100" flex-gt-xs="100" flex-sm="100">
+          <div flex="50" flex-xs="100" flex-sm="100">
+            <md-switch md-no-ink aria-label="recommended" ng-model="data.recommended" class="md-primary">
+              Recommended
+            </md-switch>
+          </div>
+          <div flex="50" flex-xs="100" flex-sm="100">
+            <md-switch md-no-ink ng-model="data.tickets" aria-label="tickets" class="md-primary">
+              Tickets Available
+            </md-switch>
+          </div>
+          <div flex="100"></div>
+          <div flex="50" >
+            <md-checkbox md-no-ink aria-label="virtual" ng-disabled="data.nearby || data.recommended" ng-model="data.virtual" class="md-primary">
+              Virtual
+            </md-checkbox>
+          </div>
+          <div flex="50" >
+            <md-checkbox md-no-ink aria-label="nearby" ng-disabled="data.virtual || data.recommended" ng-model="data.nearby" class="md-primary">
+              Nearby
+            </md-checkbox>
+          </div>
+          <div flex="50" >
+            <md-checkbox md-no-ink aria-label="historical" ng-disabled="data.recent || data.recommended" ng-model="data.historical" class="md-primary">
+              Historical
+            </md-checkbox>
+          </div>
+          <div flex="50">
+            <md-checkbox md-no-ink aria-label="recent" ng-disabled="data.historical || data.recommended" ng-model="data.recent" class="md-primary">
+              Recent
+            </md-checkbox>
+          </div>
+          <div flex="50">
+            <md-checkbox md-no-ink aria-label="prizes" ng-disabled="data.recommended" ng-model="data.prizes" class="md-primary">
+              Prizes
+            </md-checkbox>
+          </div>
+          <div flex="50">
+            <md-checkbox md-no-ink aria-label="prizes" ng-disabled="data.recommended" ng-model="data.prizes" class="md-primary">
+              Something
+            </md-checkbox>
+          </div>
+        </div>
+      </md-card-actions>
+  </md-card>
+  <div flex="100">
+  <!-- seperator div -->
+  </div>
+    <md-card flex style="min-width:300px" ng-repeat="site in sites">
+      <img ng-src="{{site.image}}" class="md-card-image" alt="user avatar">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{site.name}} - {{site.author}}</span>
+            <span class="md-subhead">{{site.text}}</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-href="{{site.link}}" target="_blank">More Info</md-button>
+        </md-card-actions>
+    </md-card>
+</div>
