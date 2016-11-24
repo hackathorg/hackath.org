@@ -4,7 +4,11 @@
   "version": "0.7.0",
   "private": false,
   "author": "Hackath.org",
-  "contributors": ["Michael Holtom", "Jamie Mahoney", "Domenico Pignatario"],
+  "contributors": [
+    "Michael Holtom",
+    "Jamie Mahoney",
+    "Domenico Pignatario"
+  ],
   "mean": "0.7.0",
   "repository": {
     "type": "git",
@@ -48,6 +52,7 @@
     "forever": "^0.15.3",
     "helmet": "^2.2.0",
     "jasmine": "^2.5.2",
+    "jsonwebtoken": "latest",
     "lodash": "latest",
     "meanio": "~0.9.3",
     "meanio-admin": "git://github.com/linnovate/meanio-admin.git",
@@ -90,7 +95,6 @@
     "jquery": "latest",
     "jshint": "latest",
     "jshint-stylish": "latest",
-    "jsonwebtoken": "latest",
     "karma": "latest",
     "karma-chrome-launcher": "latest",
     "karma-coffee-preprocessor": "latest",
