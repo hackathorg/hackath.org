@@ -4,7 +4,11 @@
   "version": "0.7.0",
   "private": false,
   "author": "Hackath.org",
-  "contributors": ["Michael Holtom", "Jamie Mahoney", "Domenico Pignatario"],
+  "contributors": [
+    "Michael Holtom",
+    "Jamie Mahoney",
+    "Domenico Pignatario"
+  ],
   "mean": "0.7.0",
   "repository": {
     "type": "git",
