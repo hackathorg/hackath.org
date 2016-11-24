@@ -2,12 +2,15 @@
     'use strict';
 
     function HackathorgEvents($stateProvider) {
-        $stateProvider.state('hackathorgEvents example page', {
-            url: '/hackathorgEvents/example',
+        $stateProvider.state('hackathorgEvents', {
+            url: '/hackathorgEvents',
             templateUrl: 'hackathorg-events/views/index.html'
-        }).state('hackathorgEvents circles example', {
-            url: '/hackathorgEvents/example/:circle',
-            templateUrl: 'hackathorg-events/views/example.html'
+        }).state('discover', {
+            parent: 'hackathorgEvents',
+            templateUrl: 'hackathorg-events/views/part-discover.html'
+        }).state('yourevents', {
+            parent: 'hackathorgEvents',
+            template: 'hackathorg-events/views/part-yourevents.html'
         });
     }
 

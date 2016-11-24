@@ -19,7 +19,7 @@ HackathorgEvents.register(function(app, auth, database, circles) {
   //We are adding a link to the main menu for all authenticated users
   HackathorgEvents.menus.add({
     title: 'Events',
-    link: 'hackathorgEvents example page',
+    link: 'hackathorgEvents',
     roles: ['authenticated'],
     menu: 'main'
   });
