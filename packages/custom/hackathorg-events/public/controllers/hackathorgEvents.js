@@ -41,19 +41,19 @@
           'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
           'author': 'Warwick University',
           'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/warwickhack.jpg'
+          'image': '/meanStarter/assets/img/placeholder.png'
         }, {
           'name': 'WarwickHACK',
           'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
           'author': 'Warwick University',
           'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/warwickhack.jpg'
+          'image': '/meanStarter/assets/img/placeholder.png'
         }, {
           'name': 'WarwickHACK',
           'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
           'author': 'Warwick University',
           'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/warwickhack.jpg'
+          'image': '/meanStarter/assets/img/placeholder.png'
         }];
 
         $scope.currentNavItem = 'discover';

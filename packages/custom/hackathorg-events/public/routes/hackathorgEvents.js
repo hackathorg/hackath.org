@@ -2,15 +2,15 @@
     'use strict';
 
     function HackathorgEvents($stateProvider) {
-        $stateProvider.state('hackathorgEvents', {
-            url: '/hackathorgEvents',
+        $stateProvider.state('events', {
+            url: '/events',
             templateUrl: 'hackathorg-events/views/index.html'
         }).state('discover', {
-            parent: 'hackathorgEvents',
+            parent: 'events',
             templateUrl: 'hackathorg-events/views/part-discover.html'
         }).state('yourevents', {
-            parent: 'hackathorgEvents',
-            template: 'hackathorg-events/views/part-yourevents.html'
+            parent: 'events',
+            templateUrl: 'hackathorg-events/views/part-yourevents.html'
         });
     }
 
