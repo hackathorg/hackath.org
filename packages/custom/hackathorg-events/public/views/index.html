@@ -1,15 +1,18 @@
 <div layout="column" flex class="hackathorgEvents-example" ng-controller="HackathorgEventsController">
   <md-content layout="column" layout-padding flex>
-    <div layout="row" style="min-height:70px" layout-align="space-around start" layout-padding layout-wrap flex>
+    <div layout="row" style="min-height:60px;" layout-align="space-around start" layout-padding layout-wrap flex>
       <md-content class="md-padding">
         <md-nav-bar
           md-selected-nav-item="currentNavItem"
           nav-bar-aria-label="navigation links">
-          <md-nav-item md-nav-sref='discover' name="discover">
+          <md-nav-item active md-nav-sref='events.discover' name="discover">
             Discover
           </md-nav-item>
-          <md-nav-item md-nav-sref='yourevents' name="yourevents">
+          <md-nav-item md-nav-sref='events.yourevents' name="yourevents">
             Your events
+          </md-nav-item>
+          <md-nav-item md-nav-sref='events.createevent' name="createevent">
+            Create
           </md-nav-item>
         </md-nav-bar>
 

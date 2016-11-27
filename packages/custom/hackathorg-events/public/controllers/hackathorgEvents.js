@@ -5,15 +5,27 @@
 
     function HackathorgEventsController($scope, Global, HackathorgEvents, $stateParams) {
         $scope.global = Global;
+
         $scope.package = {
             name: 'hackathorg-events'
         };
 
-        $scope.data = {
+        $scope.user = {
+            'id' : '1'
+        };
+
+        $scope.discover = {
             'recommended' : true,
             'tickets' : true,
             'size' : 'All',
             'skill' : 'All'
+        };
+
+        $scope.yourevents = {
+            'attendee' : true, 
+            'mentor' : false,
+            'host' : false, 
+            'historical' : false
         };
 
         $scope.skills = [{
@@ -37,26 +49,65 @@
         }];
 
         $scope.sites = [{
-          'name': 'WarwickHACK',
+          'name': 'WarwickHACKA',
           'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
           'author': 'Warwick University',
           'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png'
+          'image': '/meanStarter/assets/img/placeholder.png',
+          'ownerid' : {'id' : '1'}, 
+          'hosts' : [
+                {'id':'1'},
+                {'id':'2'},
+                {'id':'3'},
+            ],
+          'mentors' : [
+                {'id' : '2'}
+            ],
+          'attendees' : [
+                {'id':'1'},
+                {'id':'2'},
+                {'id':'3'},
+            ]
         }, {
-          'name': 'WarwickHACK',
+          'name': 'WarwickHACKB',
           'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
           'author': 'Warwick University',
           'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png'
+          'image': '/meanStarter/assets/img/placeholder.png',
+          'ownerid' : {'id' : '2'}, 
+          'hosts' : [
+                {'id':'2'},
+                {'id':'3'},
+            ],
+          'mentors' : [
+                {'id' : '3'}
+            ],
+          'attendees' : [
+                {'id':'2'},
+                {'id':'3'},
+            ]
         }, {
-          'name': 'WarwickHACK',
+          'name': 'WarwickHACKC',
           'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'Warwick University',
+          'author': 'WarwickTECH',
           'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png'
+          'image': '/meanStarter/assets/img/placeholder.png',
+          'ownerid' : {'id' : '3'}, 
+          'hosts' : [
+                {'id':'1'},
+                {'id':'3'},
+            ],
+          'mentors' : [
+                {'id' : '1'}
+            ],
+          'attendees' : [
+                {'id':'1'},
+                {'id':'2'},
+                {'id':'3'},
+            ]
         }];
 
-        $scope.currentNavItem = 'discover';
+        $scope.currentNavItem = '';
 
         $scope.checkCircle = function() {
             HackathorgEvents.checkCircle($stateParams.circle).then(function(response) {
@@ -67,6 +118,17 @@
                 $scope.resStatus = 'danger';
             });
         };
+ 
+        $scope.filterYourEvents = function(a) {
+            for(var filter in $scope.yourevents){
+                console.error(filter + $scope.user['id'])
+                if($scope.yourevents[filter] === true ){ //the filter on cause a problem, return false
+                    return false;
+                }
+            }
+            return true;
+        };
+    
     }
 
     angular
