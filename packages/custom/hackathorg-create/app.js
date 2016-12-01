@@ -5,31 +5,31 @@
  */
 var Module = require('meanio').Module;
 
-var HackathorgDocs = new Module('hackathorg-docs');
+var HackathorgCreate = new Module('hackathorg-create');
 
 /*
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
  */
-HackathorgDocs.register(function(app, auth, database, circles) {
+HackathorgCreate.register(function(app, auth, database, circles) {
 
   //We enable routing. By default the Package Object is passed to the routes
-  HackathorgDocs.routes(app, auth, database, circles);
+  HackathorgCreate.routes(app, auth, database, circles);
 
   //We are adding a link to the main menu for all authenticated users
-  HackathorgDocs.menus.add({
-    title: 'docs',
-    link: 'docs',
+  HackathorgCreate.menus.add({
+    title: 'create',
+    link: 'create',
     roles: ['authenticated'],
     menu: 'main',
-    position: 3
+    position: 2
   });
   
   /**
     //Uncomment to use. Requires meanio@0.3.7 or above
     // Save settings with callback
     // Use this for saving data from administration pages
-    HackathorgDocs.settings({
+    HackathorgCreate.settings({
         'someSetting': 'some value'
     }, function(err, settings) {
         //you now have the settings object
@@ -37,15 +37,15 @@ HackathorgDocs.register(function(app, auth, database, circles) {
 
     // Another save settings example this time with no callback
     // This writes over the last settings.
-    HackathorgDocs.settings({
+    HackathorgCreate.settings({
         'anotherSettings': 'some value'
     });
 
     // Get settings. Retrieves latest saved settigns
-    HackathorgDocs.settings(function(err, settings) {
+    HackathorgCreate.settings(function(err, settings) {
         //you now have the settings object
     });
     */
 
-  return HackathorgDocs;
+  return HackathorgCreate;
 });

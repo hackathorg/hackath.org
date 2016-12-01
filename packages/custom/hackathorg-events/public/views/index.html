@@ -1,26 +1,141 @@
 <div layout="column" flex class="hackathorgEvents-example" ng-controller="HackathorgEventsController">
   <md-content layout="column" layout-padding flex>
-    <div layout="row" style="min-height:60px;" layout-align="space-around start" layout-padding layout-wrap flex>
-      <md-content class="md-padding">
-        <md-nav-bar
-          md-selected-nav-item="currentNavItem"
-          nav-bar-aria-label="navigation links">
-          <md-nav-item active md-nav-sref='events.discover' name="discover">
-            Discover
-          </md-nav-item>
-          <md-nav-item md-nav-sref='events.yourevents' name="yourevents">
-            Your events
-          </md-nav-item>
-          <md-nav-item md-nav-sref='events.createevent' name="createevent">
-            Create
-          </md-nav-item>
-        </md-nav-bar>
 
-          <!--<div class="ext-content">
-            External content for `<span>{{currentNavItem}}</span>`.
-          </div>-->
-      </md-content>
+    <div layout-wrap layout="row" layout-align="space-around start" layout-padding flex>
+      <md-card flex-gt-sm="66" flex-xs="100" flex-md="100" flex-gt-xs="100" flex-sm="100">
+    <!--           <md-card-title>
+             <md-card-title-text>
+              <span class="md-headline">Discover events</span>
+              <span class="md-subhead"></span>
+            </md-card-title-text>
+          </md-card-title> -->
+          <md-card-actions layout-wrap layout="row" layout-align="space-around start">
+            <div layout-wrap layout="row" layout-align="space-around start" flex-gt-sm="50" flex-xs="100" flex-gt-xs="100" flex-sm="100">
+            <!--<span flex="100"  class="md-headline">Discover events</span>-->
+              <md-input-container flex="100" style="padding-top:20px;"class="md-block">
+                <label>Search events</label>
+                <input ng-model="eventname">
+              </md-input-container>
+             <div ng-hide="discover.recommended" layout-wrap layout="row" layout-align="space-around start" flex="100">
+              <md-input-container class="md-block" flex="50">
+                <label>Skill level</label>
+                <md-select ng-disabled="discover.recommended" ng-model="discover.skill">
+                  <md-option ng-repeat="skill in skills" value="{{skill.type}}">
+                    {{skill.type}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+              <md-input-container class="md-block" flex="50">
+                <label>Size</label>
+                <md-select ng-disabled="discover.recommended" ng-model="discover.size">
+                  <md-option ng-repeat="size in sizes" value="{{size.type}}">
+                    {{size.type}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+              </div>
+            </div>
+            <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:20px;padding-left:20px;padding-right:20px;" flex-gt-sm="50" flex-xs="100" flex-gt-xs="100" flex-sm="100">
+              <div flex="50" flex-xs="66" flex-sm="66">
+                <md-switch md-no-ink aria-label="recommended" ng-model="discover.recommended" class="md-primary">
+                  Recommended
+                </md-switch>
+              </div>
+              <div flex="50" flex-xs="66" flex-sm="66">
+                <md-switch md-no-ink aria-label="yourevents" ng-model="discover.yourevents" class="md-primary">
+                  Your events
+                </md-switch>
+              </div>
+              <div flex="100"></div>
+              <div ng-hide="discover.recommended" layout-wrap layout="row" layout-align="space-around start" flex="100">
+                <div flex="50" >
+                  <md-checkbox md-no-ink aria-label="virtual" ng-disabled="discover.nearby || discover.recommended" ng-model="discover.virtual" class="md-primary">
+                    Virtual
+                  </md-checkbox>
+                </div>
+                <div flex="50" >
+                  <md-checkbox md-no-ink aria-label="nearby" ng-disabled="discover.virtual || discover.recommended" ng-model="discover.nearby" class="md-primary">
+                    Nearby
+                  </md-checkbox>
+                </div>
+                <div flex="50" >
+                  <md-checkbox md-no-ink aria-label="historical" ng-disabled="discover.current || discover.recommended" ng-model="discover.historical" class="md-primary">
+                    Historical
+                  </md-checkbox>
+                </div>
+                <div flex="50">
+                  <md-checkbox md-no-ink aria-label="current" ng-disabled="discover.historical || discover.recommended" ng-model="discover.current" class="md-primary">
+                    Current
+                  </md-checkbox>
+                </div>
+                <div flex="50">
+                  <md-checkbox md-no-ink aria-label="prizes" ng-disabled="discover.recommended" ng-model="discover.prizes" class="md-primary">
+                    Prizes
+                  </md-checkbox>
+                </div>
+                <div flex="50">
+                  <md-checkbox md-no-ink aria-label="tickets" ng-model="discover.tickets" class="md-primary">
+                    Tickets
+                  </md-checkbox>
+                </div>
+              </div>
+            </div>
+            <div ng-show="discover.yourevents" layout-wrap layout="row" layout-align="space-around start" flex="100">
+              <div layout-wrap style="padding-left:20px;padding-right:20px;" layout="row" layout-align="space-around start" flex-gt-sm="50" flex-xs="100" flex-gt-xs="100" flex-sm="100">
+                <div flex-xs="100" flex-md="100" flex-gt-xs="50" flex-sm="100">
+                  <md-checkbox md-no-ink aria-label="attendee" ng-disabled="discover.host || discover.mentor || discover.sponsor" ng-model="discover.attendee" class="md-primary">
+                    Attendee
+                  </md-checkbox>
+                </div>
+                <div flex-xs="100" flex-md="100" flex-gt-xs="50" flex-sm="100">
+                  <md-checkbox md-no-ink aria-label="host" ng-disabled="discover.attendee || discover.mentor || discover.sponsor" ng-model="discover.host" class="md-primary">
+                    Organiser
+                  </md-checkbox>
+                </div>
+              </div>
+              <div layout-wrap style="padding-left:20px;padding-right:20px;"layout="row" layout-align="space-around start" flex-gt-sm="50" flex-xs="100" flex-gt-xs="100" flex-sm="100">
+                <div flex-xs="100" flex-md="100" flex-gt-xs="50" flex-sm="100">
+                  <md-checkbox md-no-ink aria-label="mentor" ng-disabled="discover.attendee || discover.host || discover.sponsor" ng-model="discover.mentor" class="md-primary">
+                    Mentor
+                  </md-checkbox>
+                </div>
+                <div flex-xs="100" flex-md="100" flex-gt-xs="50" flex-sm="100">
+                  <md-checkbox md-no-ink aria-label="sponsor" ng-model="discover.sponsor" ng-disabled="discover.attendee || discover.host || discover.mentor" class="md-primary">
+                    Sponsor
+                  </md-checkbox>
+                </div>
+              </div>
+            </div>
+          </md-card-actions>
+
+      </md-card>
+
+      <div flex="100">
+      <!-- seperator div -->
+      </div>
+      <div layout="row" style="padding:100px;" layout-sm="column" layout-align="space-around">
+        <md-progress-circular flex="33" md-mode="indeterminate"></md-progress-circular>
+      </div>
+      <span flex="100" hide-sm hide-xs style="text-align:center;padding:50px;" class="md-display-3">No events found!</span>
+        <div flex="100">
+        <!-- seperator div -->
+        </div>
+        <md-card flex style="min-width:320px" ng-repeat="site in sites">
+          <img ng-src="{{site.image}}" class="md-card-image" alt="user avatar">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{site.name}} - {{site.author}}</span>
+                <span class="md-subhead">{{site.text}}</span>
+                <span class="md-subhead">10 / 20 mentor spots available</span>
+                <span style="padding-bottom:10px" class="md-subhead">50 / 200 attendee tickets remaining</span>
+                <md-progress-linear md-mode="determinate" value="75"></md-progress-linear>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button ng-href="{{site.link}}" target="_blank">More Info</md-button>
+            </md-card-actions>
+        </md-card>
     </div>
-    <div ui-view></div>
+
   </md-content>
 </div>

@@ -13,7 +13,7 @@
             <label>Search events</label>
             <input ng-model="eventname">
           </md-input-container>
-         <div ng-show="discover.advanced" layout-wrap layout="row" layout-align="space-around start" flex="100">
+         <div ng-hide="discover.recommended" layout-wrap layout="row" layout-align="space-around start" flex="100">
           <md-input-container class="md-block" flex="50">
             <label>Skill level</label>
             <md-select ng-disabled="discover.recommended" ng-model="discover.skill">
@@ -39,42 +39,68 @@
             </md-switch>
           </div>
           <div flex="50" flex-xs="66" flex-sm="66">
-            <md-switch md-no-ink ng-model="discover.advanced" aria-label="advanced" class="md-primary">
-              Adv. options
+            <md-switch md-no-ink aria-label="yourevents" ng-model="discover.yourevents" class="md-primary">
+              Your events
             </md-switch>
           </div>
           <div flex="100"></div>
-          <div ng-show="discover.advanced" layout-wrap layout="row" layout-align="space-around start" flex="100">
-          <div flex="50" >
-            <md-checkbox md-no-ink aria-label="virtual" ng-disabled="discover.nearby || discover.recommended" ng-model="discover.virtual" class="md-primary">
-              Virtual
-            </md-checkbox>
+          <div ng-hide="discover.recommended" layout-wrap layout="row" layout-align="space-around start" flex="100">
+            <div flex="50" >
+              <md-checkbox md-no-ink aria-label="virtual" ng-disabled="discover.nearby || discover.recommended" ng-model="discover.virtual" class="md-primary">
+                Virtual
+              </md-checkbox>
+            </div>
+            <div flex="50" >
+              <md-checkbox md-no-ink aria-label="nearby" ng-disabled="discover.virtual || discover.recommended" ng-model="discover.nearby" class="md-primary">
+                Nearby
+              </md-checkbox>
+            </div>
+            <div flex="50" >
+              <md-checkbox md-no-ink aria-label="historical" ng-disabled="discover.current || discover.recommended" ng-model="discover.historical" class="md-primary">
+                Historical
+              </md-checkbox>
+            </div>
+            <div flex="50">
+              <md-checkbox md-no-ink aria-label="current" ng-disabled="discover.historical || discover.recommended" ng-model="discover.current" class="md-primary">
+                Current
+              </md-checkbox>
+            </div>
+            <div flex="50">
+              <md-checkbox md-no-ink aria-label="prizes" ng-disabled="discover.recommended" ng-model="discover.prizes" class="md-primary">
+                Prizes
+              </md-checkbox>
+            </div>
+            <div flex="50">
+              <md-checkbox md-no-ink aria-label="tickets" ng-model="discover.tickets" class="md-primary">
+                Tickets
+              </md-checkbox>
+            </div>
           </div>
-          <div flex="50" >
-            <md-checkbox md-no-ink aria-label="nearby" ng-disabled="discover.virtual || discover.recommended" ng-model="discover.nearby" class="md-primary">
-              Nearby
-            </md-checkbox>
+        </div>
+        <div ng-show="discover.yourevents" layout-wrap layout="row" layout-align="space-around start" flex="100">
+          <div layout-wrap style="padding-left:20px;padding-right:20px;" layout="row" layout-align="space-around start" flex-gt-sm="50" flex-xs="100" flex-gt-xs="100" flex-sm="100">
+            <div flex-xs="100" flex-md="100" flex-gt-xs="50" flex-sm="100">
+              <md-checkbox md-no-ink aria-label="attendee" ng-disabled="discover.host || discover.mentor || discover.sponsor" ng-model="discover.attendee" class="md-primary">
+                Attendee
+              </md-checkbox>
+            </div>
+            <div flex-xs="100" flex-md="100" flex-gt-xs="50" flex-sm="100">
+              <md-checkbox md-no-ink aria-label="host" ng-disabled="discover.attendee || discover.mentor || discover.sponsor" ng-model="discover.host" class="md-primary">
+                Organiser
+              </md-checkbox>
+            </div>
           </div>
-          <div flex="50" >
-            <md-checkbox md-no-ink aria-label="historical" ng-disabled="discover.recent || discover.recommended" ng-model="discover.historical" class="md-primary">
-              Historical
-            </md-checkbox>
-          </div>
-          <div flex="50">
-            <md-checkbox md-no-ink aria-label="recent" ng-disabled="discover.historical || discover.recommended" ng-model="discover.recent" class="md-primary">
-              Recent
-            </md-checkbox>
-          </div>
-          <div flex="50">
-            <md-checkbox md-no-ink aria-label="prizes" ng-disabled="discover.recommended" ng-model="discover.prizes" class="md-primary">
-              Prizes
-            </md-checkbox>
-          </div>
-          <div flex="50">
-            <md-checkbox md-no-ink aria-label="tickets" ng-model="discover.tickets" class="md-primary">
-              Tickets
-            </md-checkbox>
-          </div>
+          <div layout-wrap style="padding-left:20px;padding-right:20px;"layout="row" layout-align="space-around start" flex-gt-sm="50" flex-xs="100" flex-gt-xs="100" flex-sm="100">
+            <div flex-xs="100" flex-md="100" flex-gt-xs="50" flex-sm="100">
+              <md-checkbox md-no-ink aria-label="mentor" ng-disabled="discover.attendee || discover.host || discover.sponsor" ng-model="discover.mentor" class="md-primary">
+                Mentor
+              </md-checkbox>
+            </div>
+            <div flex-xs="100" flex-md="100" flex-gt-xs="50" flex-sm="100">
+              <md-checkbox md-no-ink aria-label="sponsor" ng-model="discover.sponsor" ng-disabled="discover.attendee || discover.host || discover.mentor" class="md-primary">
+                Sponsor
+              </md-checkbox>
+            </div>
           </div>
         </div>
       </md-card-actions>

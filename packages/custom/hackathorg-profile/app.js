@@ -17,12 +17,12 @@ HackathorgProfile.register(function(app, auth, database, circles) {
   HackathorgProfile.routes(app, auth, database, circles);
 
   //We are adding a link to the main menu for all authenticated users
-  HackathorgProfile.menus.add({
+  /*HackathorgProfile.menus.add({
     title: 'Profile',
     link: 'hackathorgProfile example page',
     roles: ['authenticated'],
     menu: 'main'
-  });
+  });*/
   
   /**
     //Uncomment to use. Requires meanio@0.3.7 or above
