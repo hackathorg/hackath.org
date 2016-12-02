@@ -110,7 +110,7 @@
       </md-card>
 
       <div layout-wrap layout="row" layout-align="space-around start" flex="100">
-        <md-card flex="33" style="max-width:600px;"ng-repeat="event in events | filter:filterEvents | orderBy:bestMatch">
+        <md-card flex="33" style="max-width:600px;"ng-repeat="event in filteredEvents = (events | filter:filterEvents | orderBy:bestMatch)">
           <img ng-src="{{event.image}}" class="md-card-image" alt="user avatar">
             <md-card-title>
               <md-card-title-text>
@@ -126,11 +126,12 @@
             </md-card-actions>
         </md-card>
       </div>
-
+      <!-- SHOW THIS WHEN WE QUERYING MONGO
       <div layout="row" style="padding:100px;" layout-sm="column" layout-align="space-around">
         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
       </div>
-      <span flex="100" hide-sm hide-xs style="text-align:center;padding:50px;" class="md-display-3">No events found!</span>
+      -->
+      <span flex="100" ng-show="!filteredEvents.length"  style="text-align:center;padding:100px;" class="md-display-2">No events found!</span>
     </div>
   </md-content>
 </div>
