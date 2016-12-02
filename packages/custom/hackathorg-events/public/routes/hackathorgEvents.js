@@ -2,12 +2,9 @@
     'use strict';
 
     function HackathorgEvents($stateProvider) {
-        $stateProvider.state('hackathorgEvents example page', {
-            url: '/hackathorgEvents/example',
+        $stateProvider.state('events', {
+            url: '/events',
             templateUrl: 'hackathorg-events/views/index.html'
-        }).state('hackathorgEvents circles example', {
-            url: '/hackathorgEvents/example/:circle',
-            templateUrl: 'hackathorg-events/views/example.html'
         });
     }
 
