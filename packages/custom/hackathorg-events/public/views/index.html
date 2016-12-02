@@ -1,6 +1,5 @@
 <div layout="column" flex class="hackathorgEvents-example" ng-controller="HackathorgEventsController">
-  <md-content layout="column" layout-padding flex>
-
+  <md-content layout-wrap layout="row" layout-align="space-around start" layout-padding flex>
     <div layout-wrap layout="row" layout-align="space-around start" layout-padding flex>
       <md-card flex-gt-sm="66" flex-xs="100" flex-md="100" flex-gt-xs="100" flex-sm="100">
     <!--           <md-card-title>
@@ -14,7 +13,7 @@
             <!--<span flex="100"  class="md-headline">Discover events</span>-->
               <md-input-container flex="100" style="padding-top:20px;"class="md-block">
                 <label>Search events</label>
-                <input ng-model="eventname">
+                <input ng-model="discover.search">
               </md-input-container>
              <div ng-hide="discover.recommended" layout-wrap layout="row" layout-align="space-around start" flex="100">
               <md-input-container class="md-block" flex="50">
@@ -110,32 +109,28 @@
 
       </md-card>
 
-      <div flex="100">
-      <!-- seperator div -->
-      </div>
-      <div layout="row" style="padding:100px;" layout-sm="column" layout-align="space-around">
-        <md-progress-circular flex="33" md-mode="indeterminate"></md-progress-circular>
-      </div>
-      <span flex="100" hide-sm hide-xs style="text-align:center;padding:50px;" class="md-display-3">No events found!</span>
-        <div flex="100">
-        <!-- seperator div -->
-        </div>
-        <md-card flex style="min-width:320px" ng-repeat="site in sites">
-          <img ng-src="{{site.image}}" class="md-card-image" alt="user avatar">
+      <div layout-wrap layout="row" layout-align="space-around start" flex="100">
+        <md-card flex="33" style="max-width:600px;"ng-repeat="event in events | filter:filterEvents | orderBy:bestMatch">
+          <img ng-src="{{event.image}}" class="md-card-image" alt="user avatar">
             <md-card-title>
               <md-card-title-text>
-                <span class="md-headline">{{site.name}} - {{site.author}}</span>
-                <span class="md-subhead">{{site.text}}</span>
+                <span class="md-headline">{{event.name}} - {{event.author}}</span>
+                <span class="md-subhead">{{event.text}}</span>
                 <span class="md-subhead">10 / 20 mentor spots available</span>
                 <span style="padding-bottom:10px" class="md-subhead">50 / 200 attendee tickets remaining</span>
                 <md-progress-linear md-mode="determinate" value="75"></md-progress-linear>
               </md-card-title-text>
             </md-card-title>
             <md-card-actions layout="row" layout-align="end center">
-              <md-button ng-href="{{site.link}}" target="_blank">More Info</md-button>
+              <md-button ng-href="{{event.link}}" target="_blank">More Info</md-button>
             </md-card-actions>
         </md-card>
-    </div>
+      </div>
 
+      <div layout="row" style="padding:100px;" layout-sm="column" layout-align="space-around">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      </div>
+      <span flex="100" hide-sm hide-xs style="text-align:center;padding:50px;" class="md-display-3">No events found!</span>
+    </div>
   </md-content>
 </div>

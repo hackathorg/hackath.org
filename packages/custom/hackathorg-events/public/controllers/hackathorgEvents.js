@@ -48,7 +48,64 @@
             'type': 'Large'
         }];
 
-        $scope.sites = [{
+        $scope.events = [{
+          'name': 'WarwickHACKA',
+          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
+          'author': 'Warwick University',
+          'link': 'http://www.warwick.tech',
+          'image': '/meanStarter/assets/img/placeholder.png',
+          'ownerid' : {'id' : '1'}, 
+          'hosts' : [
+                {'id':'1'},
+                {'id':'2'},
+                {'id':'3'},
+            ],
+          'mentors' : [
+                {'id' : '2'}
+            ],
+          'attendees' : [
+                {'id':'1'},
+                {'id':'2'},
+                {'id':'3'},
+            ]
+        }, {
+          'name': 'WarwickHACKB',
+          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
+          'author': 'Warwick University',
+          'link': 'http://www.warwick.tech',
+          'image': '/meanStarter/assets/img/placeholder.png',
+          'ownerid' : {'id' : '2'}, 
+          'hosts' : [
+                {'id':'2'},
+                {'id':'3'},
+            ],
+          'mentors' : [
+                {'id' : '3'}
+            ],
+          'attendees' : [
+                {'id':'2'},
+                {'id':'3'},
+            ]
+        }, {
+          'name': 'WarwickHACKC',
+          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
+          'author': 'WarwickTECH',
+          'link': 'http://www.warwick.tech',
+          'image': '/meanStarter/assets/img/placeholder.png',
+          'ownerid' : {'id' : '3'}, 
+          'hosts' : [
+                {'id':'1'},
+                {'id':'3'},
+            ],
+          'mentors' : [
+                {'id' : '1'}
+            ],
+          'attendees' : [
+                {'id':'1'},
+                {'id':'2'},
+                {'id':'3'},
+            ]
+        },{
           'name': 'WarwickHACKA',
           'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
           'author': 'Warwick University',
@@ -118,15 +175,94 @@
                 $scope.resStatus = 'danger';
             });
         };
- 
-        $scope.filterYourEvents = function(a) {
-            for(var filter in $scope.yourevents){
-                console.error(filter + $scope.user['id'])
-                if($scope.yourevents[filter] === true ){ //the filter on cause a problem, return false
-                    return false;
+
+        var containsId = function(array, id) {
+            return array.some(function(arrVal) {
+                return id === arrVal.id
+            })
+        };
+
+        $scope.bestMatch = function(a) {
+            var userid = $scope.user.id;
+
+            // find closest search
+            if ($scope.discover.search) {
+                // TO IMPLEMENT
+                if (((a.name.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                    console.error(a.name + ' unmatched')
+                    return false
+                }
+            } 
+            // implement a recommended system
+            
+        };
+
+        $scope.filterEvents = function(a) {
+            var userid = $scope.user.id;
+
+            // search
+            if ($scope.discover.search) {
+                // TODO implement a better search
+                if (((a.name.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                    console.error(a.name + ' unmatched')
+                    return false
+                }
+            } 
+
+            // YourEvent filtering
+            if ($scope.discover.yourevents) {
+                if ($scope.discover.attendee) {
+                    if (!containsId(a.attendees, userid)) {
+                        return false
+                    }
+                } else if ($scope.discover.host) {
+                    if (!containsId(a.hosts, userid)) {
+                        return false
+                    }
+                } else if ($scope.discover.mentor) {
+                    if (!containsId(a.mentors, userid)) {
+                        return false
+                    }
+                } else if ($scope.discover.sponsor) {
+                    //to be implemented
+                } else {
+                    // yourevents ticked, but not specified 
+                    // add sponsor check
+                    if (!containsId(a.mentors, userid) && !containsId(a.hosts, userid) && !containsId(a.attendees, userid)) {
+                        return false
+                    }
                 }
             }
-            return true;
+
+            // other misc filters
+            if ($scope.discover.recommended) {
+                // check if event is recommended
+                return true
+            } else {
+                //add new filters here
+                if ($scope.discover.virtual) {
+                    return false
+                }
+                if ($scope.discover.nearby) {
+                    
+                }
+                if ($scope.discover.historical) {
+                    
+                }
+                if ($scope.discover.current) {
+                    
+                }
+                if ($scope.discover.historical) {
+                    
+                }
+                if ($scope.discover.prizes) {
+                    // check prizes = true
+                }
+                if ($scope.discover.tickets) {
+                    // check attendees < max size
+                }
+                return true
+            }
         };
     
     }
