@@ -12,10 +12,10 @@ var HackathorgEvents = new Module('hackathorg-events');
  * Dependency injection is used to define required modules
  */
 HackathorgEvents.register(function(app, auth, database, circles) {
-
+  HackathorgEvents.controller = require('./server/controllers/hackathorgEvents') (HackathorgEvents);
   //We enable routing. By default the Package Object is passed to the routes
   HackathorgEvents.routes(app, auth, database, circles);
-
+  
   //We are adding a link to the main menu for all authenticated users
   HackathorgEvents.menus.add({
     title: 'Events',

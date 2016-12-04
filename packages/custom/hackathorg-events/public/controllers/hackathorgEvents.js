@@ -1,19 +1,30 @@
 (function() {
     'use strict';
-
+    var mongoose = require('mongoose')
     /* jshint -W098 */
 
-    function HackathorgEventsController($scope, Global, HackathorgEvents, $stateParams) {
+    function HackathorgEventsController($scope, Global, EventService, $stateParams) {
         $scope.global = Global;
         $scope.package = {
             name: 'hackathorg-events'
         };
 
-        $scope.data = {
+        $scope.user = {
+            'id' : '1'
+        };
+
+        $scope.discover = {
             'recommended' : true,
             'tickets' : true,
             'size' : 'All',
             'skill' : 'All'
+        };
+
+        $scope.yourevents = {
+            'attendee' : true, 
+            'mentor' : false,
+            'host' : false, 
+            'historical' : false
         };
 
         $scope.skills = [{
@@ -36,28 +47,12 @@
             'type': 'Large'
         }];
 
-        $scope.sites = [{
-          'name': 'WarwickHACK',
-          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'Warwick University',
-          'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png'
-        }, {
-          'name': 'WarwickHACK',
-          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'Warwick University',
-          'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png'
-        }, {
-          'name': 'WarwickHACK',
-          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'Warwick University',
-          'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png'
-        }];
-
-        $scope.currentNavItem = 'discover';
-
+        EventService.events.all(function (events) {
+            $scope.sites = events;
+        });
+        $scope.sites = EventService.events.all();
+       $scope.currentNavItem = 'discover';
+       
         $scope.checkCircle = function() {
             HackathorgEvents.checkCircle($stateParams.circle).then(function(response) {
                 $scope.res = response;
@@ -73,6 +68,6 @@
         .module('mean.hackathorg-events')
         .controller('HackathorgEventsController', HackathorgEventsController);
 
-    HackathorgEventsController.$inject = ['$scope', 'Global', 'HackathorgEvents', '$stateParams'];
+    HackathorgEventsController.$inject = ['$scope', 'Global', 'EventService', '$stateParams'];
 
 })();
