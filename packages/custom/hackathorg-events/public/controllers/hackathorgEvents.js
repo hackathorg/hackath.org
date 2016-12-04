@@ -49,11 +49,9 @@
         }];
 
 
-        EventService.events.all(function (events) {
-            $scope.sites = events;
-        });
         $scope.events = EventService.events.all();
-       $scope.currentNavItem = 'discover';
+        $scope.events = $scope.events;
+        $scope.currentNavItem = 'discover';
        
 
         
