@@ -49,14 +49,16 @@
         }];
 
 
+
         $scope.events = EventService.events.all();
-        $scope.events = $scope.events;
+        $scope.sites = $scope.events;
         $scope.currentNavItem = 'discover';
        
 
         
 
         $scope.currentNavItem = '';
+
 
 
         $scope.checkCircle = function() {
@@ -81,8 +83,8 @@
             // find closest search
             if ($scope.discover.search) {
                 // TO IMPLEMENT
-                if (((a.name.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
-                    console.error(a.name + ' unmatched')
+                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                    console.error(a.title + ' unmatched')
                     return false
                 }
             } 
@@ -96,8 +98,8 @@
             // search
             if ($scope.discover.search) {
                 // TODO implement a better search
-                if (((a.name.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
-                    console.error(a.name + ' unmatched')
+                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                    console.error(a.title + ' unmatched')
                     return false
                 }
             } 
