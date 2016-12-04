@@ -1,9 +1,30 @@
 (function() {
     'use strict';
 
-    function HackathorgEvents($http, $q) {
+    function EventService($http, $q, $resource) {
         return {
             name: 'hackathorg-events',
+            events: $resource('api/events/:name', {
+                name: '@name'
+                }, {
+                update: {
+                    method: 'PUT'
+                },
+                show: {
+                    method: 'GET'
+                },
+                create: {
+                    method: 'POST',
+                    isArray: false,
+                    url: '/api/events'
+                },
+                all: {
+                    method: 'GET',
+                    isArray: true,
+                    url: '/api/events'
+                }
+
+            }),
             checkCircle: function(circle) {
                 var deferred = $q.defer();
 
@@ -14,14 +35,15 @@
                 });
                 return deferred.promise;
 
-            }
+            },
+
         };
     }
 
     angular
         .module('mean.hackathorg-events')
-        .factory('HackathorgEvents', HackathorgEvents);
+        .factory('EventService', EventService);
 
-    HackathorgEvents.$inject = ['$http', '$q'];
+    EventService.$inject = ['$http', '$q', '$resource'];
 
 })();

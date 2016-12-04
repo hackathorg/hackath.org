@@ -117,12 +117,12 @@
     <div flex="100">
     <!-- seperator div -->
     </div>
-    <md-card flex style="min-width:320px" ng-repeat="site in sites">
+    <md-card flex style="min-width:320px" ng-repeat="site in events">
       <img ng-src="{{site.image}}" class="md-card-image" alt="user avatar">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">{{site.name}} - {{site.author}}</span>
-            <span class="md-subhead">{{site.text}}</span>
+            <span class="md-headline">{{site.title}} - {{site.organisation}}</span>
+            <span class="md-subhead">{{site.description}}</span>
             <span class="md-subhead">10 / 20 mentor spots available</span>
             <span style="padding-bottom:10px" class="md-subhead">50 / 200 attendee tickets remaining</span>
             <md-progress-linear md-mode="determinate" value="75"></md-progress-linear>

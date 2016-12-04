@@ -52,15 +52,15 @@
       <img ng-src="{{site.image}}" class="md-card-image" alt="user avatar">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">{{site.name}} - {{site.author}}</span>
-            <span class="md-subhead">{{site.text}}</span>
+            <span class="md-headline">{{site.title}} - {{site.organisation}}</span>
+            <span class="md-subhead">{{site.description}}</span>
             <span class="md-subhead">10 / 20 mentor spots available</span>
             <span style="padding-bottom:10px" class="md-subhead">50 / 200 attendee tickets remaining</span>
             <md-progress-linear md-mode="determinate" value="75"></md-progress-linear>
           </md-card-title-text>
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button ng-href="{{site.link}}" target="_blank">More Info</md-button>
+          <md-button ng-href="{{site.url}}" target="_blank">More Info</md-button>
         </md-card-actions>
     </md-card>
 </div>

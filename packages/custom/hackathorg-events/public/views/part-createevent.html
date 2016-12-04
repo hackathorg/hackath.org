@@ -45,7 +45,7 @@
           <img ng-src="/meanStarter/assets/img/placeholder.png" class="md-card-image" alt="user avatar">
           <md-card-actions layout="row" layout-align="end center">
             Event Image 
-            <md-button ng-href="{{site.link}}" target="_blank">Upload</md-button>
+            <md-button ng-href="{{site.url}}" target="_blank">Upload</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -61,16 +61,16 @@
           </md-card-title-text>
         </md-card-title>
     </md-card>
-    <md-card flex style="min-width:300px" ng-repeat="site in sites">
+    <md-card flex style="min-width:300px" ng-repeat="site in events">
       <img ng-src="{{site.image}}" class="md-card-image" alt="user avatar">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">{{site.name}} - {{site.author}}</span>
-            <span class="md-subhead">{{site.text}}</span>
+            <span class="md-headline">{{site.title}} - {{site.organisation}}</span>
+            <span class="md-subhead">{{site.description}}{{site}}</span>
           </md-card-title-text>
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button ng-href="{{site.link}}" target="_blank">Edit</md-button>
+          <md-button ng-href="{{site.url}}" target="_blank">Edit</md-button>
         </md-card-actions>
     </md-card>
   </div>

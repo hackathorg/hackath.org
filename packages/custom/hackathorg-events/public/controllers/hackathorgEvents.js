@@ -1,9 +1,9 @@
 (function() {
     'use strict';
-
+    var mongoose = require('mongoose')
     /* jshint -W098 */
 
-    function HackathorgEventsController($scope, Global, HackathorgEvents, $stateParams) {
+    function HackathorgEventsController($scope, Global, EventService, $stateParams) {
         $scope.global = Global;
 
         $scope.package = {
@@ -48,126 +48,21 @@
             'type': 'Large'
         }];
 
-        $scope.events = [{
-          'name': 'WarwickHACKA',
-          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'Warwick University',
-          'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png',
-          'ownerid' : {'id' : '1'}, 
-          'hosts' : [
-                {'id':'1'},
-                {'id':'2'},
-                {'id':'3'},
-            ],
-          'mentors' : [
-                {'id' : '2'}
-            ],
-          'attendees' : [
-                {'id':'1'},
-                {'id':'2'},
-                {'id':'3'},
-            ]
-        }, {
-          'name': 'WarwickHACKB',
-          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'Warwick University',
-          'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png',
-          'ownerid' : {'id' : '2'}, 
-          'hosts' : [
-                {'id':'2'},
-                {'id':'3'},
-            ],
-          'mentors' : [
-                {'id' : '3'}
-            ],
-          'attendees' : [
-                {'id':'2'},
-                {'id':'3'},
-            ]
-        }, {
-          'name': 'WarwickHACKC',
-          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'WarwickTECH',
-          'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png',
-          'ownerid' : {'id' : '3'}, 
-          'hosts' : [
-                {'id':'1'},
-                {'id':'3'},
-            ],
-          'mentors' : [
-                {'id' : '1'}
-            ],
-          'attendees' : [
-                {'id':'1'},
-                {'id':'2'},
-                {'id':'3'},
-            ]
-        },{
-          'name': 'WarwickHACKA',
-          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'Warwick University',
-          'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png',
-          'ownerid' : {'id' : '1'}, 
-          'hosts' : [
-                {'id':'1'},
-                {'id':'2'},
-                {'id':'3'},
-            ],
-          'mentors' : [
-                {'id' : '2'}
-            ],
-          'attendees' : [
-                {'id':'1'},
-                {'id':'2'},
-                {'id':'3'},
-            ]
-        }, {
-          'name': 'WarwickHACKB',
-          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'Warwick University',
-          'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png',
-          'ownerid' : {'id' : '2'}, 
-          'hosts' : [
-                {'id':'2'},
-                {'id':'3'},
-            ],
-          'mentors' : [
-                {'id' : '3'}
-            ],
-          'attendees' : [
-                {'id':'2'},
-                {'id':'3'},
-            ]
-        }, {
-          'name': 'WarwickHACKC',
-          'text': 'WarwickHACK is a hackathon event where programmers, entrepreneurs, designers and developers come together to build, make and create. The event is a classic hackathon, where you have 24 hours to go crazy with your ideas!',
-          'author': 'WarwickTECH',
-          'link': 'http://www.warwick.tech',
-          'image': '/meanStarter/assets/img/placeholder.png',
-          'ownerid' : {'id' : '3'}, 
-          'hosts' : [
-                {'id':'1'},
-                {'id':'3'},
-            ],
-          'mentors' : [
-                {'id' : '1'}
-            ],
-          'attendees' : [
-                {'id':'1'},
-                {'id':'2'},
-                {'id':'3'},
-            ]
-        }];
+
+
+        $scope.events = EventService.events.all();
+        $scope.sites = $scope.events;
+        $scope.currentNavItem = 'discover';
+       
+
+        
 
         $scope.currentNavItem = '';
 
+
+
         $scope.checkCircle = function() {
-            HackathorgEvents.checkCircle($stateParams.circle).then(function(response) {
+            EventService.checkCircle($stateParams.circle).then(function(response) {
                 $scope.res = response;
                 $scope.resStatus = 'info';
             }, function(error) {
@@ -188,8 +83,8 @@
             // find closest search
             if ($scope.discover.search) {
                 // TO IMPLEMENT
-                if (((a.name.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
-                    console.error(a.name + ' unmatched')
+                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                    console.error(a.title + ' unmatched')
                     return false
                 }
             } 
@@ -203,8 +98,8 @@
             // search
             if ($scope.discover.search) {
                 // TODO implement a better search
-                if (((a.name.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
-                    console.error(a.name + ' unmatched')
+                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                    console.error(a.title + ' unmatched')
                     return false
                 }
             } 
@@ -271,6 +166,6 @@
         .module('mean.hackathorg-events')
         .controller('HackathorgEventsController', HackathorgEventsController);
 
-    HackathorgEventsController.$inject = ['$scope', 'Global', 'HackathorgEvents', '$stateParams'];
+    HackathorgEventsController.$inject = ['$scope', 'Global', 'EventService', '$stateParams'];
 
 })();

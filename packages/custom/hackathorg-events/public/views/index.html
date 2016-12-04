@@ -114,15 +114,15 @@
           <img ng-src="{{event.image}}" class="md-card-image" alt="user avatar">
             <md-card-title>
               <md-card-title-text>
-                <span class="md-headline">{{event.name}} - {{event.author}}</span>
-                <span class="md-subhead">{{event.text}}</span>
+                <span class="md-headline">{{event.title}} - {{event.organisation}}</span>
+                <span class="md-subhead">{{event.description}}</span>
                 <span class="md-subhead">10 / 20 mentor spots available</span>
                 <span style="padding-bottom:10px" class="md-subhead">50 / 200 attendee tickets remaining</span>
                 <md-progress-linear md-mode="determinate" value="75"></md-progress-linear>
               </md-card-title-text>
             </md-card-title>
             <md-card-actions layout="row" layout-align="end center">
-              <md-button ng-href="{{event.link}}" target="_blank">More Info</md-button>
+              <md-button ng-href="{{event.url}}" target="_blank">More Info</md-button>
             </md-card-actions>
         </md-card>
       </div>
@@ -131,7 +131,8 @@
         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
       </div>
       -->
-      <span flex="100" ng-show="!filteredEvents.length"  style="text-align:center;padding:100px;" class="md-display-2">No events found!</span>
+      <span flex="100" ng-show="!filteredEvents.length"  style="text-align:center;padding:100px; padding-bottom:0px;" class="md-display-2">No events found!</span>
+      <span flex="100" ng-show="!filteredEvents.length"  style="text-align:center;padding:50px;" class="md-display-1">Can't find what you are looking for? Why not <a href="create" ui-route="create">create</a> your own?</span>
     </div>
   </md-content>
 </div>
