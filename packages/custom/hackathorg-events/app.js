@@ -21,7 +21,8 @@ HackathorgEvents.register(function(app, auth, database, circles) {
     title: 'Events',
     link: 'events',
     roles: ['authenticated'],
-    menu: 'main'
+    menu: 'main',
+    position: 1
   });
   
   /**
