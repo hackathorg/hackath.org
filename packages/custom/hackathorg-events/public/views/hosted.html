@@ -1,0 +1,225 @@
+<div layout="column" flex class="HackathorgHosted" ng-controller="HackathorgHostedController">
+  <md-content layout="column" layout-padding flex>
+    <div layout-wrap layout="row" layout-align="space-around start" layout-padding flex>
+    <!-- Menu on the left-->
+      <div layout-wrap layout="row" layout-align="space-around start" layout-padding flex-gt-md="25" flex-md="33" flex-xs="100"  flex-sm="100">
+        <md-card flex>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Event Management</span>
+            </md-card-title-text>
+          </md-card-title>
+
+<!--         <md-card flex style="max-width:600px;" ng-repeat="event in filteredEvents = (events | filter:filterEvents | orderBy:bestMatch)">
+          <img ng-src="{{event.image}}" class="md-card-image" alt="user avatar">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{event.title}}</span>
+                <span class="md-subhead">{{event.organisation}}</span>
+              </md-card-title-text>
+              <md-card-title-media>
+                <div class="md-media-sm card-media"></div>
+              </md-card-title-media>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button ng-href="{{event.url}}" target="_blank">More Info</md-button>
+            </md-card-actions>
+        </md-card> -->
+        <md-list>
+        <md-divider></md-divider>
+          <md-list-item class="md-3-line" ng-repeat="event in filteredEvents = (events | filter:filterEvents | orderBy:bestMatch)">
+            <div class="md-list-item-text">
+              <span class="md-headline">{{event.title}}</span>
+              <h4>{{event.organisation}}</h4>
+            </div>
+            <md-button class="md-secondary">Open</md-button>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+        </md-list>
+        </md-card>
+      </div>
+      <div layout-wrap layout="row" layout-align="space-around start" flex-gt-md="75" flex-md="66" flex-xs="100" flex-sm="100">
+        <div flex="50">
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Event information</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+              <p>Current event state (before, during, after)</p>
+              <p>Is the event public?</p>
+              <p>Mentors, Attendees, Sponsors</p>
+            </md-card-content>
+          </md-card>
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Sponsors / Mentor applications</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+              <p>Display applications</p>
+              <p>Allow responding to applications</p>
+            </md-card-content>
+          </md-card>
+        </div>
+
+        <div flex="50">
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Web application - offline</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+              <p>Heroku setup</p>
+              <p>Heroku traffic, and statistics</p>
+              <p>Something else here</p>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button>Restart</md-button>
+              <md-button class="md-warn">Shutdown</md-button>
+            </md-card-actions>
+          </md-card>
+        </div>
+        <md-card flex="100">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Update Event</span>
+              <span class="md-subhead">Caution: Updating a public event will inform </span>
+            </md-card-title-text>
+          </md-card-title>
+          <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:20px;padding-left:20px;padding-right:20px;" flex>
+            <div flex-gt-sm="100" flex-xs="100" flex-md="100" flex-sm="100">
+              <div layout-wrap layout="row" layout-align="space-around start" flex>
+                <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
+                  <label>Event name</label>
+                  <input ng-model="data.teamname">
+                </md-input-container>
+                <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
+                  <label>Organiser teamname</label>
+                  <input ng-model="data.teamname">
+                </md-input-container>
+                <md-input-container flex="100" class="md-block">
+                  <label>Description</label>
+                  <textarea ng-model="data.description" md-maxlength="200" rows="4" md-select-on-focus></textarea>
+                </md-input-container>
+                <div flex="50">
+                  Start date
+                  <br>
+                  <md-datepicker ng-model="startDate" md-min-date="minDate" md-placeholder="Enter date"></md-datepicker>
+                </div>
+                <div flex="50">
+                  End date
+                  <br>
+                  <md-datepicker ng-model="endDate" md-min-date="minDate" md-placeholder="Enter date"></md-datepicker>
+                </div>
+                <div flex="100" style="padding-top: 20px;">
+                </div>
+                <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                  <label>Attendees</label>
+                  <input required type="number" step="any" name="rate" ng-model="attendees" min="0"
+                         max="1000" />
+                </md-input-container>
+              <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                <label>Skill level</label>
+                <md-select ng-model="discover.skill">
+                  <md-option ng-repeat="skill in skills" value="{{skill.type}}">
+                    {{skill.type}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+                <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                  <label>Mentors</label>
+                  <input required type="number" step="any" name="rate" ng-model="mentors" min="0"
+                         max="100" />
+                </md-input-container>
+                <md-input-container style="padding-left: 60px;" flex-gt-sm="50" flex-xs="100" flex-sm="100"  >
+                  <md-checkbox md-no-ink aria-label="sponsor" ng-model="sponsoring" class="md-primary">
+                    Allow sponsorship?
+                  </md-checkbox>
+                </md-input-container>
+              </div>
+            </div>
+          </div>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button>Update</md-button>
+          </md-card-actions>
+        </md-card>
+        <div flex="50">
+          <md-card>
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Organising Team</span>
+                </md-card-title-text>
+              </md-card-title>
+              <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
+              <div flex="100">
+                <md-chips ng-model="eventTags" readonly="readonly" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
+              </div>
+              </div>
+          </md-card>
+        </div>
+      <md-card flex="50">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Event discovery image</span>
+            <span class="md-subhead">600x400</span>
+            <span class="md-subhead">File upload and selection here</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="card-media placeholder"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Event logo</span>
+            <span class="md-subhead">100x100</span>
+            <span class="md-subhead">File upload and selection here</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="card-media placeholder"></div>
+          </md-card-title-media>
+        </md-card-title>
+      </md-card>
+      <md-card flex>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Event tags</span>
+            </md-card-title-text>
+          </md-card-title>
+          <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
+          <div flex="100">
+            <md-chips ng-model="eventTags" readonly="readonly" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
+          </div>
+          </div>
+      </md-card>
+        <div flex="50">
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Remove Event</span>
+                <span class="md-subhead md-warn">Caution: This will permenantly delete this event and all associated information.</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button ng-disabled="true" class="md-warn">Delete</md-button>
+            </md-card-actions>
+          </md-card>
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Create Event</span>
+                <span class="md-subhead md-warn">Caution: This will permenantly create this event and all associated information.</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button ng-disabled="true" class="md-warn">Create</md-button>
+            </md-card-actions>
+          </md-card>
+        </div>
+    </div>
+    </div>
+  </md-content>
+</div>

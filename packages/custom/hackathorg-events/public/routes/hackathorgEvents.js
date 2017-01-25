@@ -10,6 +10,10 @@
             url: '/events',
             templateUrl: 'hackathorg-events/views/index.html'
         });
+        $stateProvider.state('hosted', {
+            url: '/events/hosted',
+            templateUrl: 'hackathorg-events/views/hosted.html'
+        });
     }
 
     angular
