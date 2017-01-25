@@ -24,6 +24,14 @@ HackathorgEvents.register(function(app, auth, database, circles) {
     menu: 'main',
     position: 1
   });
+
+  HackathorgEvents.menus.add({
+    title: 'Create',
+    link: 'create',
+    roles: ['authenticated'],
+    menu: 'main',
+    position: 2
+  });
   
   /**
     //Uncomment to use. Requires meanio@0.3.7 or above

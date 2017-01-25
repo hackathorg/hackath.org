@@ -2,6 +2,10 @@
     'use strict';
 
     function HackathorgEvents($stateProvider) {
+        $stateProvider.state('create', {
+            url: '/create',
+            templateUrl: 'hackathorg-events/views/create.html'
+        });
         $stateProvider.state('events', {
             url: '/events',
             templateUrl: 'hackathorg-events/views/index.html'

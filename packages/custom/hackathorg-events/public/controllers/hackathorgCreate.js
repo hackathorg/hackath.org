@@ -6,7 +6,7 @@
     function HackathorgCreateController($scope, Global, HackathorgCreate, $stateParams) {
         $scope.global = Global;
         $scope.package = {
-            name: 'hackathorg-create'
+            name: 'hackathorg-events'
         };
 
         $scope.eventTags = ['jamesmahoney200@hotmail.com', 'mike_380@live.co.uk'];
@@ -32,7 +32,7 @@
               $scope.startDate.getDate());
 
         $scope.checkCircle = function() {
-            HackathorgCreate.checkCircle($stateParams.circle).then(function(response) {
+            EventService.checkCircle($stateParams.circle).then(function(response) {
                 $scope.res = response;
                 $scope.resStatus = 'info';
             }, function(error) {
@@ -43,7 +43,7 @@
     }
 
     angular
-        .module('mean.hackathorg-create')
+        .module('mean.hackathorg-events')
         .controller('HackathorgCreateController', HackathorgCreateController);
 
     HackathorgCreateController.$inject = ['$scope', 'Global', 'HackathorgCreate', '$stateParams'];
