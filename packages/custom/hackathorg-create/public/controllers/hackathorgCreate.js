@@ -9,6 +9,28 @@
             name: 'hackathorg-create'
         };
 
+        $scope.eventTags = ['jamesmahoney200@hotmail.com', 'mike_380@live.co.uk'];
+        $scope.readonly = false;
+        $scope.attendees;
+        $scope.mentors;
+
+        $scope.skills = [{
+           'type': 'All'
+        }, {
+           'type': 'Beginner & above'
+        }, {
+           'type': 'Intermediate & above'
+        }, {
+            'type': 'Advanced'
+        }];
+
+        $scope.startDate = new Date();
+        $scope.endDate = new Date();
+        $scope.minDate = new Date(
+              $scope.startDate.getFullYear(),
+              $scope.startDate.getMonth(),
+              $scope.startDate.getDate());
+
         $scope.checkCircle = function() {
             HackathorgCreate.checkCircle($stateParams.circle).then(function(response) {
                 $scope.res = response;

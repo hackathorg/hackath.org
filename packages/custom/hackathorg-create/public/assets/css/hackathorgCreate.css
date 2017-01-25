@@ -1,3 +1,8 @@
 .hackathorgCreate-example span {
     font-weight: bold;
 }
+
+.placeholder {
+	content: url("/meanStarter/assets/img/placeholder.png");
+	height:112px;
+}
