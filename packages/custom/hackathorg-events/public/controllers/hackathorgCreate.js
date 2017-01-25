@@ -3,7 +3,7 @@
 
     /* jshint -W098 */
 
-    function HackathorgCreateController($scope, Global, HackathorgCreate, $stateParams) {
+    function HackathorgCreateController($scope, Global, $stateParams, EventService) {
         $scope.global = Global;
         $scope.package = {
             name: 'hackathorg-events'
@@ -46,6 +46,6 @@
         .module('mean.hackathorg-events')
         .controller('HackathorgCreateController', HackathorgCreateController);
 
-    HackathorgCreateController.$inject = ['$scope', 'Global', 'HackathorgCreate', '$stateParams'];
+    HackathorgCreateController.$inject = ['$scope', 'Global', '$stateParams', 'EventService'];
 
 })();
