@@ -8,10 +8,13 @@
         var requiresAdmin = circles.controller.hasCircle('admin');
         var requiresLogin = circles.controller.hasCircle('authenticated');
         var events = HackathorgEvents.controller;
-        app.get('/api/events', events.all);
+        app.route('/api/events')
+            .get(events.all)
+            .post(events.create);
         app.route('/api/events/:eventid')
             .get(events.show)
             .put(events.update);
+
         app.get('/api/hackathorgEvents/example/anyone', function(req, res) {
             res.send('Anyone can access this');
         });
