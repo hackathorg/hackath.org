@@ -16,6 +16,11 @@ var eventSchema = new Schema({
   comments: [{ body: String, date: Date }],
   date: { type: Date, default: Date.now },
   hidden: Boolean,
+  maxAttendees: Number,
+  maxMentors: Number,
+  location: String,
+  sponsors: Boolean,
+  skillLevel: String,
   mentors:[ObjectId],
   attendees:[ObjectId]
 });
