@@ -61,7 +61,7 @@
             'type': 'Large'
         }];
 
-        $scope.events = EventService.events.all();
+        $scope.events = EventService.events.userevents();
         $scope.sites = $scope.events;
 
         $scope.checkCircle = function() {

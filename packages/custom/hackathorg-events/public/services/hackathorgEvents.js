@@ -22,6 +22,11 @@
                     method: 'GET',
                     isArray: true,
                     url: '/api/events'
+                },
+                userevents: {
+                    method: 'GET',
+                    isArray: true,
+                    url: '/api/user/events'
                 }
 
             }),

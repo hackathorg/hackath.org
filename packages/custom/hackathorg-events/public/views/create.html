@@ -14,15 +14,15 @@
               <div layout-wrap layout="row" layout-align="space-around start" flex>
                 <md-input-container flex-gt-sm="100" flex-xs="100" flex-md="50" flex-gt-xs="100" flex-sm="100" class="md-block">
                   <label>Event name</label>
-                  <input name="title" ng-model="event.title">
+                  <input required name="title" ng-model="event.title">
                 </md-input-container>
                 <md-input-container flex-gt-sm="100" flex-xs="100" flex-md="50" flex-sm="100" class="md-block">
                   <label>Organiser teamname</label>
-                  <input ng-model="event.organisation">
+                  <input required ng-model="event.organisation">
                 </md-input-container>
                 <md-input-container flex="100" class="md-block">
                   <label>Description</label>
-                  <textarea ng-model="data.description" md-maxlength="200" rows="4" md-select-on-focus></textarea>
+                  <textarea required ng-model="event.description" md-maxlength="200" rows="4" md-select-on-focus></textarea>
                 </md-input-container>
 <!--            <md-slider-container flex="33">
                   <md-input-container>
@@ -58,12 +58,12 @@
                 <div flex="50">
                 Start date
                 <br>
-                <md-datepicker ng-model="startDate" md-min-date="minDate" md-placeholder="Enter date" ng-change="setStartDate"></md-datepicker>
+                <md-datepicker required ng-model="startDate" md-min-date="minDate" md-placeholder="Enter date" ng-change="setStartDate()"></md-datepicker>
                 </div>
                 <div flex="50">
                 End date
                 <br>
-                <md-datepicker ng-model="endDate" md-min-date="minDate" md-placeholder="Enter date" ng-change="setEndDate()"></md-datepicker>
+                <md-datepicker required ng-model="endDate" md-min-date="startDate" md-placeholder="Enter date" ng-change="setEndDate()"></md-datepicker>
                 </div>
                 <div flex="100" style="padding-top: 20px;">
                 </div>

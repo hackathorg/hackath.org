@@ -14,6 +14,7 @@
         app.route('/api/events/:eventid')
             .get(events.show)
             .put(events.update);
+        app.get('/api/user/events', requiresLogin, events.userevents)
 
         app.get('/api/hackathorgEvents/example/anyone', function(req, res) {
             res.send('Anyone can access this');

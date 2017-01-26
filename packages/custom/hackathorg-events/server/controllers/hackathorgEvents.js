@@ -34,8 +34,6 @@ module.exports = function(HackathorgEvents){
     update: function (req, res) {
       if (!req.params.eventid) return res.send(404, 'No name specified');
 
-
-
         Event.findOne({
           _id: req.params.eventid
         }).exec(function (err, event) {
@@ -58,6 +56,11 @@ module.exports = function(HackathorgEvents){
             });
           }
         });
-      }  
+      },
+    userevents : function(req, res){
+      Event.find({ownerid: req.user._id}).exec(function (err, events) {
+        res.send(events);
+      });
+    }   
   };
 };
