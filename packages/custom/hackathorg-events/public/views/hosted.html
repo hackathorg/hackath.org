@@ -27,7 +27,7 @@
         </md-card> -->
         <md-list style="padding-bottom:0px;">
         <md-divider></md-divider>
-          <md-list-item  ng-click="setSelected(cevent._id)" ng-class="{selected: cevent._id === idSelectedEvent}" class="md-3-line" ng-repeat="cevent in filteredEvents = (events | filter:filterEvents | orderBy:bestMatch)">
+          <md-list-item  ng-click="setSelected(cevent._id)" ng-class="{selected: cevent._id === idSelectedEvent}" class="md-3-line" ng-repeat="cevent in events">
             <div class="md-list-item-text">
               <span class="md-headline">{{cevent.title}}</span>
               <h4>{{cevent.organisation}}</h4>
@@ -44,6 +44,9 @@
         </md-list>
         </md-card>
       </div>
+
+      <!-- Updating event -->
+
       <div layout-wrap layout="row" layout-align="space-around start" flex-gt-md="75" flex-md="66" flex-xs="100" flex-sm="100">
         <div ng-if="!(null === idSelectedEvent)" flex="50">
           <md-card>
@@ -89,191 +92,141 @@
             </md-card-actions>
           </md-card>
         </div>
-        <!-- CREATING EVENT -->
-        <md-card ng-if="(null === idSelectedEvent)" flex="100">
-          <md-card-title>
-            <md-card-title-text>
-              <span class="md-headline">Create an Event</span>
-              <span class="md-subhead"> </span>
-            </md-card-title-text>
-          </md-card-title>
-          <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:20px;padding-left:20px;padding-right:20px;" flex>
-            <div flex-gt-sm="100" flex-xs="100" flex-md="100" flex-sm="100">
-              <div layout-wrap layout="row" layout-align="space-around start" flex>
-                <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
-                  <label>Event name</label>
-                  <input required ng-model="newevent.title">
-                </md-input-container>
-                <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
-                  <label>Organiser teamname</label>
-                  <input required ng-model="newevent.organisation">
-                </md-input-container>
-                <md-input-container flex="100" class="md-block">
-                  <label>Description</label>
-                  <textarea required ng-model="newevent.description" md-maxlength="200" rows="4" md-select-on-focus></textarea>
-                </md-input-container>
-                <div flex="50">
-                  Start date
-                  <br>
-                  <md-datepicker ng-model="startDate" md-min-date="minDate" md-placeholder="Enter date"></md-datepicker>
-                </div>
-                <div flex="50">
-                  End date
-                  <br>
-                  <md-datepicker ng-model="endDate" md-min-date="startDate" md-placeholder="Enter date"></md-datepicker>
-                </div>
-                <div flex="100" style="padding-top: 20px;">
-                </div>
+        <form name="eventsform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
+          <md-card flex="100">
+            <md-card-title>
+              <md-card-title-text ng-if="!(null === idSelectedEvent)">
+                <span class="md-headline">Update Event</span>
+                <span class="md-subhead">Caution: Updating a public event will inform </span>
+              </md-card-title-text>
+              <md-card-title-text ng-if="(null === idSelectedEvent)">
+                <span class="md-headline">Event details</span>
+                <span class="md-subhead"> </span>
+              </md-card-title-text>
+            </md-card-title>
+            <div layout-wrap layout="row" layout-align="space-around start" style="padding-left:20px;padding-right:20px;" flex>
+              <div flex-gt-sm="100" flex-xs="100" flex-md="100" flex-sm="100">
+                <div layout-wrap layout="row" layout-align="space-around start" flex>
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
+                    <label>Event name</label>
+                    <input required ng-model="event.title">
+                  </md-input-container>
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
+                    <label>Organiser teamname</label>
+                    <input required ng-model="event.organisation">
+                  </md-input-container>
+                  <md-input-container flex="100" class="md-block">
+                    <label>Description</label>
+                    <textarea required ng-model="event.description" md-maxlength="200" rows="4" md-select-on-focus></textarea>
+                  </md-input-container>
+                  <div flex="50">
+                    Start date
+                    <br>
+                    <md-datepicker ng-model="startDate" md-min-date="minDate" md-placeholder="Enter date"></md-datepicker>
+                  </div>
+                  <div flex="50">
+                    End date
+                    <br>
+                    <md-datepicker ng-model="endDate" md-min-date="startDate" md-placeholder="Enter date"></md-datepicker>
+                  </div>
+                  <div flex="100" style="padding-top: 20px;">
+                  </div>
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                    <label>Attendees</label>
+                    <input required type="number" step="any" name="rate" ng-model="event.maxAttendees" min="0"
+                           max="1000" />
+                  </md-input-container>
                 <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
-                  <label>Attendees</label>
-                  <input required type="number" step="any" name="rate" ng-model="newevent.maxAttendees" min="0"
-                         max="1000" />
+                  <label>Skill level</label>
+                  <md-select ng-model="event.skillLevel">
+                    <md-option ng-repeat="skill in skills" value="{{skill.type}}">
+                      {{skill.type}}
+                    </md-option>
+                  </md-select>
                 </md-input-container>
-              <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
-                <label>Skill level</label>
-                <md-select ng-model="newevent.skillLevel">
-                  <md-option ng-repeat="skill in skills" value="{{skill.type}}">
-                    {{skill.type}}
-                  </md-option>
-                </md-select>
-              </md-input-container>
-                <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
-                  <label>Mentors</label>
-                  <input required type="number" step="any" name="rate" ng-model="newevent.maxMentors" min="0"
-                         max="100" />
-                </md-input-container>
-                <md-input-container style="padding-left: 60px;" flex-gt-sm="50" flex-xs="100" flex-sm="100"  >
-                  <md-checkbox md-no-ink aria-label="sponsor" ng-model="newevent.sponsors" class="md-primary">
-                    Allow sponsorship?
-                  </md-checkbox>
-                </md-input-container>
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                    <label>Mentors</label>
+                    <input required type="number" step="any" name="rate" ng-model="event.maxMentors" min="0"
+                           max="100" />
+                  </md-input-container>
+                  <md-input-container style="padding-left: 60px;" flex-gt-sm="50" flex-xs="100" flex-sm="100"  >
+                    <md-checkbox md-no-ink aria-label="sponsor" ng-model="event.sponsors" class="md-primary">
+                      Allow sponsorship?
+                    </md-checkbox>
+                  </md-input-container>
+                </div>
               </div>
             </div>
+          </md-card>
+          <div flex="50">
+            <md-card>
+                <md-card-title>
+                  <md-card-title-text>
+                    <span class="md-headline">Organising Team</span>
+                    <span class="md-subhead">Add additional organisers</span>
+                  </md-card-title-text>
+                </md-card-title>
+                <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
+                <div flex="100">
+                  <md-chips ng-model="event.hosts" readonly="readonly" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
+                </div>
+                </div>
+            </md-card>
           </div>
-<!--           if already created event
-          <md-card-actions layout="row" layout-align="end center">
-            <md-button>Update</md-button>
-          </md-card-actions> -->
-        </md-card>
-        <!-- UPDATING EVENT -->
-        <md-card ng-if="!(null === idSelectedEvent)" flex="100">
-          <md-card-title>
-            <md-card-title-text>
-              <span class="md-headline">Update Event</span>
-              <span class="md-subhead">Caution: Updating a public event will inform </span>
-            </md-card-title-text>
-          </md-card-title>
-          <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:20px;padding-left:20px;padding-right:20px;" flex>
-            <div flex-gt-sm="100" flex-xs="100" flex-md="100" flex-sm="100">
-              <div layout-wrap layout="row" layout-align="space-around start" flex>
-                <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
-                  <label>Event name</label>
-                  <input required ng-model="event.title">
-                </md-input-container>
-                <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
-                  <label>Organiser teamname</label>
-                  <input required ng-model="event.organisation">
-                </md-input-container>
-                <md-input-container flex="100" class="md-block">
-                  <label>Description</label>
-                  <textarea required ng-model="event.description" md-maxlength="200" rows="4" md-select-on-focus></textarea>
-                </md-input-container>
-                <div flex="50">
-                  Start date
-                  <br>
-                  <md-datepicker ng-model="startDate" md-min-date="minDate" md-placeholder="Enter date"></md-datepicker>
+          <div flex="50">
+            <md-card>
+                <md-card-title>
+                  <md-card-title-text>
+                    <span class="md-headline">Event tags</span>
+                    <span class="md-subhead">What makes your event unique</span>
+                  </md-card-title-text>
+                </md-card-title>
+                <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
+                <div flex="100">
+                  <md-chips ng-model="event.tags" readonly="readonly" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
                 </div>
-                <div flex="50">
-                  End date
-                  <br>
-                  <md-datepicker ng-model="endDate" md-min-date="startDate" md-placeholder="Enter date"></md-datepicker>
                 </div>
-                <div flex="100" style="padding-top: 20px;">
-                </div>
-                <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
-                  <label>Attendees</label>
-                  <input required type="number" step="any" name="rate" ng-model="event.maxAttendees" min="0"
-                         max="1000" />
-                </md-input-container>
-              <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
-                <label>Skill level</label>
-                <md-select ng-model="event.skillLevel">
-                  <md-option ng-repeat="skill in skills" value="{{skill.type}}">
-                    {{skill.type}}
-                  </md-option>
-                </md-select>
-              </md-input-container>
-                <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
-                  <label>Mentors</label>
-                  <input required type="number" step="any" name="rate" ng-model="event.maxMentors" min="0"
-                         max="100" />
-                </md-input-container>
-                <md-input-container style="padding-left: 60px;" flex-gt-sm="50" flex-xs="100" flex-sm="100"  >
-                  <md-checkbox md-no-ink aria-label="sponsor" ng-model="event.sponsors" class="md-primary">
-                    Allow sponsorship?
-                  </md-checkbox>
-                </md-input-container>
-              </div>
-            </div>
+            </md-card>
           </div>
-<!--           if already created event
-          <md-card-actions layout="row" layout-align="end center">
-            <md-button>Update</md-button>
-          </md-card-actions> -->
-        </md-card>
-        <div flex="50">
-          <md-card>
+          <div flex="50">
+            <md-card>
               <md-card-title>
                 <md-card-title-text>
-                  <span class="md-headline">Organising Team</span>
+                  <span class="md-headline">Event discovery image</span>
+                  <span class="md-subhead">600x400</span>
+                  <span class="md-subhead">File upload and selection here</span>
                 </md-card-title-text>
+                <md-card-title-media>
+                  <div class="card-media placeholder"></div>
+                </md-card-title-media>
               </md-card-title>
-              <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
-              <div flex="100">
-                <md-chips ng-model="event.hosts" readonly="readonly" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
-              </div>
-              </div>
-          </md-card>
-        </div>
-        <div flex="50">
-          <md-card flex>
               <md-card-title>
                 <md-card-title-text>
-                  <span class="md-headline">Event tags</span>
+                  <span class="md-headline">Event logo</span>
+                  <span class="md-subhead">100x100</span>
+                  <span class="md-subhead">File upload and selection here</span>
                 </md-card-title-text>
+                <md-card-title-media>
+                  <div class="card-media placeholder"></div>
+                </md-card-title-media>
               </md-card-title>
-              <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
-              <div flex="100">
-                <md-chips ng-model="event.tags" readonly="readonly" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
-              </div>
-              </div>
-          </md-card>
-        </div>
-      <md-card flex="50">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Event discovery image</span>
-            <span class="md-subhead">600x400</span>
-            <span class="md-subhead">File upload and selection here</span>
-          </md-card-title-text>
-          <md-card-title-media>
-            <div class="card-media placeholder"></div>
-          </md-card-title-media>
-        </md-card-title>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Event logo</span>
-            <span class="md-subhead">100x100</span>
-            <span class="md-subhead">File upload and selection here</span>
-          </md-card-title-text>
-          <md-card-title-media>
-            <div class="card-media placeholder"></div>
-          </md-card-title-media>
-        </md-card-title>
-      </md-card>
-        <div flex="50">
+            </md-card>
+          </div>
+          <div flex="50">
+            <md-card>
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Location</span>
+                  <span class="md-subhead">Google maps api location selection here</span>
+                </md-card-title-text>
+                <md-card-title-media>
+                  <div class="card-media placeholder"></div>
+                </md-card-title-media>
+              </md-card-title>
+            </md-card>
+          </div>
           <!-- if already created event -->
-          <md-card ng-if="null !== idSelectedEvent">
+          <md-card flex="50" ng-if="!(null === idSelectedEvent)">
             <md-card-title>
               <md-card-title-text>
                 <span class="md-headline">Update Event</span>
@@ -284,7 +237,7 @@
               <md-button ng-disabled="true" class="md-warn">Update</md-button>
             </md-card-actions>
           </md-card>
-          <md-card ng-if="null !== idSelectedEvent">
+          <md-card flex="50" ng-if="!(null === idSelectedEvent)">
             <md-card-title>
               <md-card-title-text>
                 <span class="md-headline">Remove Event</span>
@@ -295,20 +248,23 @@
               <md-button ng-disabled="true" class="md-warn">Delete</md-button>
             </md-card-actions>
           </md-card>
-          <!-- if create event -->
-          <md-card ng-if="null === idSelectedEvent">
-            <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">Create Event</span>
-                <span class="md-subhead md-warn">Caution: This will permenantly create this event and all associated information.</span>
-              </md-card-title-text>
-            </md-card-title>
-            <md-card-actions layout="row" layout-align="end center">
-              <md-button ng-disabled="true" class="md-warn">Create</md-button>
-            </md-card-actions>
-          </md-card>
-        </div>
-    </div>
+
+          <div flex="50">
+            <!-- if create event -->
+            <md-card ng-if="null === idSelectedEvent">
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Create Event</span>
+                  <span class="md-subhead md-warn">Caution: This will permenantly create this event and all associated information.</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-raised md-primary" type="submit" ng-disabled="eventsform.$dirty && eventsform.$invalid">Create</md-button>
+              </md-card-actions>
+            </md-card>
+          </div>
+        </form>
+      </div>
     </div>
   </md-content>
 </div>

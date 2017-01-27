@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-
+    var mongoose = require('mongoose')
     /* jshint -W098 */
 
     function HackathorgCreateController($scope, Global, $stateParams, EventService, $state) {
