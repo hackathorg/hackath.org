@@ -14,6 +14,43 @@
             'id' : '1'
         };
 
+        $scope.idSelectedEvent = null;
+
+        // Selected Event information
+          // $scope.event.title:  {type: String, unique: true},
+          // description: String,
+          // organisation: String,
+          // startDate: Date,
+          // logo: String,
+          // image:String,
+          // url:   String,
+          // ownerid: ObjectId,
+          // hosts:[String], 
+          // tags:[String],
+          // comments: [{ body: String, date: Date }],
+          // date: { type: Date, default: Date.now },
+          // hidden: Boolean,
+          // maxAttendees: Number,
+          // maxMentors: Number,
+          // location: String,
+          // sponsors: Boolean,
+          // skillLevel: String,
+          // mentors:[ObjectId],
+          // attendees:[ObjectId]
+        // Create an Event information (this is seperate to keep event creation persistent if you change event)
+
+        $scope.setSelected = function (idSelectedEvent) {
+           $scope.idSelectedEvent = idSelectedEvent;
+           // Populate the page with Creating an event shtuff
+           if (idSelectedEvent === null) {
+
+           } 
+           // Get the event selected from db and populate page with Update event shtuff
+           else {
+                $scope.event = EventService.events.show({name:idSelectedEvent})
+           }
+        };
+
         // FROM CREATE EVENT
         $scope.eventTags = ['jamesmahoney200@hotmail.com', 'mike_380@live.co.uk'];
         $scope.readonly = false;
