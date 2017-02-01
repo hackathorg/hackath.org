@@ -1,33 +1,144 @@
 <form name="signUpForm" ng-controller="RegisterCtrl as reg" ng-submit="reg.register()" class="login-box">
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline">Join</span>
+      <span class="md-headline">Registering with hackath.org</span>
+      <span class="md-subhead">None of your information will be used without your explicit permission.</span>
       <div ng-repeat="error in reg.registerError">
         <p class="alert alert-danger animated fadeIn">{{error.msg}}</p>
       </div>
     </md-card-title-text>
   </md-card-title>
-  <md-card-content>
-
-    <md-input-container class="md-block">
+  <md-card-content layout-wrap layout="row" layout-align="space-around start">
+  <br>
+    <p flex=100>Basic account information</p>
+    <md-input-container flex=100 class="md-block">
       <label>Full Name</label>
-      <input type="text" ng-model="reg.user.name">
+      <input required type="text" ng-model="reg.user.name">
     </md-input-container>
-    <md-input-container class="md-block">
+    <md-input-container flex=100 class="md-block">
       <label>Email Address</label>
-      <input type="email" ng-model="reg.user.email">
+      <input required type="email" ng-model="reg.user.email">
     </md-input-container>
-    <md-input-container class="md-block">
+    <md-input-container flex=100 class="md-block">
       <label>Username</label>
-      <input type="text" ng-model="reg.user.username">
+      <input required type="text" ng-model="reg.user.username">
     </md-input-container>
-    <md-input-container class="md-block">
+    <md-input-container flex=100 class="md-block">
+      <label>Phone Number</label>
+      <input type="text" ng-model="reg.user.phoneNumber">
+    </md-input-container>
+    <md-input-container flex-sm=100 flex-xs=100 flex=50 class="md-block">
       <label>Password</label>
-      <input type="password" ng-model="reg.user.password">
+      <input required type="password" ng-model="reg.user.password">
     </md-input-container>
-    <md-input-container class="md-block">
+    <md-input-container flex-sm=100 flex-xs=100 flex=50 class="md-block">
       <label>Confirm Password</label>
-      <input type="password" ng-model="reg.user.confirmPassword">
+      <input required type="password" ng-model="reg.user.confirmPassword">
+    </md-input-container>
+    <p flex=100>Hackathon attendee information</p>
+    <md-input-container style="padding-top:10px;" required flex-sm=100 flex-xs=100 flex=50 class="md-block">
+      <label>Gender</label>
+      <md-select required ng-model="reg.user.gender">
+        <md-option value="Male">
+          Male
+        </md-option>
+        <md-option value="Female">
+          Female
+        </md-option>
+        <md-option value="Other">
+          Other
+        </md-option>
+        <md-option value="Undisclosed">
+          I prefer not to say
+        </md-option>
+      </md-select>
+    </md-input-container>
+    <md-input-container style="padding-top:10px;" flex-sm=100 flex-xs=100 flex=50 class="md-block">
+      <label>Shirt Size</label>
+      <md-select ng-model="reg.user.shirtsize">
+        <md-option value="womensxs">
+          Womens - XS
+        </md-option>
+        <md-option value="womenss">
+          Womens - S
+        </md-option>
+        <md-option value="womensm">
+          Womens - M
+        </md-option>
+        <md-option value="womensl">
+          Womens - L
+        </md-option>
+        <md-option value="womensxl">
+          Womens - XL
+        </md-option>
+        <md-option value="unisexxs">
+          Unisex - XS
+        </md-option>
+        <md-option value="unisexs">
+          Unisex - S
+        </md-option>
+        <md-option value="unisexm">
+          Unisex - M
+        </md-option>
+        <md-option value="unisexl">
+          Unisex - L
+        </md-option>
+        <md-option value="unisexxl">
+          Unisex - XL
+        </md-option>
+      </md-select>
+    </md-input-container>
+    <md-input-container style="padding-top:10px;" flex-sm=100 flex-xs=100 flex=50 class="md-block">
+      <label>Dietary Requirements</label>
+      <md-select required ng-model="reg.user.dietary">
+        <md-option value="none">
+          None
+        </md-option>
+        <md-option value="vegetarian">
+          Vegetarian
+        </md-option>
+        <md-option value="vegan">
+          Vegan
+        </md-option>
+        <md-option value="gluten-free">
+          Gluten-free
+        </md-option>
+      </md-select>
+    </md-input-container>
+    <md-input-container style="padding-top:10px;" flex-sm=100 flex-xs=100 flex=50 class="md-block">
+      <label>Level of Study</label>
+      <md-select ng-model="reg.user.study">
+        <md-option value="secondary">
+          Secondary / High school
+        </md-option>
+        <md-option value="undergraduate">
+          University (Undergraduate)
+        </md-option>
+        <md-option value="postgraduate">
+          University (Masters / Doctoral)
+        </md-option>
+        <md-option value="vocational">
+          Vocational / Code school
+        </md-option>
+        <md-option value="notstudent">
+          Not currently a student
+        </md-option>
+        <md-option value="undisclosed">
+          Other
+        </md-option>
+      </md-select>
+    </md-input-container>
+    <md-input-container flex-sm=100 flex-xs=100 flex=50 class="md-block">
+      <label>School</label>
+      <input type="text" ng-model="reg.user.school">
+    </md-input-container>
+    <md-input-container flex-sm=100 flex-xs=100 flex=50 class="md-block">
+      <label>Major</label>
+      <input type="text" ng-model="reg.user.major">
+    </md-input-container>
+    <md-input-container flex=100>
+      <label>Special needs</label>
+      <textarea placeholder="Enter any special needs / requests here" ng-model="reg.user.special" md-maxlength="200" rows="3" md-select-on-focus></textarea>
     </md-input-container>
   </md-card-content>
   <md-card-actions layout="row" layout-align="end center">
