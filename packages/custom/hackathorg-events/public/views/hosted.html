@@ -78,16 +78,74 @@
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-headline">Web application - offline</span>
+                <span class="md-headline">Web application</span>
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
-              <p>Heroku setup</p>
-              <p>Heroku traffic, and statistics</p>
-              <p>Something else here</p>
+            <div layout="row" layout-align="space-around start" layout-wrap>
+              <div ng-if="!heroku.authenticated" flex="100">
+                <md-card>
+                  <md-card-title>
+                  Heroku setup
+                  </md-card-title>
+                  <md-card-content>
+                    <p>This event has no Heroku account associated with it. </p>
+                    <p>We use Heroku for deploying your event web application - its free to sign up!</p>
+                  </md-card-content>
+                  <md-card-actions layout="row" layout-align="end center">
+                    <md-button class="md-raised md-primary">Login with Heroku</md-button>
+                  </md-card-actions>
+                </md-card>
+              </div>
+              <div ng-if="heroku.authenticated" flex="100">
+                <md-card>
+                  <md-card-title>
+                    Web application status
+                  </md-card-title>
+                  <md-card-content>
+                    <p>Online</p>
+                    <p>Information about the web application here, statistics, views, any issues</p>
+                  </md-card-content>
+                </md-card>
+              </div>
+              <div ng-if="heroku.authenticated" flex="50" flex-md="100" flex-sm="100" flex-xs="100">
+                <md-card>
+                  <md-card-title>
+                    Heroku Status
+                  </md-card-title>
+                  <md-card-content>
+                    <p>The server status is ONLINE</p>
+                    <p>Everything is working fine! </p>
+                    <p>Information here</p>
+                  </md-card-content>
+                </md-card>
+                <md-card>
+                  <md-card-title>
+                    Heroku Configuration
+                  </md-card-title>
+                  <md-card-content>
+                    <p>This event has been set up with a Heroku. </p>
+                  </md-card-content>
+                  <md-card-actions layout="row" layout-align="end center">
+                    <md-button class="md-raised md-primary">Heroku Dashboard</md-button>
+                  </md-card-actions>
+                </md-card>
+              </div>
+              <div ng-if="heroku.authenticated" flex="50" flex-md="100" flex-sm="100" flex-xs="100">
+                <md-list>
+                  <md-subheader class="md-no-sticky">Installed Modules</md-subheader>
+                  <md-list-item ng-repeat="hackage in hackages">
+                    <md-checkbox ng-checked="checkPackage(hackage.id)" ng-click="updateBuildStatus(hackage.id)"></md-checkbox>
+                    <p>{{hackage.name}}</p>
+                    <md-icon class="md-secondary" ng-click="hackageInformation($event, hackage.id)" aria-label="Chat">help_outline</md-icon>
+                  </md-list-item>
+                </md-list>
+              </div>
+              </div>
             </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-              <md-button>Restart</md-button>
+            <md-card-actions ng-if="heroku.authenticated" layout="row" layout-align="end center">
+              <md-button ng-if="heroku.req_rebuild">Rebuild</md-button>
+              <md-button ng-if="!heroku.req_rebuild">Restart</md-button>
               <md-button class="md-warn">Shutdown</md-button>
             </md-card-actions>
           </md-card>

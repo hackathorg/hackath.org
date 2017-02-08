@@ -48,18 +48,11 @@
             'type': 'Large'
         }];
 
-
-
         $scope.events = EventService.events.all();
         $scope.sites = $scope.events;
         $scope.currentNavItem = 'discover';
-       
-
-        
 
         $scope.currentNavItem = '';
-
-
 
         $scope.checkCircle = function() {
             EventService.checkCircle($stateParams.circle).then(function(response) {

@@ -18,13 +18,24 @@
 
   <md-menu ng-if="hdrctr.hdrvars.authenticated" md-position-mode="target-right target">
     <md-button aria-label="Account" class="md-button top-link" ng-click="$mdOpenMenu()">
-      <md-tooltip md-direction="left">Account Settings</md-tooltip>
-      <md-icon>account_box</md-icon>
-      <span id="toolbar-username"><!--{{hdrctr.hdrvars.user.name}}--></span>
+      <md-tooltip md-direction="left">Account</md-tooltip>
+      <md-icon>home</md-icon>
+      <span id="toolbar-username">{{hdrctr.hdrvars.user.username}}</span>
       <md-icon md-menu-origin>keyboard_arrow_down</md-icon>
     </md-button>
-
-    <md-menu-content width="3">
+    <md-menu-content width="3">      
+      <md-menu-item>
+        <md-button class="md-button" aria-label="profile" ui-route="/profile"  ui-sref="profile" mean-token="item.link">
+          <md-icon>account_box</md-icon> 
+          My Profile
+        </md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button class="md-button" aria-label="eventshosted" ui-route="/hosted"  ui-sref="hosted" mean-token="item.link">
+          <md-icon>event</md-icon>
+          My Hosted Events
+        </md-button>
+      </md-menu-item>
       <md-menu-item>
         <md-button class="md-button" aria-label="Logout" ng-click="hdrctr.logout()">
           <md-icon>exit_to_app</md-icon>

@@ -27,7 +27,7 @@ HackathorgEvents.register(function(app, auth, database, circles) {
 
   HackathorgEvents.menus.add({
     title: 'Create',
-    link: 'create',
+    link: 'hosted',
     roles: ['authenticated'],
     menu: 'main',
     position: 2
