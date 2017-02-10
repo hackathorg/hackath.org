@@ -69,6 +69,20 @@
             </md-card-title>
             <md-card-content>
               <p>Display applications</p>
+
+              <md-list flex>
+                <md-subheader class="md-no-sticky">Mentor Applications</md-subheader>
+                <div style="height:200px;overflow-y:scroll;">
+                <md-list-item class="md-3-line" ng-repeat="item in hackages" ng-click="null">
+                  <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
+                  <div class="md-list-item-text" layout="column">
+                    <h3>{{ item.who }}</h3>
+                    <h4>{{ item.what }}</h4>
+                    <p>{{ item.notes }}</p>
+                  </div>
+                </md-list-item>
+                </div>
+              </md-list>
               <p>Allow responding to applications</p>
             </md-card-content>
           </md-card>
@@ -99,7 +113,7 @@
               </div>
               <div ng-if="heroku.authenticated" flex="100">
                 <md-card>
-                  <md-card-title>
+                  <md-card-title class="md-title">
                     Web application status
                   </md-card-title>
                   <md-card-content>
@@ -110,7 +124,7 @@
               </div>
               <div ng-if="heroku.authenticated" flex="50" flex-md="100" flex-sm="100" flex-xs="100">
                 <md-card>
-                  <md-card-title>
+                  <md-card-title  class="md-title">
                     Heroku Status
                   </md-card-title>
                   <md-card-content>
@@ -120,7 +134,7 @@
                   </md-card-content>
                 </md-card>
                 <md-card>
-                  <md-card-title>
+                  <md-card-title  class="md-title">
                     Heroku Configuration
                   </md-card-title>
                   <md-card-content>
