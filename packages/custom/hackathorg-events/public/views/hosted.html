@@ -48,6 +48,28 @@
       <!-- Updating event -->
 
       <div layout-wrap layout="row" layout-align="space-around start" flex-gt-md="75" flex-md="66" flex-xs="100" flex-sm="100">
+        <div style="margin:8px;" flex="100">
+        <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+          <md-nav-item md-nav-click="goto('page1')" name="page1">
+            Dashboard {{getEventId}}
+          </md-nav-item>
+          <md-nav-item md-nav-click="goto('page2')" name="page2">
+            Update
+          </md-nav-item>
+          <md-nav-item md-nav-click="goto('page3')" name="page3">
+            Applications
+          </md-nav-item>
+          <!-- these require actual routing with ui-router or ng-route, so they
+          won't work in the demo
+          <md-nav-item md-nav-href="#page4" name="page5">Page Four</md-nav-item>
+          <md-nav-item md-nav-sref="app.page5" name="page4">Page Five</md-nav-item>
+          You can also add options for the <code>ui-sref-opts</code> attribute.
+          <md-nav-item md-nav-sref="page6" sref-opts="{reload:true, notify:true}">
+            Page Six
+          </md-nav-item>
+          -->
+        </md-nav-bar>
+        </div>
         <div ng-if="!(null === idSelectedEvent)" flex="50">
           <md-card>
             <md-card-title>
@@ -56,20 +78,83 @@
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
-              <p>Current event state (before, during, after)</p>
-              <p>Is the event public?</p>
-              <p>Mentors, Attendees, Sponsors</p>
+              <div>
+                <md-card-title class="md-title">
+                  Event Discovery
+                </md-card-title>
+                <md-card-content>
+                  <button class="md-button">PUBLIC</button>
+                  <button class="md-button">PRIVATE</button>
+                  <p>The event is currently public. The event can be found on the discovery service.</p>
+                  <p>The event is currently private. The event can't be found on the discovery service.</p>
+                </md-card-content>
+              </div>
+              <div>
+                <md-card-title class="md-title">
+                  Event Status
+                </md-card-title>
+                <md-card-content>
+                  <p>Current event state (before, during, after)</p>
+                  <p>Is the event public?</p>
+                  <p>Mentors, Attendees, Sponsors</p>
+                  <p>The event can be managed from within the web application.</p>
+                </md-card-content>
+              </div>
             </md-card-content>
           </md-card>
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-headline">Sponsors / Mentor applications</span>
+                <span class="md-headline">Notify attendees</span>
+              </md-card-title-text>
+            </md-card-title>
+            <form name="contactform" ng-submit="contact()">
+              <md-card-content>
+                <md-card-content style="padding-bottom:0px;">
+                  <md-checkbox md-no-ink aria-label="attendee"  ng-model="contact.attendee" class="md-primary">
+                    Attendees
+                  </md-checkbox>
+                  <md-checkbox md-no-ink aria-label="attendee"  ng-model="contact.mentors" class="md-primary">
+                    Mentors
+                  </md-checkbox>
+                  <md-checkbox md-no-ink aria-label="attendee"  ng-model="contact.organisers" class="md-primary">
+                    Organisers
+                  </md-checkbox>
+                  <md-checkbox md-no-ink aria-label="attendee"  ng-model="contact.sponsors" class="md-primary">
+                    Sponsors
+                  </md-checkbox>
+                  <md-input-container flex="100" class="md-block">
+                    <label>Contact information here</label>
+                    <textarea required ng-model="contact.information" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                  </md-input-container>
+                </md-card-content>
+              </md-card-content>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-raised md-primary">Send notification</md-button>
+              </md-card-actions>
+            </form>
+          </md-card>
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Sponsor and Mentor applications</span>
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
               <p>Display applications</p>
-
+              <md-list flex>
+                <md-subheader class="md-no-sticky">Mentor Applications</md-subheader>
+                <div style="height:200px;overflow-y:scroll;">
+                <md-list-item class="md-3-line" ng-repeat="item in hackages" ng-click="null">
+                  <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
+                  <div class="md-list-item-text" layout="column">
+                    <h3>{{ item.who }}</h3>
+                    <h4>{{ item.what }}</h4>
+                    <p>{{ item.notes }}</p>
+                  </div>
+                </md-list-item>
+                </div>
+              </md-list>
               <md-list flex>
                 <md-subheader class="md-no-sticky">Mentor Applications</md-subheader>
                 <div style="height:200px;overflow-y:scroll;">
@@ -112,7 +197,7 @@
                 </md-card>
               </div>
               <div ng-if="heroku.authenticated" flex="100">
-                <md-card>
+                <div>
                   <md-card-title class="md-title">
                     Web application status
                   </md-card-title>
@@ -120,7 +205,7 @@
                     <p>Online</p>
                     <p>Information about the web application here, statistics, views, any issues</p>
                   </md-card-content>
-                </md-card>
+                </div>
               </div>
               <div ng-if="heroku.authenticated" flex="50" flex-md="100" flex-sm="100" flex-xs="100">
                 <md-card>
@@ -158,7 +243,7 @@
               </div>
             </md-card-content>
             <md-card-actions ng-if="heroku.authenticated" layout="row" layout-align="end center">
-              <md-button ng-if="heroku.req_rebuild">Rebuild</md-button>
+              <md-button class="md-primary" ng-if="heroku.req_rebuild">Rebuild</md-button>
               <md-button ng-if="!heroku.req_rebuild">Restart</md-button>
               <md-button class="md-warn">Shutdown</md-button>
             </md-card-actions>

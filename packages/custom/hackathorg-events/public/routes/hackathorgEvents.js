@@ -13,6 +13,9 @@
         $stateProvider.state('hosted', {
             url: '/events/hosted',
             templateUrl: 'hackathorg-events/views/hosted.html'
+        }).state('hosted id', {
+            url: '/events/hosted/:eventid',
+            templateUrl: 'hackathorg-events/views/hosted.html'
         });
     }
 

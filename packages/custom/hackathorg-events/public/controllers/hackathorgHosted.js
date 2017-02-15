@@ -9,6 +9,8 @@
         $scope.package = {
             name: 'hackathorg-events'
         };
+        
+        $scope.getEventId = $stateParams.eventid;
 
         $scope.user = {
             'id' : '1'
@@ -60,6 +62,14 @@
 
         };
 
+        $scope.contact = {
+            'attendees' : true,
+            'mentors' : false,
+            'organisers' : false,
+            'sponsors' : false,
+            'information' : ''
+        };
+
         $scope.idSelectedEvent = null;
         $scope.newevent = {};
         $scope.newevent.hosts = ["test"];
@@ -67,6 +77,7 @@
         $scope.event = new EventService.events()
         $scope.event.hosts = ["test"];
         $scope.event.tags = [];
+
 
         // Event schema
         // $scope.event.title:  {type: String, unique: true},
@@ -109,6 +120,11 @@
                 $scope.event = EventService.events.show({name:idSelectedEvent})
            }
         };
+        
+        // initialise from GET
+        if ($scope.getEventId) {
+            setSelected($scope.getEventId);
+        }
 
         $scope.hackageInformation = function(event, package_id) {
             var package_info = $filter('filter')($scope.hackages, {id: package_id}, true);
