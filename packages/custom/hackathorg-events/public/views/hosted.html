@@ -27,19 +27,25 @@
         </md-card> -->
         <md-list style="padding-bottom:0px;">
         <md-divider></md-divider>
+          <md-list-item class="md-3-line" ng-click="setSelected(null)" ng-class="{selected: null === idSelectedEvent}">
+            <div class="md-list-item-text">
+              <span class="md-headline">Management dashboard</span>
+            </div>
+            <md-divider></md-divider>
+          </md-list-item>
           <md-list-item  ng-click="setSelected(cevent._id)" ng-class="{selected: cevent._id === idSelectedEvent}" class="md-3-line" ng-repeat="cevent in events">
             <div class="md-list-item-text">
               <span class="md-headline">{{cevent.title}}</span>
               <h4>{{cevent.organisation}}</h4>
             </div>
-            <md-button class="md-secondary">Open</md-button>
+            <!--<md-button class="md-secondary">Open</md-button>-->
             <md-divider></md-divider>
           </md-list-item>
-          <md-list-item class="md-3-line" ng-click="setSelected(null)" ng-class="{selected: null === idSelectedEvent}">
+          <md-list-item class="md-3-line" ng-click="setSelected('create')" ng-class="{selected: 'create' === idSelectedEvent}">
             <div class="md-list-item-text">
-              <span class="md-headline">Create an event</span>
+              <span class="md-headline">+ Create an event</span>
             </div>
-            <md-button class="md-secondary">Create</md-button>
+            <!--<md-button class="md-secondary">Create</md-button>-->
           </md-list-item>
         </md-list>
         </md-card>
@@ -48,29 +54,7 @@
       <!-- Updating event -->
 
       <div layout-wrap layout="row" layout-align="space-around start" flex-gt-md="75" flex-md="66" flex-xs="100" flex-sm="100">
-        <div style="margin:8px;" flex="100">
-        <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-          <md-nav-item md-nav-click="goto('page1')" name="page1">
-            Dashboard {{getEventId}}
-          </md-nav-item>
-          <md-nav-item md-nav-click="goto('page2')" name="page2">
-            Update
-          </md-nav-item>
-          <md-nav-item md-nav-click="goto('page3')" name="page3">
-            Applications
-          </md-nav-item>
-          <!-- these require actual routing with ui-router or ng-route, so they
-          won't work in the demo
-          <md-nav-item md-nav-href="#page4" name="page5">Page Four</md-nav-item>
-          <md-nav-item md-nav-sref="app.page5" name="page4">Page Five</md-nav-item>
-          You can also add options for the <code>ui-sref-opts</code> attribute.
-          <md-nav-item md-nav-sref="page6" sref-opts="{reload:true, notify:true}">
-            Page Six
-          </md-nav-item>
-          -->
-        </md-nav-bar>
-        </div>
-        <div ng-if="!(null === idSelectedEvent)" flex="50">
+        <div ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)" flex="50">
           <md-card>
             <md-card-title>
               <md-card-title-text>
@@ -173,7 +157,7 @@
           </md-card>
         </div>
 
-        <div ng-if="!(null === idSelectedEvent)" flex="50">
+        <div ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)" flex="50">
           <md-card>
             <md-card-title>
               <md-card-title-text>
@@ -249,14 +233,14 @@
             </md-card-actions>
           </md-card>
         </div>
-        <form name="eventsform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
+        <form ng-if="('create' === idSelectedEvent || !(null === idSelectedEvent))" name="eventsform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
           <md-card flex="100">
             <md-card-title>
-              <md-card-title-text ng-if="!(null === idSelectedEvent)">
+              <md-card-title-text ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)">
                 <span class="md-headline">Update Event</span>
                 <span class="md-subhead">Caution: Updating a public event will inform </span>
               </md-card-title-text>
-              <md-card-title-text ng-if="(null === idSelectedEvent)">
+              <md-card-title-text ng-if="('create' === idSelectedEvent)">
                 <span class="md-headline">Event details</span>
                 <span class="md-subhead"> </span>
               </md-card-title-text>
@@ -325,7 +309,7 @@
                 </md-card-title>
                 <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
                 <div flex="100">
-                  <md-chips ng-model="event.hosts" readonly="readonly" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
+                  <md-chips ng-model="event.hosts" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
                 </div>
                 </div>
             </md-card>
@@ -340,7 +324,7 @@
                 </md-card-title>
                 <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
                 <div flex="100">
-                  <md-chips ng-model="event.tags" readonly="readonly" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
+                  <md-chips ng-model="event.tags"  md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
                 </div>
                 </div>
             </md-card>
@@ -383,7 +367,7 @@
             </md-card>
           </div>
           <!-- if already created event -->
-          <md-card flex="50" ng-if="!(null === idSelectedEvent)">
+          <md-card flex="50" ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)">
             <md-card-title>
               <md-card-title-text>
                 <span class="md-headline">Update Event</span>
@@ -394,7 +378,7 @@
               <md-button ng-disabled="true" class="md-warn">Update</md-button>
             </md-card-actions>
           </md-card>
-          <md-card flex="50" ng-if="!(null === idSelectedEvent)">
+          <md-card flex="50" ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)">
             <md-card-title>
               <md-card-title-text>
                 <span class="md-headline">Remove Event</span>
@@ -408,7 +392,7 @@
 
           <div flex="50">
             <!-- if create event -->
-            <md-card ng-if="null === idSelectedEvent">
+            <md-card ng-if="'create' === idSelectedEvent">
               <md-card-title>
                 <md-card-title-text>
                   <span class="md-headline">Create Event</span>

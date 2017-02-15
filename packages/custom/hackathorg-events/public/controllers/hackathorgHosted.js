@@ -71,13 +71,9 @@
         };
 
         $scope.idSelectedEvent = null;
-        $scope.newevent = {};
-        $scope.newevent.hosts = ["test"];
-        $scope.newevent.tags = [];
         $scope.event = new EventService.events()
-        $scope.event.hosts = ["test"];
+        $scope.event.hosts = [];
         $scope.event.tags = [];
-
 
         // Event schema
         // $scope.event.title:  {type: String, unique: true},
@@ -103,17 +99,14 @@
 
         $scope.setSelected = function (idSelectedEvent) {
 
-           // If changing state from Create, save the info
-           if ($scope.idSelectedEvent === null) {
-                $scope.newevent = $scope.event
-           }
-
            // Change State
            $scope.idSelectedEvent = idSelectedEvent;
 
            // Populate the page with Creating an event shtuff
-           if (idSelectedEvent === null) {
-                $scope.event = $scope.newevent
+           if (idSelectedEvent === 'create') {
+                $scope.event = new EventService.events()
+                $scope.event.hosts = [];
+                $scope.event.tags = [];
            } 
            // Get the event selected from db and populate page with Update event shtuff
            else {
@@ -123,7 +116,7 @@
         
         // initialise from GET
         if ($scope.getEventId) {
-            setSelected($scope.getEventId);
+            $scope.setSelected($scope.getEventId);
         }
 
         $scope.hackageInformation = function(event, package_id) {
