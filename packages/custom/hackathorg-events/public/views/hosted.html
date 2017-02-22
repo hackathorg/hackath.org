@@ -29,7 +29,7 @@
         <md-divider></md-divider>
           <md-list-item class="md-3-line" ng-click="setSelected(null)" ng-class="{selected: null === idSelectedEvent}">
             <div class="md-list-item-text">
-              <span class="md-headline">Management dashboard</span>
+              <span class="md-headline">Management overview</span>
             </div>
             <md-divider></md-divider>
           </md-list-item>
@@ -54,7 +54,28 @@
       <!-- Updating event -->
 
       <div layout-wrap layout="row" layout-align="space-around start" flex-gt-md="75" flex-md="66" flex-xs="100" flex-sm="100">
-        <div ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)" flex="50">
+        <div ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)" style="margin:8px;" flex="100">
+          <md-nav-bar md-selected-nav-item="manageTab" nav-bar-aria-label="navigation links">
+            <md-nav-item md-nav-click="changeManageTab('dashboard')" name="dashboard">
+            Dashboard
+            </md-nav-item>
+            <md-nav-item md-nav-click="changeManageTab('update')" name="update">
+            Update
+            </md-nav-item>
+            <md-nav-item md-nav-click="changeManageTab('applications')" name="applications">
+            Applications
+            </md-nav-item>
+            <!-- these require actual routing with ui-router or ng-route, so they
+            won't work in the demo
+            <md-nav-item md-nav-href="#page4" name="page5">Page Four</md-nav-item>
+            <md-nav-item md-nav-sref="app.page5" name="page4">Page Five</md-nav-item>You can also add options for the <code>ui-sref-opts</code> attribute.        <md-nav-item md-nav-sref="page6" sref-opts="{reload:true, notify:true}">
+            Page Six
+            </md-nav-item>
+            -->
+          </md-nav-bar>
+        </div>
+
+        <div ng-if="manageTab === 'dashboard'" flex="50">
           <md-card>
             <md-card-title>
               <md-card-title-text>
@@ -118,6 +139,8 @@
               </md-card-actions>
             </form>
           </md-card>
+          </div>
+          <div ng-if="manageTab === 'applications'" flex="50">
           <md-card>
             <md-card-title>
               <md-card-title-text>
@@ -155,9 +178,8 @@
               <p>Allow responding to applications</p>
             </md-card-content>
           </md-card>
-        </div>
-
-        <div ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)" flex="50">
+          </div>
+        <div ng-if="manageTab === 'dashboard'" flex="50">
           <md-card>
             <md-card-title>
               <md-card-title-text>
@@ -233,7 +255,7 @@
             </md-card-actions>
           </md-card>
         </div>
-        <form ng-if="('create' === idSelectedEvent || !(null === idSelectedEvent))" name="eventsform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
+        <form ng-if="('create' === idSelectedEvent || (!(null === idSelectedEvent) && manageTab === 'update'))" name="eventsform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
           <md-card flex="100">
             <md-card-title>
               <md-card-title-text ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)">
@@ -367,32 +389,35 @@
             </md-card>
           </div>
           <!-- if already created event -->
-          <md-card flex="50" ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)">
-            <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">Update Event</span>
-                <span class="md-subhead md-warn">Caution: This will permenantly update this event and all associated information.</span>
-              </md-card-title-text>
-            </md-card-title>
-            <md-card-actions layout="row" layout-align="end center">
-              <md-button ng-disabled="true" class="md-warn">Update</md-button>
-            </md-card-actions>
-          </md-card>
-          <md-card flex="50" ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)">
-            <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">Remove Event</span>
-                <span class="md-subhead md-warn">Caution: This will permenantly delete this event and all associated information.</span>
-              </md-card-title-text>
-            </md-card-title>
-            <md-card-actions layout="row" layout-align="end center">
-              <md-button ng-disabled="true" class="md-warn">Delete</md-button>
-            </md-card-actions>
-          </md-card>
-
-          <div flex="50">
+          <div ng-if="manageTab === 'update'" flex="50">
+            <md-card>
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Update Event</span>
+                  <span class="md-subhead md-warn">Caution: This will permenantly update this event and all associated information.</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-disabled="true" class="md-warn">Update</md-button>
+              </md-card-actions>
+            </md-card>
+          </div>
+          <div ng-if="manageTab === 'update'" flex="50">
+            <md-card>
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Remove Event</span>
+                  <span class="md-subhead md-warn">Caution: This will permenantly delete this event and all associated information.</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-disabled="true" class="md-warn">Delete</md-button>
+              </md-card-actions>
+            </md-card>
+            </div>
+          <div ng-if="'create' === idSelectedEvent" flex="50">
             <!-- if create event -->
-            <md-card ng-if="'create' === idSelectedEvent">
+            <md-card>
               <md-card-title>
                 <md-card-title-text>
                   <span class="md-headline">Create Event</span>

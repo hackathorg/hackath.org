@@ -12,6 +12,8 @@
         
         $scope.getEventId = $stateParams.eventid;
 
+        $scope.manageTab;
+
         $scope.user = {
             'id' : '1'
         };
@@ -102,18 +104,30 @@
            // Change State
            $scope.idSelectedEvent = idSelectedEvent;
 
+           // Change embedded tab to empty
+           changeManageTab(null);
+
            // Populate the page with Creating an event shtuff
            if (idSelectedEvent === 'create') {
                 $scope.event = new EventService.events()
                 $scope.event.hosts = [];
                 $scope.event.tags = [];
            } 
+           // If its the overview tab, so some things
+           else if (idSelectedEvent === null) {
+
+           }
            // Get the event selected from db and populate page with Update event shtuff
            else {
+                $scope.manageTab = 'dashboard'
                 $scope.event = EventService.events.show({name:idSelectedEvent})
            }
         };
         
+        $scope.changeManageTab = function(tab) {
+            $scope.manageTab = tab;
+        }
+
         // initialise from GET
         if ($scope.getEventId) {
             $scope.setSelected($scope.getEventId);
