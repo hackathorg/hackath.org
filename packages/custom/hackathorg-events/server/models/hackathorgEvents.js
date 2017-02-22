@@ -1,3 +1,4 @@
+'use strict';
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
@@ -11,7 +12,7 @@ var eventSchema = new Schema({
   image:String,
   url:   String,
   ownerid: ObjectId,
-  hosts:[String], 
+  hosts:[ObjectId], 
   tags:[String],
   comments: [{ body: String, date: Date }],
   date: { type: Date, default: Date.now },
@@ -22,8 +23,26 @@ var eventSchema = new Schema({
   sponsors: Boolean,
   skillLevel: String,
   mentors:[ObjectId],
-  attendees:[ObjectId]
+  attendees:[ObjectId],
+  heroku:{
+    apiKey: String,
+    refreshToken: String,
+    appName: String,
+  }
 });
+
+eventSchema.methods.isOwner = function (userId){
+  return this.ownerid == userId;
+}
+eventSchema.methods.isHost = function (userId){
+  return this.hosts.includes(userId);
+}
+eventSchema.methods.isMentor = function (userId){
+  return this.mentors.includes(userId);
+}
+eventSchema.methods.isattendee = function (userId){
+  return this.attendees.includes(userId);
+}
 
 mongoose.model('Event', eventSchema);
 

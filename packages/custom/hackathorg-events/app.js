@@ -5,6 +5,7 @@
  */
 var Module = require('meanio').Module;
 
+
 var HackathorgEvents = new Module('hackathorg-events');
 
 /*

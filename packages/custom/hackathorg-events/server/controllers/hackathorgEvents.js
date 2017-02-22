@@ -1,7 +1,8 @@
 'use strict';
-
+var async = require('async')
 var mongoose = require('mongoose'),
-  Event = mongoose.model('Event');
+  Event = mongoose.model('Event'),
+  User = mongoose.model('Event');
 
 module.exports = function(HackathorgEvents){
   return {
@@ -11,16 +12,33 @@ module.exports = function(HackathorgEvents){
       });
     },
     create: function (req, res) {
-      var event = new Event(req.body);
+      console.log(req.body);
+      async.waterfall([
+        function( callback){ 
+          User.find({email:{$in:req.body.hosts}})
+                        .lean()
+                        .distinct('_id').exec(callback);
+        },
+        function(result, callback){
 
-      event.save(function (err) {
-        if (err) {
-          return res.status(500).json({
-            error: 'Cannot save the event'
-          });
+          if (!result.includes(req.user._id)){
+            result.push(req.user._id);
+          }
+          var event = new Event(req.body);
+          event.ownerid = req.user._id;
+          event.hosts = result;
+
+          
+          event.save(callback);
+        }],
+        function (err, event) {
+          if (err){
+            console.log(err)
+            res.status(500)
+          }
+          res.json(event);
         }
-        res.json(event);
-      });
+      )
     },
     show: function (req, res) {
       Event.findOne({
@@ -58,7 +76,7 @@ module.exports = function(HackathorgEvents){
         });
       },
     userevents : function(req, res){
-      Event.find({ownerid: req.user._id}).exec(function (err, events) {
+      Event.find({ownerid: req.user._id}).select('title organisation').exec(function (err, events) {
         res.send(events);
       });
     }   
