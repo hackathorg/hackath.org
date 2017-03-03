@@ -43,7 +43,11 @@ eventSchema.methods.isMentor = function (userId){
 eventSchema.methods.isattendee = function (userId){
   return this.attendees.includes(userId);
 }
-
+eventSchema.methods.toJSON = function() {
+  var obj = this.toObject();
+  delete obj.heroku;
+  return obj;
+};
 mongoose.model('Event', eventSchema);
 
 

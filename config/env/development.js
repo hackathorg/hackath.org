@@ -21,10 +21,10 @@ module.exports = {
     },
     landingPage: '/',
     facebook: {
-      clientID: 'DEFAULT_APP_ID',
-      clientSecret: 'APP_SECRET',
+      clientID: process.env.facebook_client_id,
+      clientSecret: process.env.facebook_client_secret,
       callbackURL: 'http://localhost:3000/api/auth/facebook/callback',
-      enabled: false
+      enabled: true
     },
     twitter: {
       clientID: 'DEFAULT_CONSUMER_KEY',
@@ -39,16 +39,23 @@ module.exports = {
       enabled: false
     },
     google: {
-      clientID: 'DEFAULT_APP_ID',
-      clientSecret: 'APP_SECRET',
+      clientID: process.env.google_client_id,
+      clientSecret: process.env.google_client_secret,
       callbackURL: 'http://localhost:3000/api/auth/google/callback',
-      enabled: false
+      enabled: true
     },
     linkedin: {
       clientID: 'DEFAULT_API_KEY',
       clientSecret: 'SECRET_KEY',
       callbackURL: 'http://localhost:3000/api/auth/linkedin/callback',
       enabled: false
+    },
+    heroku: {
+      clientID: process.env.heroku_client_id,
+      clientSecret: process.env.heroku_client_secret,
+      callbackURL: 'http://localhost:3000/api/auth/heroku/callback',
+      enabled:true
+
     }
   },
   emailFrom: 'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>

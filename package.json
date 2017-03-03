@@ -51,6 +51,7 @@
     "file-loader": "^0.9.0",
     "forever": "^0.15.3",
     "helmet": "^2.2.0",
+    "heroku-client": "^3.0.2",
     "jasmine": "^2.5.2",
     "jsonwebtoken": "latest",
     "lodash": "latest",

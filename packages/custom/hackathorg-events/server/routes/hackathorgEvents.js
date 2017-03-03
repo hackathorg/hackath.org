@@ -7,10 +7,13 @@
     
 
     module.exports = function(HackathorgEvents, app, auth, database, circles) {
-        var passport = require('../passport');
+        var passport = require('../../passport');
+        var jwt = require('jsonwebtoken')
         var requiresAdmin = circles.controller.hasCircle('admin');
         var requiresLogin = circles.controller.hasCircle('authenticated');
         var events = HackathorgEvents.controller;
+        var config = require('Meanio').getConfig();
+        app.use(passport.initialize());
         app.route('/api/events')
             .get(events.all)
             .post(events.create);
@@ -19,11 +22,16 @@
             .put(events.update);
         
         app.get('/api/user/events', requiresLogin, events.userevents);
-
-        app.get('/auth/heroku',
-  passport.authenticate('heroku'),
-  function(req, res){
-
+        app.get('/auth',  function(req, res){
+            res.send('Anyone can access this');
+        });
+        app.get('/api/auth',  function(req, res){
+            res.send('Anyone can access this');
+        });
+        app.get('/api/auth/heroku/:eventid', function(req,res,next){ 
+            var state = jwt.sign({state:req.params.eventid}, config.secret,{expiresIn: "1h"})
+            passport.authenticate('heroku',{state: state})(req, res, next)},  function(req, res){
+            res.send('Anyone can access this');
         });
 
         // GET /auth/heroku/callback
@@ -31,7 +39,7 @@
         //   request.  If authentication fails, the user will be redirected back to the
         //   login page.  Otherwise, the primary route function function will be called,
         //   which, in this example, will redirect the user to the home page.
-        app.get('/auth/heroku/callback', 
+        app.get('/api/auth/heroku/callback',  
                 passport.authenticate('heroku', { failureRedirect: '/login' }),
                 function(req, res) {
                 res.redirect('/');

@@ -28,7 +28,7 @@ module.exports = {
   },
   hostname: 'http://localhost:3000',
   app: {
-    name: 'MEAN - A Modern Stack - Production'
+    name: 'hackathorg - The Hackathon organiser tool'
   },
   logging: {
     format: 'combined'
