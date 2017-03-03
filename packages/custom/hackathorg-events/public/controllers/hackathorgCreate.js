@@ -11,9 +11,6 @@
 
         $scope.eventTags = ['jamesmahoney200@hotmail.com', 'mike_380@live.co.uk'];
         $scope.readonly = false;
-        $scope.attendees;
-        $scope.mentors;
-
         $scope.skills = [{
            'type': 'All'
         }, {

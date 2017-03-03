@@ -32,7 +32,7 @@ var eventSchema = new Schema({
 });
 
 eventSchema.methods.isOwner = function (userId){
-  return this.ownerid == userId;
+  return this.ownerid === userId;
 }
 eventSchema.methods.isHost = function (userId){
   return this.hosts.includes(userId);

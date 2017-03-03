@@ -113,6 +113,7 @@
                     }
                 } else if ($scope.discover.sponsor) {
                     //to be implemented
+                    console.error('Unimplemented')
                 } else {
                     // yourevents ticked, but not specified 
                     // add sponsor check
@@ -132,22 +133,24 @@
                     return false
                 }
                 if ($scope.discover.nearby) {
-                    
+                    console.error('Unimplemented')
                 }
                 if ($scope.discover.historical) {
-                    
+                    console.error('Unimplemented')
                 }
                 if ($scope.discover.current) {
-                    
+                    console.error('Unimplemented')
                 }
                 if ($scope.discover.historical) {
-                    
+                    console.error('Unimplemented')
                 }
                 if ($scope.discover.prizes) {
                     // check prizes = true
+                    console.error('Unimplemented')
                 }
                 if ($scope.discover.tickets) {
                     // check attendees < max size
+                    console.error('Unimplemented')
                 }
                 return true
             }

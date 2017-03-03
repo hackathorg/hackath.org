@@ -12,8 +12,6 @@
         
         $scope.getEventId = $stateParams.eventid;
 
-        $scope.manageTab;
-
         $scope.user = {
             'id' : '1'
         };
@@ -114,7 +112,7 @@
                 $scope.event.tags = [];
            } 
            // Get the event selected from db and populate page with Update event shtuff
-           else if (!(idSelectedEvent === null)) {
+           else if (idSelectedEvent !== null) {
                 $scope.changeManageTab('dashboard');
                 $scope.event = EventService.events.show({name:idSelectedEvent})
            }
@@ -133,9 +131,9 @@
             var package_info = $filter('filter')($scope.hackages, {id: package_id}, true);
             $mdDialog.show(
               $mdDialog.alert()
-                .title(package_info[0].name + " package info")
+                .title(package_info[0].name + ' package info')
                 .textContent(package_info[0].desc)
-                .ariaLabel(package_info[0].name + " package info")
+                .ariaLabel(package_info[0].name + ' package info')
                 .ok('Roger that!')
                 .targetEvent(event)
             );
@@ -163,7 +161,7 @@
         // Update the heroku build status
         $scope.updateBuildStatus = function(package_id) {
 
-            console.error("The current package : " + package_id);
+            console.error('The current package : ' + package_id);
 
             // If added, remove
             if (filterArray($scope.heroku.added_hackages, package_id)) {
@@ -182,10 +180,10 @@
             else if (filterArray($scope.heroku.removed_hackages, package_id)) {
 
                 var removed = [];
-                for (var i in $scope.heroku.removed_hackages) {
-                    var _id = $scope.heroku.removed_hackages[i].id;
-                    if (_id !== package_id) {
-                        removed.push({'id' : _id});
+                for (var j in $scope.heroku.removed_hackages) {
+                    var _jid = $scope.heroku.removed_hackages[j].id;
+                    if (_jid !== package_id) {
+                        removed.push({'id' : _jid});
                     }
                 }
 
