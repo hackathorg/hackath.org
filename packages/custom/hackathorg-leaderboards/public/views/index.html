@@ -1,24 +1,41 @@
-<div class="hackathorgLeaderboards-example" ng-controller="HackathorgLeaderboardsController">
-  <h1>Example view from your new awesome package</h1>
-  <h2>Package: <span>{{package.name}}</span></h2>
-  <ol>
-    <li>
-      <a ui-sref="hackathorgLeaderboards circles example({circle:'anyone'})">Server route that anyone can access</a>
-    </li>
-    <li>
-      <a ui-sref="hackathorgLeaderboards circles example({circle:'auth'})">Server route that requires authentication</a>
-    </li>
-    <li>
-      <a ui-sref="hackathorgLeaderboards circles example({circle:'admin'})">Server route that requires admin user</a>
-    </li>
-    <li>
-      <a href="/api/hackathorgLeaderboards/example/render" target="_self">Raw Html rendering example from using swig</a>
-    </li>
-  </ol>
-  <h3><img src="/hackathorg-leaderboards/assets/img/logo.png" /></h3>
-  </br>
-  <p class="alert alert-info">You can find your package in /packages/hackathorg-leaderboards</p>
-  </br>
-  <h3><a href="http://learn.mean.io">Documentation</a></h3>
-  </br>
+<div layout="column" flex class="HackathorgLeaderboards" ng-controller="HackathorgLeaderboardsController">
+  <md-content layout="column" layout-padding flex>
+    <div layout-wrap layout="row" layout-align="space-around start" layout-padding>
+      <div flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100">
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Best ... </span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-divider></md-divider>
+          <md-list>
+            <md-list-item ng-repeat="person in people" ng-click="goToPerson(person.name, $event)" class="noright">
+              <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
+              <p>{{ person.name }}</p>
+              <md-icon ng-click="doSecondaryAction($event)" aria-label="Send Email" class="md-secondary md-hue-3" ><i class="material-icons">favorite</i></md-icon>
+              <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-icon="message"><i class="material-icons">favorite</i></md-icon>
+            </md-list-item>
+          </md-list>
+        </md-card>
+      </div>
+      <div flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100">
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Events and stuff</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-content>
+            <p>
+            Best event
+            Most attended
+            Most prizes
+            Most mentors
+            </p>
+          </md-content>
+        </md-card>
+      </div>
+    </div>
+  </md-content>
 </div>

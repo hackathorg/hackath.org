@@ -5,9 +5,6 @@
         $stateProvider.state('docs', {
             url: '/docs',
             templateUrl: 'hackathorg-docs/views/index.html'
-        }).state('docs circles example', {
-            url: '/docs/:circle',
-            templateUrl: 'hackathorg-docs/views/example.html'
         });
     }
 
