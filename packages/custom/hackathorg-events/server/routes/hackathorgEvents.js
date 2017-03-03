@@ -12,7 +12,7 @@
         var requiresAdmin = circles.controller.hasCircle('admin');
         var requiresLogin = circles.controller.hasCircle('authenticated');
         var events = HackathorgEvents.controller;
-        var config = require('Meanio').getConfig();
+        var config = require('meanio').getConfig();
         app.use(passport.initialize());
         app.route('/api/events')
             .get(events.all)
@@ -23,15 +23,15 @@
         
         app.get('/api/user/events', requiresLogin, events.userevents);
         app.get('/auth',  function(req, res){
-            res.send('Anyone can access this');
+           
         });
         app.get('/api/auth',  function(req, res){
-            res.send('Anyone can access this');
+           
         });
-        app.get('/api/auth/heroku/:eventid', function(req,res,next){ 
+        app.get('/api/auth/heroku/:eventid', requiresLogin,  function(req,res,next){ 
             var state = jwt.sign({state:req.params.eventid}, config.secret,{expiresIn: "1h"})
             passport.authenticate('heroku',{state: state})(req, res, next)},  function(req, res){
-            res.send('Anyone can access this');
+           
         });
 
         // GET /auth/heroku/callback
