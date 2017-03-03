@@ -246,11 +246,20 @@
                 $scope.resStatus = 'danger';
             });
         };
-
+        $scope.herokuAuth = function(){
+            herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
+        }
         $scope.submit = function() {
-            $scope.event.$save(function() {
-                $state.go('events'); 
-            });
+            if ('create' === $scope.idSelectedEvent){
+                console.log($scope.event)
+                $scope.event.$save(function(event) {
+                    console.log(event);
+                    $scope.events.push({_id:event._id, title:event.title, organisation: event.organisation})
+                    $scope.setSelected(event._id)
+                });
+            } else {
+                EventService.events.update({name:$scope.idSelectedEvent}, $scope.event);
+            }
         };
 
         var containsId = function(array, id) {
