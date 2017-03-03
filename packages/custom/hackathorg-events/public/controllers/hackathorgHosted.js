@@ -1,6 +1,7 @@
 (function() {
     'use strict';
     var mongoose = require('mongoose')
+    //var herokuPassport = require('../../passport')
     /* jshint -W098 */
 
     function HackathorgHostedController($scope, Global, $stateParams, EventService, $state, $mdDialog, $filter) {
@@ -245,7 +246,7 @@
             });
         };
         $scope.herokuAuth = function(){
-            herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
+           // herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
         }
         $scope.submit = function() {
             if ('create' === $scope.idSelectedEvent){
