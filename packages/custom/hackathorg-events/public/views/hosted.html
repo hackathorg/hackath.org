@@ -1,7 +1,9 @@
 <div layout="column" flex class="HackathorgHosted" ng-controller="HackathorgHostedController">
   <md-content layout="column" layout-padding flex>
     <div layout-wrap layout="row" layout-align="space-around start" layout-padding>
+ 
     <!-- Menu on the left-->
+      
       <div flex-gt-md="25" flex-md="33" flex-xs="100" flex-sm="100">
         <md-card>
           <md-card-title>
@@ -9,22 +11,6 @@
               <span class="md-headline">Event Management</span>
             </md-card-title-text>
           </md-card-title>
-
-<!--         <md-card flex style="max-width:600px;" ng-repeat="event in filteredEvents = (events | filter:filterEvents | orderBy:bestMatch)">
-          <img ng-src="{{event.image}}" class="md-card-image" alt="user avatar">
-            <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">{{event.title}}</span>
-                <span class="md-subhead">{{event.organisation}}</span>
-              </md-card-title-text>
-              <md-card-title-media>
-                <div class="md-media-sm card-media"></div>
-              </md-card-title-media>
-            </md-card-title>
-            <md-card-actions layout="row" layout-align="end center">
-              <md-button ng-href="{{event.url}}" target="_blank">More Info</md-button>
-            </md-card-actions>
-        </md-card> -->
         <md-list style="padding-bottom:0px;">
         <md-divider></md-divider>
           <md-list-item class="md-3-line" ng-click="setSelected(null)" ng-class="{selected: null === idSelectedEvent}">
@@ -65,13 +51,6 @@
             <md-nav-item md-nav-click="changeManageTab('applications')" name="applications">
             Applications
             </md-nav-item>
-            <!-- these require actual routing with ui-router or ng-route, so they
-            won't work in the demo
-            <md-nav-item md-nav-href="#page4" name="page5">Page Four</md-nav-item>
-            <md-nav-item md-nav-sref="app.page5" name="page4">Page Five</md-nav-item>You can also add options for the <code>ui-sref-opts</code> attribute.        <md-nav-item md-nav-sref="page6" sref-opts="{reload:true, notify:true}">
-            Page Six
-            </md-nav-item>
-            -->
           </md-nav-bar>
         </div>
 
@@ -140,18 +119,17 @@
             </form>
           </md-card>
           </div>
-          <div ng-if="manageTab === 'applications'" flex="50">
+          <div ng-if="manageTab === 'applications'" flex="100">
           <md-card>
             <md-card-title>
               <md-card-title-text>
                 <span class="md-headline">Sponsor and Mentor applications</span>
               </md-card-title-text>
             </md-card-title>
-            <md-card-content>
-              <p>Display applications</p>
-              <md-list flex>
-                <md-subheader class="md-no-sticky">Mentor Applications</md-subheader>
-                <div style="height:200px;overflow-y:scroll;">
+            <md-card-content layout-wrap layout="row">
+              <md-list flex="50">
+                <md-subheader class="md-no-sticky">Sponsor Applications</md-subheader>
+                <div style="height:400px;overflow-y:scroll;">
                 <md-list-item class="md-3-line" ng-repeat="item in hackages" ng-click="null">
                   <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
                   <div class="md-list-item-text" layout="column">
@@ -162,9 +140,9 @@
                 </md-list-item>
                 </div>
               </md-list>
-              <md-list flex>
+              <md-list flex="50">
                 <md-subheader class="md-no-sticky">Mentor Applications</md-subheader>
-                <div style="height:200px;overflow-y:scroll;">
+                <div style="height:400px;overflow-y:scroll;">
                 <md-list-item class="md-3-line" ng-repeat="item in hackages" ng-click="null">
                   <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
                   <div class="md-list-item-text" layout="column">

@@ -1,134 +1,55 @@
-<div class="hackathorgDocs-example" ng-controller="HackathorgDocsController">
-  <h1>Example view from your new awesome package</h1>
-  <h2>Package: <span>{{package.name}}</span></h2>
-  <ol>
-    <li>
-      <a ui-sref="docs circles example({circle:'anyone'})">Server route that anyone can access</a>
-    </li>
-    <li>
-      <a ui-sref="docs circles example({circle:'auth'})">Server route that requires authentication</a>
-    </li>
-    <li>
-      <a ui-sref="docs circles example({circle:'admin'})">Server route that requires admin user</a>
-    </li>
-    <li>
-      <a href="api/docs/render" target="_self">Raw Html rendering example from using swig</a>
-    </li>
-  </ol>
-  <h3><img src="/hackathorg-docs/assets/img/logo.png" /></h3>
-  </br>
-  <p class="alert alert-info">You can find your package in /packages/hackathorg-docs</p>
-  </br>
-  <h3><a href="http://learn.mean.io">Documentation</a></h3>
-  </br>
-  <div layout="row" layout-align="space-around start" layout-padding flex>
-    <div class="left" layout="column" flex="33">
-      <div class="next-steps">
-        <p class="md-headline">Browse the Documentation</p>
-        <p>
-          Before you jump in it's important to read the documentation and learn about the different aspects of extending and developing MEAN.
-        </p>
-        <p>
-          Mean is based on MongoDB, Express.js, Angular.js and Node.js and even basic proficiency in these technologies will help you dive in to mean development - luckily there are plenty of <a href="http://learn.mean.io/" target="_blank">tutorials around</a>.
-        </p>
-        <md-list>
-          <md-list-item class="secondary-button-padding" ng-repeat="doc in docs" ng-click="null">
-            <p>
-              {{doc.text}}
-            </p>
-            <md-button class="md-secondary" ng-href="{{doc.link}}" target="_blank">More Info</md-button>
-          </md-list-item>
-        </md-list>
-      </div>
-      <md-divider></md-divider>
-      <div class="packages">
-        <p class="md-headline">Browse our packages
-          <md-button href="http://mean.io/#!/packages">All Packages</md-button>
-        </p>
-        <md-card ng-repeat="package in packages">
-          <img ng-src="{{package.image}}" class="md-card-image" alt="Site Image">
+<div layout="column" flex  class="HackathorgDocs" ng-controller="HackathorgDocsController">
+  <md-content layout="column" layout-padding flex>
+    <div layout-wrap layout="row" layout-align="space-around start" layout-padding>
+      <div flex-gt-md="25" flex-md="33" flex-xs="100" flex-sm="100">
+        <md-card>
           <md-card-title>
             <md-card-title-text>
-              <span class="md-headline">{{package.name}} - {{package.author}}</span>
-              <span class="md-subhead">{{package.text}}</span>
+              <span class="md-headline">Developer documentation</span>
             </md-card-title-text>
           </md-card-title>
-          <md-card-actions layout="row" layout-align="end center">
-            <md-button ng-href="{{package.link}}" target="_blank">More Info</md-button>
-          </md-card-actions>
-        </md-card>
-      </div>
-    </div>
-    <div class="center" layout="column" flex="33">
-      <div class="next-steps">
-        <p class="md-headline">Browse the Documentation</p>
-        <p>
-          Before you jump in it's important to read the documentation and learn about the different aspects of extending and developing MEAN.
-        </p>
-        <p>
-          Mean is based on MongoDB, Express.js, Angular.js and Node.js and even basic proficiency in these technologies will help you dive in to mean development - luckily there are plenty of <a href="http://learn.mean.io/" target="_blank">tutorials around</a>.
-        </p>
-        <md-list>
-          <md-list-item class="secondary-button-padding" ng-repeat="doc in docs" ng-click="null">
-            <p>
-              {{doc.text}}
-            </p>
-            <md-button class="md-secondary" ng-href="{{doc.link}}" target="_blank">More Info</md-button>
+        <md-list style="padding-bottom:0px;">
+        <md-divider></md-divider>
+          <md-list-item class="md-3-line" ng-click="viewDocs('hackath')" ng-class="{selected: 'hackath' === selectedDocs}">
+            <div class="md-list-item-text">
+              <span class="md-headline">hackath.org</span>
+            </div>
+            <md-divider></md-divider>
+          </md-list-item>
+          <md-list-item class="md-3-line" ng-click="viewDocs('openhack')" ng-class="{selected: 'openhack' === selectedDocs}">
+            <div class="md-list-item-text">
+              <span class="md-headline">openhack.js</span>
+            </div>
           </md-list-item>
         </md-list>
-      </div>
-      <md-divider></md-divider>
-      <div class="packages">
-        <p class="md-headline">Browse our packages
-          <md-button href="http://mean.io/#!/packages">All Packages</md-button>
-        </p>
-        <md-card ng-repeat="package in packages">
-          <img ng-src="{{package.image}}" class="md-card-image" alt="Site Image">
-          <md-card-title>
-            <md-card-title-text>
-              <span class="md-headline">{{package.name}} - {{package.author}}</span>
-              <span class="md-subhead">{{package.text}}</span>
-            </md-card-title-text>
-          </md-card-title>
-          <md-card-actions layout="row" layout-align="end center">
-            <md-button ng-href="{{package.link}}" target="_blank">More Info</md-button>
-          </md-card-actions>
         </md-card>
       </div>
-    </div>
-    <div class="right" layout="column" flex="33">
-      <div class="next-steps">
-        <p class="md-headline">Browse the Documentation</p>
-        <p>
-          Before you jump in it's important to read the documentation and learn about the different aspects of extending and developing MEAN.
-        </p>
-        <p>
-          Mean is based on MongoDB, Express.js, Angular.js and Node.js and even basic proficiency in these technologies will help you dive in to mean development - luckily there are plenty of <a href="http://learn.mean.io/" target="_blank">tutorials around</a>.
-        </p>
-        <md-list>
-          <md-list-item class="secondary-button-padding" ng-repeat="doc in docs" ng-click="null">
-            <p>
-              {{doc.text}}
-            </p>
-            <md-button class="md-secondary" ng-href="{{doc.link}}" target="_blank">More Info</md-button>
-          </md-list-item>
-        </md-list>
-      </div>
-      <md-divider></md-divider>
-      <div class="featured-websites">
-        <md-card ng-repeat="site in sites">
-          <img ng-src="{{site.image}}" class="md-card-image" alt="Site image">
-          <md-card-title>
-            <md-card-title-text>
-              <span class="md-headline">{{site.name}} - {{site.author}}</span>
-              <span class="md-subhead">{{site.text}}</span>
-            </md-card-title-text>
-          </md-card-title>
-          <md-card-actions layout="row" layout-align="end center">
-            <md-button ng-href="{{site.link}}" target="_blank">More Info</md-button>
-          </md-card-actions>
-        </md-card>
+      <div layout-wrap layout="row" layout-align="space-around start" flex-gt-md="75" flex-md="66" flex-xs="100" flex-sm="100">
+        <div style="margin:8px;" flex="100">
+          <md-nav-bar md-selected-nav-item="selectedTab" nav-bar-aria-label="navigation links">
+            <md-nav-item md-nav-click="changeTab('default')" name="default">
+              About
+            </md-nav-item>
+
+            <!-- hackath.org -->
+            <md-nav-item ng-if="(selectedDocs === 'hackath')" md-nav-click="changeTab('create')" name="create">
+              Event creation
+            </md-nav-item>
+            <md-nav-item ng-if="(selectedDocs === 'hackath')" md-nav-click="changeTab('api')" name="api">
+              External API
+            </md-nav-item>
+
+            <!-- openhack.js -->
+            <md-nav-item ng-if="(selectedDocs === 'openhack')" md-nav-click="changeTab('modules')" name="modules">
+              Packages
+            </md-nav-item>
+            <md-nav-item ng-if="(selectedDocs === 'openhack')" md-nav-click="changeTab('adv')" name="adv">
+              Advanced hosting
+            </md-nav-item>
+
+          </md-nav-bar>
+        </div>
       </div>
     </div>
-  </div>
+  </md-content>
 </div>

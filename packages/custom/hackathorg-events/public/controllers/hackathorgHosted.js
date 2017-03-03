@@ -105,7 +105,7 @@
            $scope.idSelectedEvent = idSelectedEvent;
 
            // Change embedded tab to empty
-           changeManageTab(null);
+           $scope.changeManageTab(null);
 
            // Populate the page with Creating an event shtuff
            if (idSelectedEvent === 'create') {
@@ -113,13 +113,9 @@
                 $scope.event.hosts = [];
                 $scope.event.tags = [];
            } 
-           // If its the overview tab, so some things
-           else if (idSelectedEvent === null) {
-
-           }
            // Get the event selected from db and populate page with Update event shtuff
-           else {
-                $scope.manageTab = 'dashboard'
+           else if (!(idSelectedEvent === null)) {
+                $scope.changeManageTab('dashboard');
                 $scope.event = EventService.events.show({name:idSelectedEvent})
            }
         };
