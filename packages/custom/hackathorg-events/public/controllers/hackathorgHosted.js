@@ -40,12 +40,46 @@
             'git' : 'http://github.com/hackathorg/prizes'
         }];
 
+        // This will be maintained on Mongo and associated with an event & a user
+        $scope.mentorApplications = [{
+            'user_id' : '0',
+            'event_id' : '0',
+            'name' : 'Michael Holtom',
+            'desc' : 'Experienced MEAN developer pursuing a MEng in Computer Science',
+            'role' : 'Mentoring',
+            'site' : 'http://mikeswebsite.com/'
+        }, {
+            'user_id' : '1',
+            'event_id' : '2',
+            'name' : 'Jamie Mahoney',
+            'desc' : 'Experienced MEAN developer pursuing a MEng in Computer Science',
+            'role' : 'General Help',
+            'site' : 'http://jamiessite.com/'
+        }, {
+            'user_id' : '0',
+            'event_id' : '0',
+            'name' : 'John Jones',
+            'desc' : 'Experienced MEAN developer pursuing a BSc in Computer Science',
+            'role' : 'General Help',
+            'site' : 'http://johnssite.com/'
+        }];
+
+        $scope.sponsorApplications = [{
+            'user_id' : '0',
+            'event_id' : '0',
+            'name' : 'hackath.org',
+            'desc' : 'Small team of developers looking to sponsor a hackathon.',
+            'proposal' : 'https://someproposaldocument.com/ or website',
+            'site' : 'http://mikeswebsite.com/',
+            'contact' : 'companyemail@company.com'
+        }];
         // This will be the heroku server associated with an event
         $scope.heroku = {
-            'status' : 'building',
+            'status' : 'online',
             'authenticated' : true,
             'req_rebuild' : false,
             'api_key' : 'tbc_s0m3_K3y39481',
+            'site' : 'https://yourwebapp.com/',
             'other_field' : '',
             'current_build_hackages' : [{
                 'id' : '0'
@@ -75,6 +109,7 @@
         $scope.event = new EventService.events()
         $scope.event.hosts = [];
         $scope.event.tags = [];
+        $scope.event.eventStatus = 'private';
 
         // Event schema
         // $scope.event.title:  {type: String, unique: true},
@@ -111,6 +146,7 @@
                 $scope.event = new EventService.events()
                 $scope.event.hosts = [];
                 $scope.event.tags = [];
+                $scope.event.hidden = true;
            } 
            // Get the event selected from db and populate page with Update event shtuff
            else if (idSelectedEvent !== null) {
@@ -157,6 +193,15 @@
             } else {
                 return (filterArray($scope.heroku.added_hackages, package_id));
             }
+        };
+
+        $scope.updateNewEventStatus = function(eventStatus) {
+            $scope.newEventStatus = eventStatus;
+        };
+
+        $scope.updateEventStatus = function() {
+            $scope.event.hidden = $scope.newEventStatus;
+            $scope.submit();
         };
 
         // Update the heroku build status
@@ -258,6 +303,7 @@
                 });
             } else {
                 EventService.events.update({name:$scope.idSelectedEvent}, $scope.event);
+                $scope.newEventStatus = null;
             }
         };
 

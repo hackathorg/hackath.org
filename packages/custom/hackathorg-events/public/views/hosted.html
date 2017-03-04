@@ -13,13 +13,13 @@
           </md-card-title>
         <md-list style="padding-bottom:0px;">
         <md-divider></md-divider>
-          <md-list-item class="md-3-line" ng-click="setSelected(null)" ng-class="{selected: null === idSelectedEvent}">
+<!--           <md-list-item class="md-3-line" ng-click="setSelected(null)" ng-class="{selected: null === idSelectedEvent}">
             <div class="md-list-item-text">
               <span class="md-headline">Management overview</span>
             </div>
             <md-divider></md-divider>
-          </md-list-item>
-          <md-list-item  ng-click="setSelected(cevent._id)" ng-class="{selected: cevent._id === idSelectedEvent}" class="md-3-line" ng-repeat="cevent in events">
+          </md-list-item> -->
+          <md-list-item href="#top" ng-click="setSelected(cevent._id)" ng-class="{selected: cevent._id === idSelectedEvent}" class="md-3-line" ng-repeat="cevent in events">
             <div class="md-list-item-text">
               <span class="md-headline">{{cevent.title}}</span>
               <h4>{{cevent.organisation}}</h4>
@@ -27,9 +27,9 @@
             <!--<md-button class="md-secondary">Open</md-button>-->
             <md-divider></md-divider>
           </md-list-item>
-          <md-list-item class="md-3-line" ng-click="setSelected('create')" ng-class="{selected: 'create' === idSelectedEvent}">
+          <md-list-item href="#top" class="md-3-line" ng-click="setSelected('create')" ng-class="{selected: 'create' === idSelectedEvent}">
             <div class="md-list-item-text">
-              <span class="md-headline">+ Create an event</span>
+              <span class="md-headline">Create an event</span>
             </div>
             <!--<md-button class="md-secondary">Create</md-button>-->
           </md-list-item>
@@ -38,8 +38,8 @@
       </div>
 
       <!-- Updating event -->
-
       <div layout-wrap layout="row" layout-align="space-around start" flex-gt-md="75" flex-md="66" flex-xs="100" flex-sm="100">
+        <a name="top"></a>
         <div ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)" style="margin:8px;" flex="100">
           <md-nav-bar md-selected-nav-item="manageTab" nav-bar-aria-label="navigation links">
             <md-nav-item md-nav-click="changeManageTab('dashboard')" name="dashboard">
@@ -49,51 +49,36 @@
             Update
             </md-nav-item>
             <md-nav-item md-nav-click="changeManageTab('applications')" name="applications">
-            Applications
+            Attendees
             </md-nav-item>
           </md-nav-bar>
         </div>
-
         <div ng-if="manageTab === 'dashboard'" flex="50">
           <md-card>
             <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">Event information</span>
+              <md-card-title-text class="md-title">
+                Event status
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
-              <div>
-                <md-card-title class="md-title">
-                  Event Discovery
-                </md-card-title>
-                <md-card-content>
-                  <button class="md-button">PUBLIC</button>
-                  <button class="md-button">PRIVATE</button>
-                  <p>The event is currently public. The event can be found on the discovery service.</p>
-                  <p>The event is currently private. The event can't be found on the discovery service.</p>
-                </md-card-content>
-              </div>
-              <div>
-                <md-card-title class="md-title">
-                  Event Status
-                </md-card-title>
-                <md-card-content>
-                  <p>Current event state (before, during, after)</p>
-                  <p>Is the event public?</p>
-                  <p>Mentors, Attendees, Sponsors</p>
-                  <p>The event can be managed from within the web application.</p>
-                </md-card-content>
-              </div>
+              <p>Current event state (before, during, after)</p>
+              <p ng-click="changeManageTab('applications')" ng-if="event.maxMentors > 0">Mentors - {{event.mentors.length}} / {{event.maxMentors}}</p>
+              <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{event.mentors.length / event.maxMentors}}"></md-progress-linear>
+              <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{event.attendees.length}} / {{event.maxAttendees}}</p>
+              <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{event.attendees.length / event.maxAttendees}}"></md-progress-linear>
+              <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - To be added to schema</p>
+              <p>The event can be managed from within the web application.</p>
             </md-card-content>
           </md-card>
           <md-card>
             <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">Notify attendees</span>
+              <md-card-title-text class="md-title">
+                Notify attendees              
               </md-card-title-text>
             </md-card-title>
             <form name="contactform" ng-submit="contact()">
               <md-card-content>
+                <p>Send a notification to your attendees regarding your event.</p>
                 <md-card-content style="padding-bottom:0px;">
                   <md-checkbox md-no-ink aria-label="attendee"  ng-model="contact.attendee" class="md-primary">
                     Attendees
@@ -118,103 +103,40 @@
               </md-card-actions>
             </form>
           </md-card>
-          </div>
-          <div ng-if="manageTab === 'applications'" flex="100">
-          <md-card>
-            <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">Sponsor and Mentor applications</span>
-              </md-card-title-text>
-            </md-card-title>
-            <md-card-content layout-wrap layout="row">
-              <md-list flex="50">
-                <md-subheader class="md-no-sticky">Sponsor Applications</md-subheader>
-                <div style="height:400px;overflow-y:scroll;">
-                <md-list-item class="md-3-line" ng-repeat="item in hackages" ng-click="null">
-                  <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
-                  <div class="md-list-item-text" layout="column">
-                    <h3>{{ item.who }}</h3>
-                    <h4>{{ item.what }}</h4>
-                    <p>{{ item.notes }}</p>
-                  </div>
-                </md-list-item>
-                </div>
-              </md-list>
-              <md-list flex="50">
-                <md-subheader class="md-no-sticky">Mentor Applications</md-subheader>
-                <div style="height:400px;overflow-y:scroll;">
-                <md-list-item class="md-3-line" ng-repeat="item in hackages" ng-click="null">
-                  <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
-                  <div class="md-list-item-text" layout="column">
-                    <h3>{{ item.who }}</h3>
-                    <h4>{{ item.what }}</h4>
-                    <p>{{ item.notes }}</p>
-                  </div>
-                </md-list-item>
-                </div>
-              </md-list>
-              <p>Allow responding to applications</p>
-            </md-card-content>
-          </md-card>
-          </div>
+        </div>
         <div ng-if="manageTab === 'dashboard'" flex="50">
           <md-card>
             <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">Web application</span>
+              <md-card-title-text class="md-title">
+                Web application
               </md-card-title-text>
             </md-card-title>
+            <md-card-content ng-if="!heroku.authenticated">
+              <p>This event has deployed web application associated with it.</p>
+              <p>We use Heroku for deploying your event web application - its free to sign up!</p>
+              <p>For advanced users who want to use a custom web application and use our API, we offer a custom deployment option.</p>
+            </md-card-content>
+            <md-card-actions ng-if="!heroku.authenticated" layout="row" layout-align="end center">
+              <md-button class="md-raised md-primary">Custom deployment</md-button>
+              <md-button ng-click="herokuAuth()" class="md-raised md-primary">Login with Heroku</md-button>
+            </md-card-actions>
             <md-card-content>
-            <div layout="row" layout-align="space-around start" layout-wrap>
-              <div ng-if="!heroku.authenticated" flex="100">
-                <md-card>
-                  <md-card-title>
-                  Heroku setup
-                  </md-card-title>
-                  <md-card-content>
-                    <p>This event has no Heroku account associated with it. </p>
-                    <p>We use Heroku for deploying your event web application - its free to sign up!</p>
-                  </md-card-content>
-                  <md-card-actions layout="row" layout-align="end center">
-                    <md-button class="md-raised md-primary">Login with Heroku</md-button>
-                  </md-card-actions>
-                </md-card>
-              </div>
-              <div ng-if="heroku.authenticated" flex="100">
-                <div>
-                  <md-card-title class="md-title">
-                    Web application status
-                  </md-card-title>
-                  <md-card-content>
-                    <p>Online</p>
-                    <p>Information about the web application here, statistics, views, any issues</p>
-                  </md-card-content>
-                </div>
-              </div>
-              <div ng-if="heroku.authenticated" flex="50" flex-md="100" flex-sm="100" flex-xs="100">
-                <md-card>
-                  <md-card-title  class="md-title">
-                    Heroku Status
-                  </md-card-title>
-                  <md-card-content>
-                    <p>The server status is ONLINE</p>
-                    <p>Everything is working fine! </p>
-                    <p>Information here</p>
-                  </md-card-content>
-                </md-card>
+                  <p>status : {{heroku.status}}</p>
+                  <p>Information about the web application here, statistics, views, any issues</p>
+                  <p>api : {{heroku.api_key}}</p>
+                  <p>site : {{heroku.site}}{{heroku.api_key}}/</p>
                 <md-card>
                   <md-card-title  class="md-title">
                     Heroku Configuration
                   </md-card-title>
                   <md-card-content>
-                    <p>This event has been set up with a Heroku. </p>
+                    <p>This event has been set up with Heroku.</p>
+                    <p>The account used is: {{heroku.api_key}}</p>
                   </md-card-content>
                   <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-click="herokuAuth()" class="md-raised md-primary">Heroku Dashboard</md-button>
+                    <md-button ng-click="herokuAuth()" class="md-raised md-primary">Use an alternate account</md-button>
                   </md-card-actions>
                 </md-card>
-              </div>
-              <div ng-if="heroku.authenticated" flex="50" flex-md="100" flex-sm="100" flex-xs="100">
                 <md-list>
                   <md-subheader class="md-no-sticky">Installed Modules</md-subheader>
                   <md-list-item ng-repeat="hackage in hackages">
@@ -223,8 +145,6 @@
                     <md-icon class="md-secondary" ng-click="hackageInformation($event, hackage.id)" aria-label="Chat">help_outline</md-icon>
                   </md-list-item>
                 </md-list>
-              </div>
-              </div>
             </md-card-content>
             <md-card-actions ng-if="heroku.authenticated" layout="row" layout-align="end center">
               <md-button class="md-primary" ng-if="heroku.req_rebuild">Rebuild</md-button>
@@ -233,6 +153,39 @@
             </md-card-actions>
           </md-card>
         </div>
+
+        <div ng-if="manageTab === 'applications'" flex=100 layout-align="space-around start" layout-padding layout-wrap layout="row">
+          <div flex="50">
+          </div>
+          <div flex="50">
+            <md-card>
+              <md-card-content>
+                <md-list style="background-color:white;padding-top:0px">
+                  <md-subheader class="md-no-sticky">Applications</md-subheader>
+                  <div style="height:300px;overflow-y:scroll;">
+                  <md-list-item class="md-3-line" ng-repeat="application in mentorApplications" ng-click="null">
+                    <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+                    <div class="md-list-item-text" layout="column">
+                      <h3>{{ application.name }}</h3>
+                      <h4>{{ application.desc }}</h4>
+                      <p>{{ application.site }}</p>
+                    </div>
+                  </md-list-item>
+                  </div>
+                </md-list>
+                <md-input-container style="padding-bottom: 0px;" flex="100" class="md-block">
+                  <label>Application response here</label>
+                  <textarea required ng-model="contact.information" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                </md-input-container>              </md-card-content>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button>Respond</md-button>
+                <md-button class="md-warn">Reject</md-button>
+                <md-button class="md-primary">Accept</md-button>
+              </md-card-actions>
+            </md-card>
+          </div>
+        </div>
+
         <form ng-if="('create' === idSelectedEvent || (!(null === idSelectedEvent) && manageTab === 'update'))" name="eventsform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
           <md-card flex="100">
             <md-card-title>
@@ -355,15 +308,19 @@
           </div>
           <div flex="50">
             <md-card>
-              <md-card-title>
-                <md-card-title-text>
-                  <span class="md-headline">Location</span>
-                  <span class="md-subhead">Google maps api location selection here</span>
-                </md-card-title-text>
-                <md-card-title-media>
-                  <div class="card-media placeholder"></div>
-                </md-card-title-media>
+              <md-card-title class="md-title">
+                Event Discovery
               </md-card-title>
+              <md-card-content>
+                <p class="warning" ng-if="heroku.status !== 'online'">The event cannot be made public whilst the web application is down.</p>
+                <button ng-click="event.hidden = false" ng-class="{selected: event.hidden === false}" class="md-button">PUBLIC</button>
+                <button ng-click="event.hidden = true" ng-class="{selected: event.hidden === true}" class="md-button">PRIVATE</button>
+                <p ng-if="event.hidden === false">The event is public. The event can be found on the discovery service.</p>
+                <p ng-if="event.hidden === true">The event is  private. The event can't be found on the discovery service.</p>
+              </md-card-content>            
+              <md-card-actions ng-if="heroku.authenticated" layout="row" layout-align="end center">
+                <md-button class="md-primary" ng-click="submit()" ng-disabled="!(heroku.status === 'online')">Update</md-button>
+              </md-card-actions>
             </md-card>
           </div>
           <!-- if already created event -->
@@ -376,7 +333,7 @@
                 </md-card-title-text>
               </md-card-title>
               <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-disabled="true" class="md-warn">Update</md-button>
+                <md-button class="md-warn">Update</md-button>
               </md-card-actions>
             </md-card>
           </div>
