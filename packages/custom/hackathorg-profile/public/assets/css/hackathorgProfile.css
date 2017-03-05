@@ -1,3 +1,6 @@
 .hackathorgProfile-example span {
     font-weight: bold;
 }
+.p-icon {
+	vertical-align: middle;
+}

@@ -73,6 +73,7 @@
             'site' : 'http://mikeswebsite.com/',
             'contact' : 'companyemail@company.com'
         }];
+
         // This will be the heroku server associated with an event
         $scope.heroku = {
             'status' : 'online',
@@ -109,7 +110,6 @@
         $scope.event = new EventService.events()
         $scope.event.hosts = [];
         $scope.event.tags = [];
-        $scope.event.eventStatus = 'private';
 
         // Event schema
         // $scope.event.title:  {type: String, unique: true},

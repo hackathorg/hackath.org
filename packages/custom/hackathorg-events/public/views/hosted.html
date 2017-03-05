@@ -126,7 +126,7 @@
                   <p>api : {{heroku.api_key}}</p>
                   <p>site : {{heroku.site}}{{heroku.api_key}}/</p>
                 <md-card>
-                  <md-card-title  class="md-title">
+                  <md-card-title class="md-title">
                     Heroku Configuration
                   </md-card-title>
                   <md-card-content>
@@ -209,7 +209,7 @@
                     <label>Organiser teamname</label>
                     <input required ng-model="event.organisation">
                   </md-input-container>
-                  <md-input-container flex="100" class="md-block">
+                  <md-input-container style="padding-top:0px;" flex="100" class="md-block">
                     <label>Description</label>
                     <textarea required ng-model="event.description" md-maxlength="200" rows="4" md-select-on-focus></textarea>
                   </md-input-container>
@@ -306,7 +306,7 @@
               </md-card-title>
             </md-card>
           </div>
-          <div flex="50">
+          <div ng-if="manageTab === 'update'" flex="50">
             <md-card>
               <md-card-title class="md-title">
                 Event Discovery
