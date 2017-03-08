@@ -9,12 +9,15 @@
         $stateProvider.state('events', {
             url: '/events',
             templateUrl: 'hackathorg-events/views/index.html'
+        }).state('events eventid', {
+            url: '/events/:eventid',
+            templateUrl: 'hackathorg-events/views/viewevent.html'
         });
         $stateProvider.state('hosted', {
-            url: '/events/hosted',
+            url: '/hosted',
             templateUrl: 'hackathorg-events/views/hosted.html'
-        }).state('hosted id', {
-            url: '/events/hosted/:eventid',
+        }).state('hosted eventid', {
+            url: '/hosted/:eventid',
             templateUrl: 'hackathorg-events/views/hosted.html'
         });
     }
