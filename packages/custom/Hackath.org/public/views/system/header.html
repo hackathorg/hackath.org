@@ -1,11 +1,39 @@
 <div class="md-toolbar-tools" ng-controller="HeaderController as hdrctr">
-
+  <md-menu hide-lg hide-gt-lg hide-xl hide-md hide-sm md-offset="0 56" style="margin-left:-12px">
+    <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdMenu.open()">
+    <md-tooltip md-direction="right">Main Menu</md-tooltip>
+      <i class="material-icons">menu</i>
+    </md-button>
+    <md-menu-content width="4">
+      <md-menu-item ng-repeat="item in hdrctr.menus.main">
+        <md-button aria-label="{{item.link}}" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}" ui-sref="{{item.link}}" mean-token="item.link">
+          {{item.title}}
+        </md-button>
+      </md-menu-item>
+      <md-menu-item ng-if="!hdrctr.hdrvars.authenticated">
+        <md-button class="md-button" aria-label="Sign Up" ui-sref="auth.register">
+          Join
+        </md-button>
+      </md-menu-item>
+      <md-menu-item ng-if="!hdrctr.hdrvars.authenticated">
+        <md-button class="md-button" aria-label="Login" ui-sref="auth.login">
+          Login
+        </md-button>
+      </md-menu-item>
+<!--  <md-menu-item>
+        <md-button ng-click="$mdMenu.close()">
+          <i class="p-icon material-icons">star</i>
+          Redial
+        </md-button>
+      </md-menu-item> -->
+    </md-menu-content>
+  </md-menu>
   <!-- <img src="/meanStarter/assets/img/hackathorg.png" alt="" class="MEAN-Logo"/>hackath.org -->
- <a style= "min-width:174px;"ui-sref="home" class="md-button brand">hackath.org</a >
+  <a style= "min-width:174px;" ui-sref="home" class="md-button brand">hackath.org</a >
   <md-button class="md-buttonbrand" aria-label="Sign Up" ui-sref="auth.register" ng-if="!hdrctr.hdrvars.authenticated">
     hackath.org
   </md-button>
-  <md-button class="md-button" aria-label="{{item.link}}" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}" ng-repeat="item in hdrctr.menus.main" ui-sref="{{item.link}}" mean-token="item.link">
+  <md-button hide-xs class="md-button" aria-label="{{item.link}}" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}" ng-repeat="item in hdrctr.menus.main" ui-sref="{{item.link}}" mean-token="item.link">
     {{item.title}}<!--<div style="display:inline" ng-if="item.icon"><i style="font-size:14px"class="material-icons">{{item.icon}}</i></div>-->
   </md-button>
   <span flex></span>
@@ -16,7 +44,7 @@
     Login
   </md-button>
 
-  <md-menu ng-if="hdrctr.hdrvars.authenticated" md-position-mode="target-right target">
+  <md-menu ng-if="hdrctr.hdrvars.authenticated" md-position-mode="target-right target" md-offset="-4 52">
     <md-button aria-label="Account" class="md-button top-link" ng-click="$mdOpenMenu()">
       <md-tooltip md-direction="left">Account</md-tooltip>
       <md-icon>home</md-icon>

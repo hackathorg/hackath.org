@@ -9,15 +9,27 @@
             name: 'hackathorg-profile'
         };
 
+        /* User profile data and functions */
+
+        $scope.userToId = function(username) {
+            //Get the ID for a given username
+            return username
+        }
+
         // The current users information
         $scope.thisuser = {'_id' : MeanUser.user._id};
 
         // The current username being viewed (empty if viewing self)
         $scope.vieweduser = $stateParams.username;
 
+        $scope.viewself = false;
+
+        // If this user is the user being viewed
+        if ($scope.vieweduser === null || $scope.thisuser.id === $scope.userToId($scope.vieweduser)){
+            $scope.viewself = true;
+        }
 
         // using a get, get the user requested
-
         $scope.user = {'_id' : '123'};
 
         $scope.user.following = [{
@@ -28,6 +40,9 @@
             'id':'3244434343'
         }];
 
+
+        /* User follower data & functions */
+
         $scope.user.followers = [{
             'id':'3245673243'
         }, {
@@ -35,8 +50,6 @@
         }, {
             'id':'3244434343'
         }];
-
-        $scope.selectedTab = 'default';
 
         $scope.isFollowing = function(_id) {
             var followinglen = $scope.user.following.length;
@@ -48,6 +61,20 @@
             return false
         };
 
+        /* Event viewing data & functions */
+
+        $scope.eventtype = 'Attending';
+
+        $scope.eventtypes = [{
+            'type' :'Attending' 
+        }, {
+            'type' :'Organising' 
+        }, {
+            'type' :'Mentoring' 
+        }];
+
+        $scope.selectedTab = 'default';
+
         $scope.checkCircle = function() {
             HackathorgProfile.checkCircle($stateParams.circle).then(function(response) {
                 $scope.res = response;
@@ -57,6 +84,7 @@
                 $scope.resStatus = 'danger';
             });
         };
+
     }
 
     angular
