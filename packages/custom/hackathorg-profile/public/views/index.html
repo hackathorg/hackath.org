@@ -6,10 +6,10 @@
         <md-card>
           <md-card-title>
             <md-card-title-text  style="padding-right:32px">
-              <span class="md-headline">Jamie Mahoney</span>
-              <span class="md-subhead"><i class="p-icon material-icons">visibility</i> mahoneyj2</span>
-              <p>I'm a fourth year Computer Science student from the UK, I love spaghetti and meatballs</p>
-              <span class="md-subhead">python, javascript, java</span>
+              <span class="md-headline">{{user.name}}</span>
+              <span class="md-subhead"><i class="p-icon material-icons">visibility</i> {{user.username}}</span>
+              <p>{{user.bio}}</p>
+              <span class="md-subhead">{{user.tags}}</span>
             </md-card-title-text>
             <md-card-title-media style="margin-top:0px;margin-right:8px;">
               <div style="background-color:gray;" class="md-media-lg card-media"></div>
@@ -112,6 +112,154 @@
                 <p>https://www.warwickhack.com/</p>
               </div>
             </md-list-item>
+          </md-card>
+        </div>
+        <div ng-if="selectedTab === 'settings'" flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100">
+          <form name="profileUpdate" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()">
+            <md-card ng-if="viewself">
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-title">Your profile</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-divider></md-divider>
+<!--
+name: {
+    type: String,
+    required: true,
+    get: escapeProperty
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    // Regexp to validate emails with more strict rules as added in tests/users.js which also conforms mostly with RFC2822 guide lines
+    match: [/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please enter a valid email'],
+    validate: [validateUniqueEmail, 'E-mail address is already in-use']
+  },
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+    get: escapeProperty
+  },
+  roles: {
+    type: Array,
+    default: ['authenticated', 'anonymous']
+  },
+  hashed_password: {
+    type: String,
+    validate: [validatePresenceOf, 'Password cannot be blank']
+  },
+  provider: {
+    type: String,
+    default: 'local'
+  },
+  salt: String,
+  phoneNumber: {
+    type: String
+  },
+  gender: {
+    type: String
+  },
+  shirtsize: {
+    type: String
+  },
+  dietary: {
+    type: String
+  },
+  study: {
+    type: String
+  },
+  school: {
+    type: String
+  },
+  major: {
+    type: String
+  },
+  special: {
+    type: String
+  },
+  -->
+              <div style="padding:16px" layout-wrap layout="row" layout-align="space-around start" flex>
+                <md-input-container style="margin-bottom:0px;" flex=100 class="md-block">
+                  <label>Full name</label>
+                  <input required type="text" ng-model="user.name">
+                </md-input-container>
+                <md-input-container style="margin-bottom:0px;" flex="100" class="md-block">
+                  <label>Profile bio here</label>
+                  <textarea ng-model="user.bio" md-maxlength="140" rows="2" md-select-on-focus></textarea>
+                </md-input-container>
+                <md-input-container style="margin-bottom:0px;" flex=100 class="md-block">
+                  <label>Profile tags</label>
+                  <input type="text" ng-model="user.tags">
+                </md-input-container>
+                <md-input-container style="margin-bottom:0px;" flex=100 class="md-block">
+                  <label>Location {not implemented}</label>
+                  <input type="text" ng-model="user.location">
+                </md-input-container>
+                <md-input-container style="margin-bottom:0px;" flex=100 class="md-block">
+                  <label>Website</label>
+                  <input type="text" ng-model="user.website">
+                </md-input-container>
+              </div>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-primary" ng-click="submit()">Update</md-button>
+              </md-card-actions>
+            </md-card>
+          </form>
+        </div>
+        <div ng-if="selectedTab === 'settings'" flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100">
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-title">Your privacy settings</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-divider></md-divider>
+            <md-list-item>
+              <p><i class="p-icon material-icons">visibility</i> Public profile</p>
+              <md-switch class="md-secondary" ng-model="setting.public"></md-switch>
+            </md-list-item>
+            <md-list-item ng-if="setting.public">
+              <p><i class="p-icon material-icons">visibility</i> Share resume</p>
+              <md-switch class="md-secondary" ng-model="setting.enabled"></md-switch>
+            </md-list-item>
+            <md-list-item ng-if="setting.public">
+              <p><i class="p-icon material-icons">star</i> Share prizes</p>
+              <md-switch class="md-secondary" ng-model="setting.enabled"></md-switch>
+            </md-list-item>
+            <md-list-item ng-if="setting.public">
+              <p><i class="p-icon material-icons">event_seat</i> Share attendance</p>
+              <md-switch class="md-secondary" ng-model="setting.enabled"></md-switch>
+            </md-list-item>
+          </md-card>
+          <md-card ng-if="viewself">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-title">Data sharing</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-divider></md-divider>
+            <md-list-item class="md-3-line" ng-click="null">
+              <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+              <div class="md-list-item-text" layout="column">
+                <h3>WarwickHACK</h3>
+                <h4>Mentor</h4>
+                <p class="md-subhead">https://www.warwickhack.com/</p>
+              </div>
+              <div style="padding-top:8px;padding-bottom: 8px" class="md-list-item-text" layout="column">
+                <h4> - T-Shirt size </h4>
+                <h4> - T-Shirt size </h4>
+                <h4> - T-Shirt size </h4>
+                <h4> - T-Shirt size </h4>
+                <h4> - T-Shirt size </h4>
+                <h4> - T-Shirt size </h4>
+                <h4> - T-Shirt size </h4>
+                <h4> - T-Shirt size </h4>
+              </div>
+              <md-button>view</md-button>
+            </md-list-item>          
           </md-card>
         </div>
         <!-- </overview> -->

@@ -30,7 +30,14 @@
         }
 
         // using a get, get the user requested
-        $scope.user = {'_id' : '123'};
+        $scope.user = {
+            '_id' : '123',
+            'name' : 'Jamie Mahoney',
+            'username' : 'mahoneyj2',
+            'bio' : 'Im a fourth year Computer Science student from the UK, I love spaghetti and meatballs',
+            'website' : 'www.lol.com',
+            'tags': 'python, javascript, java'
+        };
 
         $scope.user.following = [{
             'id':'2343243242'
@@ -74,6 +81,9 @@
         }];
 
         $scope.selectedTab = 'default';
+        if ($scope.overrideTab) {
+            $scope.selectedTab = $scope.overrideTab;
+        }
 
         $scope.checkCircle = function() {
             HackathorgProfile.checkCircle($stateParams.circle).then(function(response) {
