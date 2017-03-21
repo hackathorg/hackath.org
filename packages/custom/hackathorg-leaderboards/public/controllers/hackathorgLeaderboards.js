@@ -9,6 +9,12 @@
             name: 'hackathorg-leaderboards'
         };
 
+        $scope.people = [
+            { name: 'Janet Perkins', img: 'img/100-0.jpeg'},
+            { name: 'Mary Johnson', img: 'img/100-1.jpeg'},
+            { name: 'Peter Carlsson', img: 'img/100-2.jpeg'}
+        ];
+
         $scope.checkCircle = function() {
             HackathorgLeaderboards.checkCircle($stateParams.circle).then(function(response) {
                 $scope.res = response;

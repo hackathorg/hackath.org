@@ -2,12 +2,12 @@
     'use strict';
 
     function HackathorgProfile($stateProvider) {
-        $stateProvider.state('hackathorgProfile example page', {
-            url: '/hackathorgProfile/example',
+        $stateProvider.state('profile', {
+            url: '/profile',
             templateUrl: 'hackathorg-profile/views/index.html'
-        }).state('hackathorgProfile circles example', {
-            url: '/hackathorgProfile/example/:circle',
-            templateUrl: 'hackathorg-profile/views/example.html'
+        }).state('profile username', {
+            url: '/profile/:username',
+            templateUrl: 'hackathorg-profile/views/index.html'
         });
     }
 

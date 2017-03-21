@@ -2,12 +2,9 @@
     'use strict';
 
     function HackathorgLeaderboards($stateProvider) {
-        $stateProvider.state('hackathorgLeaderboards example page', {
-            url: '/hackathorgLeaderboards/example',
+        $stateProvider.state('leaderboard', {
+            url: '/leaderboard',
             templateUrl: 'hackathorg-leaderboards/views/index.html'
-        }).state('hackathorgLeaderboards circles example', {
-            url: '/hackathorgLeaderboards/example/:circle',
-            templateUrl: 'hackathorg-leaderboards/views/example.html'
         });
     }
 

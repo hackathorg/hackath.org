@@ -1,0 +1,371 @@
+<div layout="column" flex class="HackathorgHosted" ng-controller="HackathorgHostedController">
+  <md-content layout="column" layout-padding flex>
+    <div layout-wrap layout="row" layout-align="space-around start" layout-padding>
+ 
+    <!-- Menu on the left-->
+      
+      <div flex-gt-md="25" flex-md="33" flex-xs="100" flex-sm="100">
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Event Management</span>
+            </md-card-title-text>
+          </md-card-title>
+        <md-list style="padding-bottom:0px;">
+        <md-divider></md-divider>
+<!--           <md-list-item class="md-3-line" ng-click="setSelected(null)" ng-class="{selected: null === idSelectedEvent}">
+            <div class="md-list-item-text">
+              <span class="md-headline">Management overview</span>
+            </div>
+            <md-divider></md-divider>
+          </md-list-item> -->
+          <md-list-item href="#top" ng-click="setSelected(cevent._id)" ng-class="{selected: cevent._id === idSelectedEvent}" class="md-3-line" ng-repeat="cevent in events">
+            <div class="md-list-item-text">
+              <span class="md-headline">{{cevent.title}}</span>
+              <h4>{{cevent.organisation}}</h4>
+            </div>
+            <!--<md-button class="md-secondary">Open</md-button>-->
+            <md-divider></md-divider>
+          </md-list-item>
+          <md-list-item href="#top" class="md-3-line" ng-click="setSelected('create')" ng-class="{selected: 'create' === idSelectedEvent}">
+            <div class="md-list-item-text">
+              <span class="md-headline">Create an event</span>
+            </div>
+            <!--<md-button class="md-secondary">Create</md-button>-->
+          </md-list-item>
+        </md-list>
+        </md-card>
+      </div>
+
+      <!-- Updating event -->
+      <div layout-wrap layout="row" layout-align="space-around start" flex-gt-md="75" flex-md="66" flex-xs="100" flex-sm="100">
+        <a style="margin-top:-24px" name="top"></a>
+        <div ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)" style="margin:8px;" flex="100">
+          <md-nav-bar md-selected-nav-item="manageTab" nav-bar-aria-label="navigation links">
+            <md-nav-item md-nav-click="changeManageTab('dashboard')" name="dashboard">
+            Dashboard
+            </md-nav-item>
+            <md-nav-item md-nav-click="changeManageTab('update')" name="update">
+            Update
+            </md-nav-item>
+            <md-nav-item md-nav-click="changeManageTab('applications')" name="applications">
+            Attendees
+            </md-nav-item>
+          </md-nav-bar>
+        </div>
+        <div ng-if="manageTab === 'dashboard'" flex="50">
+          <md-card>
+            <md-card-title>
+              <md-card-title-text class="md-title">
+                Event status
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+              <p>Current event state (before, during, after)</p>
+              <p ng-click="changeManageTab('applications')" ng-if="event.maxMentors > 0">Mentors - {{event.mentors.length}} / {{event.maxMentors}}</p>
+              <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{event.mentors.length / event.maxMentors}}"></md-progress-linear>
+              <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{event.attendees.length}} / {{event.maxAttendees}}</p>
+              <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{event.attendees.length / event.maxAttendees}}"></md-progress-linear>
+              <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - To be added to schema</p>
+              <p>The event can be managed from within the web application.</p>
+            </md-card-content>
+          </md-card>
+          <md-card>
+            <md-card-title>
+              <md-card-title-text class="md-title">
+                Notify attendees              
+              </md-card-title-text>
+            </md-card-title>
+            <form name="contactform" ng-submit="contact()">
+              <md-card-content>
+                <p>Send a notification to your attendees regarding your event.</p>
+                <md-card-content style="padding-bottom:0px;">
+                  <md-checkbox md-no-ink aria-label="attendee"  ng-model="contact.attendee" class="md-primary">
+                    Attendees
+                  </md-checkbox>
+                  <md-checkbox md-no-ink aria-label="attendee"  ng-model="contact.mentors" class="md-primary">
+                    Mentors
+                  </md-checkbox>
+                  <md-checkbox md-no-ink aria-label="attendee"  ng-model="contact.organisers" class="md-primary">
+                    Organisers
+                  </md-checkbox>
+                  <md-checkbox md-no-ink aria-label="attendee"  ng-model="contact.sponsors" class="md-primary">
+                    Sponsors
+                  </md-checkbox>
+                  <md-input-container flex="100" class="md-block">
+                    <label>Contact information here</label>
+                    <textarea required ng-model="contact.information" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                  </md-input-container>
+                </md-card-content>
+              </md-card-content>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-raised md-primary">Send notification</md-button>
+              </md-card-actions>
+            </form>
+          </md-card>
+        </div>
+        <div ng-if="manageTab === 'dashboard'" flex="50">
+          <md-card>
+            <md-card-title>
+              <md-card-title-text class="md-title">
+                Web application
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content ng-if="!heroku.authenticated">
+              <p>This event has deployed web application associated with it.</p>
+              <p>We use Heroku for deploying your event web application - its free to sign up!</p>
+              <p>For advanced users who want to use a custom web application and use our API, we offer a custom deployment option.</p>
+            </md-card-content>
+            <md-card-actions ng-if="!heroku.authenticated" layout="row" layout-align="end center">
+              <md-button class="md-raised md-primary">Custom deployment</md-button>
+              <md-button ng-click="herokuAuth()" class="md-raised md-primary">Login with Heroku</md-button>
+            </md-card-actions>
+            <md-card-content>
+                  <p>status : {{heroku.status}}</p>
+                  <p>Information about the web application here, statistics, views, any issues</p>
+                  <p>api : {{heroku.api_key}}</p>
+                  <p>site : {{heroku.site}}{{heroku.api_key}}/</p>
+                <md-card>
+                  <md-card-title class="md-title">
+                    Heroku Configuration
+                  </md-card-title>
+                  <md-card-content>
+                    <p>This event has been set up with Heroku.</p>
+                    <p>The account used is: {{heroku.api_key}}</p>
+                  </md-card-content>
+                  <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-click="herokuAuth()" class="md-raised md-primary">Use an alternate account</md-button>
+                  </md-card-actions>
+                </md-card>
+                <md-list>
+                  <md-subheader class="md-no-sticky">Installed Modules</md-subheader>
+                  <md-list-item ng-repeat="hackage in hackages">
+                    <md-checkbox ng-checked="checkPackage(hackage.id)" ng-click="updateBuildStatus(hackage.id)"></md-checkbox>
+                    <p>{{hackage.name}}</p>
+                    <md-icon class="md-secondary" ng-click="hackageInformation($event, hackage.id)" aria-label="Chat">help_outline</md-icon>
+                  </md-list-item>
+                </md-list>
+            </md-card-content>
+            <md-card-actions ng-if="heroku.authenticated" layout="row" layout-align="end center">
+              <md-button class="md-primary" ng-if="heroku.req_rebuild">Rebuild</md-button>
+              <md-button ng-if="!heroku.req_rebuild">Restart</md-button>
+              <md-button class="md-warn">Shutdown</md-button>
+            </md-card-actions>
+          </md-card>
+        </div>
+
+        <div ng-if="manageTab === 'applications'" flex=100 layout-align="space-around start" layout-padding layout-wrap layout="row">
+          <div flex="50">
+          </div>
+          <div flex="50">
+            <md-card>
+              <md-card-content>
+                <md-list style="background-color:white;padding-top:0px">
+                  <md-subheader class="md-no-sticky">Applications</md-subheader>
+                  <div style="height:300px;overflow-y:scroll;">
+                  <md-list-item class="md-3-line" ng-repeat="application in mentorApplications" ng-click="null">
+                    <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+                    <div class="md-list-item-text" layout="column">
+                      <h3>{{ application.name }}</h3>
+                      <h4>{{ application.desc }}</h4>
+                      <p>{{ application.site }}</p>
+                    </div>
+                  </md-list-item>
+                  </div>
+                </md-list>
+                <md-input-container style="padding-bottom: 0px;" flex="100" class="md-block">
+                  <label>Application response here</label>
+                  <textarea required ng-model="contact.information" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+                </md-input-container>              </md-card-content>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button>Respond</md-button>
+                <md-button class="md-warn">Reject</md-button>
+                <md-button class="md-primary">Accept</md-button>
+              </md-card-actions>
+            </md-card>
+          </div>
+        </div>
+
+        <form ng-if="('create' === idSelectedEvent || (!(null === idSelectedEvent) && manageTab === 'update'))" name="eventsform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
+          <md-card flex="100">
+            <md-card-title>
+              <md-card-title-text ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)">
+                <span class="md-headline">Update Event</span>
+                <span class="md-subhead">Caution: Updating a public event will inform </span>
+              </md-card-title-text>
+              <md-card-title-text ng-if="('create' === idSelectedEvent)">
+                <span class="md-headline">Event details</span>
+                <span class="md-subhead"> </span>
+              </md-card-title-text>
+            </md-card-title>
+            <div layout-wrap layout="row" layout-align="space-around start" style="padding-left:20px;padding-right:20px;" flex>
+              <div flex-gt-sm="100" flex-xs="100" flex-md="100" flex-sm="100">
+                <div layout-wrap layout="row" layout-align="space-around start" flex>
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
+                    <label>Event name</label>
+                    <input required ng-model="event.title">
+                  </md-input-container>
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-md="50" flex-sm="50" class="md-block">
+                    <label>Organiser teamname</label>
+                    <input required ng-model="event.organisation">
+                  </md-input-container>
+                  <md-input-container style="padding-top:0px;" flex="100" class="md-block">
+                    <label>Description</label>
+                    <textarea required ng-model="event.description" md-maxlength="200" rows="4" md-select-on-focus></textarea>
+                  </md-input-container>
+                  <div flex="50">
+                    Start date
+                    <br>
+                    <md-datepicker ng-model="startDate" md-min-date="minDate" md-placeholder="Enter date"></md-datepicker>
+                  </div>
+                  <div flex="50">
+                    End date
+                    <br>
+                    <md-datepicker ng-model="endDate" md-min-date="startDate" md-placeholder="Enter date"></md-datepicker>
+                  </div>
+                  <div flex="100" style="padding-top: 20px;">
+                  </div>
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                    <label>Attendees</label>
+                    <input required type="number" step="any" name="rate" ng-model="event.maxAttendees" min="0"
+                           max="1000" />
+                  </md-input-container>
+                <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                  <label>Skill level</label>
+                  <md-select ng-model="event.skillLevel">
+                    <md-option ng-repeat="skill in skills" value="{{skill.type}}">
+                      {{skill.type}}
+                    </md-option>
+                  </md-select>
+                </md-input-container>
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                    <label>Mentors</label>
+                    <input required type="number" step="any" name="rate" ng-model="event.maxMentors" min="0"
+                           max="100" />
+                  </md-input-container>
+                  <md-input-container style="padding-left: 60px;" flex-gt-sm="50" flex-xs="100" flex-sm="100"  >
+                    <md-checkbox md-no-ink aria-label="sponsor" ng-model="event.sponsors" class="md-primary">
+                      Allow sponsorship?
+                    </md-checkbox>
+                  </md-input-container>
+                </div>
+              </div>
+            </div>
+          </md-card>
+          <div flex="50">
+            <md-card>
+                <md-card-title>
+                  <md-card-title-text>
+                    <span class="md-headline">Organising Team</span>
+                    <span class="md-subhead">Add additional organisers</span>
+                  </md-card-title-text>
+                </md-card-title>
+                <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
+                <div flex="100">
+                  <md-chips ng-model="event.hosts" md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
+                </div>
+                </div>
+            </md-card>
+          </div>
+          <div flex="50">
+            <md-card>
+                <md-card-title>
+                  <md-card-title-text>
+                    <span class="md-headline">Event tags</span>
+                    <span class="md-subhead">What makes your event unique</span>
+                  </md-card-title-text>
+                </md-card-title>
+                <div layout-wrap layout="row" layout-align="space-around start" style="padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 20px;" flex>
+                <div flex="100">
+                  <md-chips ng-model="event.tags"  md-removable="data.removable" md-enable-chip-edit="true" placeholder="Enter emails" secondary-placeholder="+ add more"></md-chips>
+                </div>
+                </div>
+            </md-card>
+          </div>
+          <div flex="50">
+            <md-card>
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Event discovery image</span>
+                  <span class="md-subhead">600x400</span>
+                  <span class="md-subhead">File upload and selection here</span>
+                </md-card-title-text>
+                <md-card-title-media>
+                  <div class="card-media placeholder"></div>
+                </md-card-title-media>
+              </md-card-title>
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Event logo</span>
+                  <span class="md-subhead">100x100</span>
+                  <span class="md-subhead">File upload and selection here</span>
+                </md-card-title-text>
+                <md-card-title-media>
+                  <div class="card-media placeholder"></div>
+                </md-card-title-media>
+              </md-card-title>
+            </md-card>
+          </div>
+          <div ng-if="manageTab === 'update'" flex="50">
+            <md-card>
+              <md-card-title class="md-title">
+                Event Discovery
+              </md-card-title>
+              <md-card-content>
+                <p class="warning" ng-if="heroku.status !== 'online'">The event cannot be made public whilst the web application is down.</p>
+                <button ng-click="event.hidden = false" ng-class="{selected: event.hidden === false}" class="md-button">PUBLIC</button>
+                <button ng-click="event.hidden = true" ng-class="{selected: event.hidden === true}" class="md-button">PRIVATE</button>
+                <p ng-if="event.hidden === false">The event is public. The event can be found on the discovery service.</p>
+                <p ng-if="event.hidden === true">The event is  private. The event can't be found on the discovery service.</p>
+              </md-card-content>            
+              <md-card-actions ng-if="heroku.authenticated" layout="row" layout-align="end center">
+                <md-button class="md-primary" ng-click="submit()" ng-disabled="!(heroku.status === 'online')">Update</md-button>
+              </md-card-actions>
+            </md-card>
+          </div>
+          <!-- if already created event -->
+          <div ng-if="manageTab === 'update'" flex="50">
+            <md-card>
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Update Event</span>
+                  <span class="md-subhead md-warn">Caution: This will permenantly update this event and all associated information.</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-warn">Update</md-button>
+              </md-card-actions>
+            </md-card>
+          </div>
+          <div ng-if="manageTab === 'update'" flex="50">
+            <md-card>
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Remove Event</span>
+                  <span class="md-subhead md-warn">Caution: This will permenantly delete this event and all associated information.</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-disabled="true" class="md-warn">Delete</md-button>
+              </md-card-actions>
+            </md-card>
+            </div>
+          <div ng-if="'create' === idSelectedEvent" flex="50">
+            <!-- if create event -->
+            <md-card>
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Create Event</span>
+                  <span class="md-subhead md-warn">Caution: This will permenantly create this event and all associated information.</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-raised md-primary" type="submit" ng-disabled="eventsform.$dirty && eventsform.$invalid">Create</md-button>
+              </md-card-actions>
+            </md-card>
+          </div>
+        </form>
+      </div>
+    </div>
+  </md-content>
+</div>

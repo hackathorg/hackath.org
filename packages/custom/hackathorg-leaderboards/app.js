@@ -19,10 +19,9 @@ HackathorgLeaderboards.register(function(app, auth, database, circles) {
   //We are adding a link to the main menu for all authenticated users
   HackathorgLeaderboards.menus.add({
     title: 'Leaderboard',
-    link: 'hackathorgLeaderboards example page',
+    link: 'leaderboard',
     roles: ['authenticated'],
-    menu: 'main',
-    position: 0
+    menu: 'main'
   });
   
   /**

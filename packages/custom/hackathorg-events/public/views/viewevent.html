@@ -1,0 +1,148 @@
+<div layout="column" flex class="hackathorgEvents" ng-controller="HackathorgEventViewController">
+  <md-content layout-wrap layout="row" layout-align="space-around start" layout-padding flex>
+    <div layout-wrap layout="row" layout-align="space-around start" layout-padding flex>
+      <div flex-gt-md="66" flex-md="100" flex-xs="100" flex-sm="100" flex=66>
+        <md-card>
+          <div layout-wrap layout="row" layout-align="space-around start" layout-padding flex="100">
+            <div flex="33" flex-xs="100">
+              <img style="width:100%" ng-src="{{event.image}}" class="md-card-image" alt="{{event.title}} image">
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">{{event.title}}</span>
+                  <span class="md-subhead">{{event.organisation}}</span>
+
+                  <!-- event tags here -->
+                  <!--<span class="md-subhead">{{event.maxMentors - event.mentors.length}} / {{event.maxMentors}} mentor spots available</span>-->
+                  <p ng-click="changeManageTab('applications')" ng-if="event.maxMentors > 0">Mentors - {{event.mentors.length}} / {{event.maxMentors}}</p>
+                  <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{event.mentors.length / event.maxMentors}}"></md-progress-linear>
+                  <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{event.attendees.length}} / {{event.maxAttendees}}</p>
+                  <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{event.attendees.length / event.maxAttendees}}"></md-progress-linear>
+                  <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - To be added to schema</p>
+                  <span class="md-subhead">{{event.skillLevel}}</span>
+                  <span class="md-subhead">python, javascript, java</span>
+                </md-card-title-text>
+              </md-card-title>
+            </div>
+            <div flex="66" flex-xs="100">
+              <md-card-title hide-xs>
+                <md-card-title-text>
+                  <span class="md-headline">{{event.title}}</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-card-content>
+                <p>{{event.description}}</p>
+                <p>Past events organised by 
+                <p>This event doesn't have a web application set up yet. However you can still register for the event or apply for mentoring / sponsorship below! </p>
+                <p style="padding-top:20px;" class="md-title">We've noticed you're already attending this event as a {role}! Great news!</p>
+                <p>The event organisers should keep you updated on the event by email!</p>
+                <p>If you no longer wish to attend, please click below!</p>
+                <p style="padding-top:20px;" class="md-title">We've noticed you've already applied for this event! Great news!</p>
+                <p>If you wish to review or remove your application, visit your event applications on your profile page.</p>
+              </md-card-content>
+            </div>
+          </div>
+        </md-card>
+      </div>
+      <div flex-gt-md="33" flex-md="66" flex-xs="100" flex-sm=66 flex=33>
+        <md-card>
+          <md-card-title style="padding:24px 16px 10px">
+            <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
+              <span flex=66 class="md-title">Attendees</span>
+              <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
+                <md-select ng-model="viewattendee">
+                  <md-option ng-repeat="thisattendee in viewattendeetype" value="{{thisattendee.type}}">
+                    {{thisattendee.type}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+            </md-card-title-text>
+          </md-card-title>
+          <md-divider></md-divider>
+          <md-list-item ng-repeat="person in user.following" class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
+            <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
+            <p>{{ person.id }}</p>
+            <md-button>unfollow</md-button>
+          </md-list-item>
+          <md-list-item class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
+            <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
+            <p> exampleuser2017</p>
+          </md-list-item>
+        </md-card>
+      </div>
+      <div flex-gt-md="66" flex-md="100" flex-xs="100" flex-sm="100" flex=66>
+        <md-card>
+          <md-card-title style="padding:24px 16px 10px">
+            <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
+              <span flex=66 class="md-title">Apply to {{event.title}}</span>
+              <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
+                <label>Application type</label>
+                <md-select ng-model="applyattendee">
+                  <md-option ng-repeat="thisattendee in applyattendeetype" value="{{thisattendee.type}}">
+                    {{thisattendee.type}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+            </md-card-title-text>
+          </md-card-title>
+          <md-divider></md-divider>
+          <md-card-content>
+            <p><b>You are applying as: {{applyattendee}}</b></p>
+            <md-input-container ng-if="applyattendee === 'Mentor'" class="md-block">
+              <label>Description</label>
+              <div class="hint">Tell the organisers a bit about yourself and why you want the role</div>
+              <textarea ng-model="application.desc" md-maxlength="150" rows="3" md-select-on-focus></textarea>
+            </md-input-container>
+            <md-switch ng-if="applyattendee === 'Mentor'" style="padding-bottom:20px; font-size:14px" ng-model="application.includeresume" aria-label="Switch 1">
+              Include resume
+            </md-switch>
+            <div ng-if="applyattendee === 'Sponsor'" layout-gt-sm="row">
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Company or Organisation</label>
+                <input ng-model="application.name">
+              </md-input-container>
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Contact email</label>
+                <input ng-model="application.contact">
+              </md-input-container>
+            </div>
+            <md-input-container  ng-if="applyattendee === 'Sponsor'" class="md-block">
+              <label>Description</label>
+              <div class="hint">Tell the organisers briefly about your company and what can you offer</div>
+              <textarea ng-model="application.desc" md-maxlength="150" rows="3" md-select-on-focus></textarea>
+            </md-input-container>
+            <div ng-if="applyattendee === 'Sponsor'" layout-gt-sm="row">
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Upload a proposal document</label>
+                <input ng-model="application.proposal">
+              </md-input-container>
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Website</label>
+                <input ng-model="application.site">
+              </md-input-container>
+            </div>
+            <p>By applying to {{event.title}}, you will be sharing the following <b>requested</b> information with the organisers of the event:</p>
+            <p>//The requested info will be determined by the event owner and stored in mongo</p>
+            <ul>
+            <li>Your public profile, including</li>
+              <ul>
+                <li>Username</li>
+                <li>Full Name</li>
+              </ul>
+            <li>Your attendance details</li>
+              <ul>
+                <li>T-Shirt size</li>
+                <li>Food preferences</li>
+                <li>Any special requirements</li>
+              </ul>
+            </ul>
+            <p>Additionally, depending on your privacy settings, your attendance may be shared publicly to your followers and other attendees.</p> 
+            <p>Your privacy settings can be managed and updated at any time from your profile settings.</p>
+          </md-card-content>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button class="md-raised md-primary">Apply</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+    </div>
+  </md-content>
+</div>

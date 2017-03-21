@@ -5,6 +5,7 @@
  */
 var Module = require('meanio').Module;
 
+
 var HackathorgEvents = new Module('hackathorg-events');
 
 /*
@@ -23,6 +24,14 @@ HackathorgEvents.register(function(app, auth, database, circles) {
     roles: ['authenticated'],
     menu: 'main',
     position: 1
+  });
+
+  HackathorgEvents.menus.add({
+    title: 'Create',
+    link: 'hosted',
+    roles: ['authenticated'],
+    menu: 'main',
+    position: 2
   });
   
   /**
