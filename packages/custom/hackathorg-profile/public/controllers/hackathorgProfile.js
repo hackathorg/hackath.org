@@ -10,7 +10,7 @@
         };
 
         /* User profile data and functions */
-
+        
         $scope.userToId = function(username) {
             //Get the ID for a given username
             return username
@@ -38,7 +38,7 @@
             'website' : 'www.lol.com',
             'tags': 'python, javascript, java'
         };
-
+        $scope.user = HackathorgProfile.profiles.show({userId:$stateParams.username});
         $scope.user.following = [{
             'id':'2343243242'
         }, {
