@@ -38,7 +38,18 @@
             'website' : 'www.lol.com',
             'tags': 'python, javascript, java'
         };
-        $scope.user = HackathorgProfile.profiles.show({userId:$stateParams.username});
+
+        $scope.user = HackathorgProfile.profiles.show({userId:$scope.userToId($stateParams.username)});
+        $scope.user_follower = HackathorgProfile.follower({userId:$scope.userToId($stateParams.username)});
+
+        $scope.follow = function() {
+            $scope.user_follower.follow();
+        }
+        
+        $scope.unfollow = function() {
+            $scope.user_follower.unfollow();
+        }
+
         $scope.user.following = [{
             'id':'2343243242'
         }, {
@@ -47,7 +58,7 @@
             'id':'3244434343'
         }];
 
-
+        $scope.user.following = $scope.user_follower.follows();
         /* User follower data & functions */
 
         $scope.user.followers = [{
@@ -57,6 +68,8 @@
         }, {
             'id':'3244434343'
         }];
+
+        $scope.user.followers = $scope.user_follower.followers();
 
         $scope.isFollowing = function(_id) {
             var followinglen = $scope.user.following.length;
@@ -94,7 +107,6 @@
                 $scope.resStatus = 'danger';
             });
         };
-
     }
 
     angular

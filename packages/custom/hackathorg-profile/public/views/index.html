@@ -292,7 +292,8 @@ name: {
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-title">Following ({{user.following.length}})</span>
+                <span ng-if="user.following.length" class="md-title">Following ({{user.following.length}})</span>
+                <span ng-if="!user.following.length" class="md-title">Following (0)</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
@@ -307,7 +308,8 @@ name: {
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-title">Followers ({{user.followers.length}})</span>
+                <span ng-if="user.followers.length" class="md-title">Followers ({{user.followers.length}})</span>
+                <span ng-if="!user.followers.length" class="md-title">Followers (0)</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
