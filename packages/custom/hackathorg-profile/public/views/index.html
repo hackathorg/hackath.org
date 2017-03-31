@@ -292,15 +292,15 @@ name: {
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span ng-if="user.following.length" class="md-title">Following ({{user.following.length}})</span>
-                <span ng-if="!user.following.length" class="md-title">Following (0)</span>
+                <span ng-if="following.follows.length" class="md-title">Following ({{user.following.length}})</span>
+                <span ng-if="!following.follows.length" class="md-title">Following (0)</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="person in user.following" class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
-              <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
+            <md-list-item ng-repeat="person in following.follows" class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
+              <img alt="{{ person.username }}" ng-src="{{ person.img }}" class="md-avatar" />
               <p>{{ person.id }}</p>
-              <md-button>unfollow</md-button>
+              <md-button ng-click="unfollow(person)">unfollow</md-button>
             </md-list-item>
           </md-card>
         </div>
@@ -308,13 +308,13 @@ name: {
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span ng-if="user.followers.length" class="md-title">Followers ({{user.followers.length}})</span>
-                <span ng-if="!user.followers.length" class="md-title">Followers (0)</span>
+                <span ng-if="followers.followers.length" class="md-title">Followers ({{user.followers.length}})</span>
+                <span ng-if="!followers.followers.length" class="md-title">Followers (0)</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="person in user.followers" ng-click="goToPerson(person.name, $event)" class="noright">
-              <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
+            <md-list-item ng-repeat="person in followers.followers" ng-click="goToPerson(person.name, $event)" class="noright">
+              <img alt="{{ person.username }}" ng-src="{{ person.img }}" class="md-avatar" />
               <p>{{ person.id }}</p>
               <md-button ng-if="isFollowing(person.id)">unfollow</md-button>
               <md-button ng-if="!isFollowing(person.id)">follow</md-button>

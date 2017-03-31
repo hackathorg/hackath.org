@@ -40,14 +40,16 @@
         };
 
         $scope.user = HackathorgProfile.profiles.show({userId:$scope.userToId($stateParams.username)});
-        $scope.user_follower = HackathorgProfile.follower({userId:$scope.userToId($stateParams.username)});
+        $scope.user_follower = HackathorgProfile.follower;
 
-        $scope.follow = function() {
-            $scope.user_follower.follow();
+        $scope.follow = function(user) {
+            $scope.user_follower.follow({userId: user});
         }
         
-        $scope.unfollow = function() {
-            $scope.user_follower.unfollow();
+        $scope.unfollow = function(userId) {
+            console.log(user)
+            console.log('bob')
+            $scope.user_follower.unfollow({userId: user});
         }
 
         $scope.user.following = [{
@@ -58,7 +60,7 @@
             'id':'3244434343'
         }];
 
-        $scope.user.following = $scope.user_follower.follows();
+        $scope.following = $scope.user_follower.follows({userId:$stateParams.username});
         /* User follower data & functions */
 
         $scope.user.followers = [{
@@ -69,7 +71,7 @@
             'id':'3244434343'
         }];
 
-        $scope.user.followers = $scope.user_follower.followers();
+        $scope.followers = $scope.user_follower.followers({userId:$stateParams.username});
 
         $scope.isFollowing = function(_id) {
             var followinglen = $scope.user.following.length;

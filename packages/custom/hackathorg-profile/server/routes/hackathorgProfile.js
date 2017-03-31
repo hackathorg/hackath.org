@@ -16,8 +16,8 @@
         app.get('/api/followers/:userId', profiles.followers)
         app.get('/api/follows/:userId', profiles.follows)
         app.get('/api/followerstats/:userId', profiles.counts)
-        app.get('/api/follow/:userId', requiresLogin, profiles.follow)
-        app.get('/api/unfollow/:userId', requiresLogin, profiles.unfollow)
+        app.post('/api/follow/:userId', requiresLogin, profiles.follow)
+        app.post('/api/unfollow/:userId', requiresLogin, profiles.unfollow)
         app.get('/api/hackathorgProfile/example/anyone', function(req, res) {
             res.send('Anyone can access this');
             

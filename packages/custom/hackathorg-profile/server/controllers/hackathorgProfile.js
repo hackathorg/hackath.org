@@ -18,13 +18,13 @@ module.exports = function(HackathorgProfile){
   return {
     follows: function(req, res) {
       var id = profileOrUser(req, res);
-      Follow.findOneAndUpdate({userId: id}, {$setOnInsert:{userId: id, follows: [], followers: []}}, {new:true,upsert:true}).select('userId follows -_id').exec(function (err, follows) {
+      Follow.findOneAndUpdate({userId: id}, {$setOnInsert:{userId: id, follows: [], followers: []}}, {new:true,upsert:true}).select('follows -_id').lean().exec(function (err, follows) {
         res.send(follows);
       });
     },
     followers: function(req, res) {
       var id = profileOrUser(req, res);
-      Follow.findOneAndUpdate({userId:id}, {$setOnInsert:{userId:id, follows: [], followers: []}}, {new:true,upsert:true}).select('userId followers -_id').exec(function (err, followers) {
+      Follow.findOneAndUpdate({userId:id}, {$setOnInsert:{userId:id, follows: [], followers: []}}, {new:true,upsert:true}).select('followers -_id').lean().exec(function (err, followers) {
         res.send(followers);
       });
     },
