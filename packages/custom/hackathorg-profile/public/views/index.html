@@ -56,7 +56,7 @@
               Settings
             </md-nav-item>
             <span flex></span>
-            <md-button ng-if="!viewself && !isFollowing(user._id)" ng-click="follow(user._id)" name="follow">
+            <md-button ng-if="!viewself && !isFollowing(user._id)" ng-click="follow(user._id, user.username)" name="follow">
               Follow
             </md-button>
             <md-button ng-if="!viewself && isFollowing(user._id)" ng-click="unfollow(user._id,-1)" name="unfollow">
@@ -317,7 +317,7 @@ name: {
               <img alt="{{ person.username }}" ng-src="{{ person.img }}" class="md-avatar" />
               <p>{{ person.username }}</p>
               <md-button ng-click="unfollow(person.id, $index)" ng-if="isFollowing(person.id) && viewself">unfollow</md-button>
-              <md-button  ng-click="follow(person.id)" ng-if="!isFollowing(person.id) && viewself">follow</md-button>
+              <md-button  ng-click="follow(person.id, person.username)" ng-if="!isFollowing(person.id) && viewself">follow</md-button>
             </md-list-item>
           </md-card>
         </div>
