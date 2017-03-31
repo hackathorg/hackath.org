@@ -18,14 +18,16 @@
 
         // The current users information
         $scope.thisuser = {'_id' : MeanUser.user._id};
-
+        
+        console.log($scope.thisuser)
         // The current username being viewed (empty if viewing self)
         $scope.vieweduser = $stateParams.username;
 
         $scope.viewself = false;
+        console.log($scope.vieweduser)
 
         // If this user is the user being viewed
-        if ($scope.vieweduser === null || $scope.thisuser.id === $scope.userToId($scope.vieweduser)){
+        if ($scope.vieweduser === null || $scope.vieweduser === undefined || $scope.thisuser._id == $scope.userToId($scope.vieweduser)){
             $scope.viewself = true;
         }
 
@@ -39,43 +41,42 @@
             'tags': 'python, javascript, java'
         };
 
-        $scope.user = HackathorgProfile.profiles.show({userId:$scope.userToId($stateParams.username)});
+        $scope.user = HackathorgProfile.profiles.show({userId:$scope.userToId($scope.vieweduser)});
+
+        /* User follower data & functions */
         $scope.user_follower = HackathorgProfile.follower;
+
+        $scope.selffollowing = $scope.user_follower.follows({userId:$scope.thisuser._id});
+        console.log($scope.thisuser._id)
+
+        $scope.following = $scope.user_follower.follows({userId:$scope.vieweduser});
+        $scope.followers = $scope.user_follower.followers({userId:$scope.vieweduser});
+
+        console.log($scope.selffollowing)
+        console.log($scope.following)
 
         $scope.follow = function(user) {
             $scope.user_follower.follow({userId: user});
+            $scope.selffollowing.push({'id':user});
+            if ($scope.viewself) {
+                $scope.following.push({'id':user});
+            }
         }
         
-        $scope.unfollow = function(user) {
-            console.log(user)
+        $scope.unfollow = function(user, index) {
             $scope.user_follower.unfollow({userId: user});
+            $scope.selffollowing.splice(index,1);
+            if (index !== -1) {
+                $scope.following.splice(index,1);
+            }
         }
 
-        $scope.user.following = [{
-            'id':'2343243242'
-        }, {
-            'id':'1932924584'
-        }, {
-            'id':'3244434343'
-        }];
-
-        $scope.following = $scope.user_follower.follows({userId:$stateParams.username});
-        /* User follower data & functions */
-
-        $scope.user.followers = [{
-            'id':'3245673243'
-        }, {
-            'id':'1231231233'
-        }, {
-            'id':'3244434343'
-        }];
-
-        $scope.followers = $scope.user_follower.followers({userId:$stateParams.username});
 
         $scope.isFollowing = function(_id) {
-            var followinglen = $scope.user.following.length;
+            var followinglen = $scope.selffollowing.length;
             for (var i = 0; i < followinglen; i++) {
-                if ($scope.user.following[i].id === _id) {
+                if ($scope.selffollowing[i].id === _id) {
+                    console.log(_id);
                     return true
                 }
             }
