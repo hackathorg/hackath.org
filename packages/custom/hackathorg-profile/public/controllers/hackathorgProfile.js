@@ -18,7 +18,7 @@
 
         // The current users information
         $scope.thisuser = {'_id' : MeanUser.user._id};
-        
+
         console.log($scope.thisuser)
         // The current username being viewed (empty if viewing self)
         $scope.vieweduser = $stateParams.username;
@@ -57,26 +57,38 @@
 
         $scope.follow = function(user) {
             $scope.user_follower.follow({userId: user});
-            $scope.selffollowing.push({'id':user});
+            $scope.selffollowing.follows.push({'id':user});
             if ($scope.viewself) {
-                $scope.following.push({'id':user});
+                $scope.following.follows.push({'id':user});
+            } else {
+                $scope.following.followers.push({'id':user});
             }
         }
         
         $scope.unfollow = function(user, index) {
             $scope.user_follower.unfollow({userId: user});
-            $scope.selffollowing.splice(index,1);
+
+            for (var i =0; i < $scope.selffollowing.follows.length; i++){
+               if ($scope.selffollowing.follows[i].id === user) {
+                  $scope.selffollowing.follows.splice(i,1);
+                  break;
+               }
+            }
+
             if (index !== -1) {
-                $scope.following.splice(index,1);
+                if ($scope.viewself) {
+                    $scope.following.follows.splice(index,1);
+                } else {
+                    $scope.following.followers.splice(index,1);
+                }
             }
         }
 
 
         $scope.isFollowing = function(_id) {
-            var followinglen = $scope.selffollowing.length;
+            var followinglen = $scope.selffollowing.follows.length;
             for (var i = 0; i < followinglen; i++) {
-                if ($scope.selffollowing[i].id === _id) {
-                    console.log(_id);
+                if ($scope.selffollowing.follows[i].id === _id) {
                     return true
                 }
             }
