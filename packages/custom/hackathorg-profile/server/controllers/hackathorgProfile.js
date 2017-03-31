@@ -18,14 +18,23 @@ module.exports = function(HackathorgProfile){
   return {
     follows: function(req, res) {
       var id = profileOrUser(req, res);
-      Follow.findOneAndUpdate({userId: id}, {$setOnInsert:{userId: id, follows: [], followers: []}}, {new:true,upsert:true}).select('follows -_id').lean().exec(function (err, result) {
+      Follow.findOne({_id: id}).select('follows').lean().exec(function (err, result) {
+        console.log(result)
+        if (result.follows)
         res.send(result.follows);
+        else {
+          res.send('[]')
+        }
       });
     },
     followers: function(req, res) {
       var id = profileOrUser(req, res);
-      Follow.findOneAndUpdate({userId:id}, {$setOnInsert:{userId:id, follows: [], followers: []}}, {new:true,upsert:true}).select('followers -_id').lean().exec(function (err, result) {
-        res.send(result.followers);
+      Follow.findOne({_id:id}).select('followers').lean().exec(function (err, result) {
+        if (result.followers)
+          res.send(result.followers);
+        else {
+          res.send('[]')
+        }
       });
     },
     counts: function (req, res) {
@@ -49,21 +58,18 @@ module.exports = function(HackathorgProfile){
         ]).exec(function (err, result){res.send(result)})
     }, 
     follow: function (req, res){
-      Follow.findOneAndUpdate({follower: req.user._id}, {$setOnInsert:{userId:req.user._id, follows: [], followers: []}}, {new:true,upsert:true}).exec(function (err, followers) {
-        Follow.findOneAndUpdate({userId: req.user._id, follows:{$not:{$elemMatch:{id:req.profile._id}}}}, 
+         Follow.findOneAndUpdate({_id: req.user._id, follows:{$not:{$elemMatch:{id:req.profile._id}}}}, 
         {$push: {follows:{id: req.profile._id, username: req.profile.username}}
       }, {new:true}).exec(function (err, followers) {console.log(followers)});
-    });
-      Follow.findOneAndUpdate({userId: req.profile._id}, {$setOnInsert:{userId:req.profile._id, follows: [], followers: []}}, {new:true,upsert:true}).exec(function (err, followers) {
-        Follow.findOneAndUpdate({userId: req.profile._id, followers:{$not:{$elemMatch:{id:req.user._id}}}}, 
+      Follow.findOneAndUpdate({_id: req.profile._id, followers:{$not:{$elemMatch:{id:req.user._id}}}}, 
         {$push: {followers:{id: req.user._id, username: req.user.username}}
       }, {new:true}).exec(function (err, followers) {console.log(followers)});
-      });
+
 
       res.send('OK')
     },
     unfollow: function (req, res) {
-      Follow.update({userId: {$in:[req.profile._id, req.user._id]}}, {$pull:{follows:{id: req.profile._id}, followers:{id: req.user._id }}},{new: true, multi:true}, function(err, num){
+      Follow.update({_id: {$in:[req.profile._id, req.user._id]}}, {$pull:{follows:{id: req.profile._id}, followers:{id: req.user._id }}},{new: true, multi:true}, function(err, num){
         res.send(num);
       })
      

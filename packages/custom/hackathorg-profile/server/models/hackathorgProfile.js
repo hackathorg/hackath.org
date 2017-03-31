@@ -17,6 +17,6 @@ var followSchema = new Schema({
 
 
 
-mongoose.model('Follow', followSchema);
+mongoose.model('Follow', followSchema, 'users');
 
 
