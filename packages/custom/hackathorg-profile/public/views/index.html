@@ -300,7 +300,7 @@ name: {
             <md-list-item ng-repeat="person in following.follows" class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
               <img alt="{{ person.username }}" ng-src="{{ person.img }}" class="md-avatar" />
               <p>{{ person.id }}</p>
-              <md-button ng-click="unfollow(person)">unfollow</md-button>
+              <md-button ng-click="unfollow(person.id)">unfollow</md-button>
             </md-list-item>
           </md-card>
         </div>

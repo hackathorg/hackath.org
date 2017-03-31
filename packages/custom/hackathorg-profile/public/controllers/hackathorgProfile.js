@@ -46,9 +46,8 @@
             $scope.user_follower.follow({userId: user});
         }
         
-        $scope.unfollow = function(userId) {
+        $scope.unfollow = function(user) {
             console.log(user)
-            console.log('bob')
             $scope.user_follower.unfollow({userId: user});
         }
 
