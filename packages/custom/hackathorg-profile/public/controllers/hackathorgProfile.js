@@ -17,7 +17,10 @@
         }
 
         // The current users information
-        $scope.thisuser = {'_id' : MeanUser.user._id};
+        $scope.thisuser = {
+            '_id' : MeanUser.user._id,
+            'username': MeanUser.user.username
+        };
 
         console.log($scope.thisuser)
         // The current username being viewed (empty if viewing self)
@@ -47,48 +50,55 @@
         $scope.user_follower = HackathorgProfile.follower;
 
         $scope.selffollowing = $scope.user_follower.follows({userId:$scope.thisuser._id});
-        console.log($scope.thisuser._id)
 
         $scope.following = $scope.user_follower.follows({userId:$scope.vieweduser});
         $scope.followers = $scope.user_follower.followers({userId:$scope.vieweduser});
 
-        console.log($scope.selffollowing)
-        console.log($scope.following)
+        //console.log($scope.selffollowing)
+        //console.log($scope.following)
 
-        $scope.follow = function(user) {
-            $scope.user_follower.follow({userId: user});
-            $scope.selffollowing.follows.push({'id':user});
+        $scope.follow = function(userid, username) {
+            $scope.user_follower.follow({userId: userid});
+            $scope.selffollowing.push({'id':userid,'username':username});
             if ($scope.viewself) {
-                $scope.following.follows.push({'id':user});
+                $scope.following.push({'id':userid,'username':username});
             } else {
-                $scope.following.followers.push({'id':user});
+                $scope.followers.push({'id':$scope.thisuser._id,'username':$scope.thisuser.username});
             }
         }
         
         $scope.unfollow = function(user, index) {
             $scope.user_follower.unfollow({userId: user});
-
-            for (var i =0; i < $scope.selffollowing.follows.length; i++){
-               if ($scope.selffollowing.follows[i].id === user) {
-                  $scope.selffollowing.follows.splice(i,1);
+            //console.log(index)
+            for (var i =0; i < $scope.selffollowing.length; i++){
+               if ($scope.selffollowing[i].id === user) {
+                  $scope.selffollowing.splice(i,1);
                   break;
                }
             }
 
             if (index !== -1) {
                 if ($scope.viewself) {
-                    $scope.following.follows.splice(index,1);
+                    $scope.following.splice(index,1);
                 } else {
-                    $scope.following.followers.splice(index,1);
+                    $scope.followers.splice(index,1);
+                }
+            } else {
+                for (var i =0; i < $scope.followers.length; i++){
+                   if ($scope.followers[i].id === $scope.thisuser._id) {
+                      $scope.followers.splice(i,1);
+                      break;
+                   }
                 }
             }
         }
 
-
         $scope.isFollowing = function(_id) {
-            var followinglen = $scope.selffollowing.follows.length;
+            //console.log(_id)
+            //console.log($scope.selffollowing)
+            var followinglen = $scope.selffollowing.length;
             for (var i = 0; i < followinglen; i++) {
-                if ($scope.selffollowing.follows[i].id === _id) {
+                if ($scope.selffollowing[i].id === _id) {
                     return true
                 }
             }
