@@ -19,10 +19,12 @@
                 }, {
                 followers: {
                     method: 'GET',
+                    isArray: true,
                     url: '/api/followers/:userId'
                 },
                 follows: {
-                    method: 'GET',  
+                    method: 'GET', 
+                    isArray: true, 
                     url: '/api/follows/:userId'
                 },
                 followerstats: {
