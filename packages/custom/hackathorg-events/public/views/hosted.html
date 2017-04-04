@@ -170,8 +170,8 @@
               <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
                 <span flex=66 class="md-title">Attendees</span>
                 <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
-                  <md-select ng-model="eventtype">
-                    <md-option ng-repeat="type in eventtypes" value="{{type.type}}">
+                  <md-select ng-model="attendeetype">
+                    <md-option ng-repeat="type in attendeetypes" value="{{type.type}}">
                       {{type.type}}
                     </md-option>
                   </md-select>
@@ -183,36 +183,61 @@
             <md-list-item ng-click="null">
                 <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
                 <p>mahoneyj2</p>
-                <md-button>view</md-button>
+            </md-list-item>   
+            <md-list-item ng-click="null">
+                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+                <p>mahoneyj2</p>
+            </md-list-item>               
+            <md-list-item ng-click="null">
+                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+                <p>mahoneyj2</p>
+            </md-list-item>
+            <md-list-item ng-click="null">
+                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+                <p>mahoneyj2</p>
+            </md-list-item>   
+            <md-list-item ng-click="null">
+                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+                <p>mahoneyj2</p>
+            </md-list-item>   
+            <md-list-item ng-click="null">
+                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+                <p>mahoneyj2</p>
+            </md-list-item>   
+            <md-list-item ng-click="null">
+                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+                <p>mahoneyj2</p>
             </md-list-item>   
             </div>       
           </md-card>
           </div>
           <div flex="50">
-            <md-card>
-              <md-card-content>
-                <md-list style="background-color:white;padding-top:0px">
-                  <md-subheader class="md-no-sticky">Applications</md-subheader>
-                  <div style="height:300px;overflow-y:scroll;">
-                  <md-list-item class="md-3-line" ng-repeat="application in mentorApplications" ng-click="null">
-                    <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
-                    <div class="md-list-item-text" layout="column">
-                      <h3>{{ application.name }}</h3>
-                      <h4>{{ application.desc }}</h4>
-                      <p>{{ application.site }}</p>
-                    </div>
-                  </md-list-item>
-                  </div>
-                </md-list>
-                <md-input-container style="padding-bottom: 0px;" flex="100" class="md-block">
-                  <label>Application response here</label>
-                  <textarea required ng-model="contact.information" md-maxlength="500" rows="3" md-select-on-focus></textarea>
-                </md-input-container>              </md-card-content>
-              <md-card-actions layout="row" layout-align="end center">
-                <md-button>Respond</md-button>
-                <md-button class="md-warn">Reject</md-button>
-                <md-button class="md-primary">Accept</md-button>
-              </md-card-actions>
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-title">Applications</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-divider></md-divider>
+            <div style="height:300px;overflow-y:scroll;">
+              <md-list-item class="md-3-line" ng-repeat="application in mentorApplications" ng-click="null">
+                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+                <div class="md-list-item-text" layout="column">
+                  <h3>{{ application.name }}</h3>
+                  <h4>{{ application.desc }}</h4>
+                  <p>{{ application.site }}</p>
+                </div>
+              </md-list-item>
+            </div>
+            <md-input-container style="margin:32px;padding-bottom: 0px;" flex="100" class="md-block">
+              <label>Application response here</label>
+              <textarea required ng-model="contact.information" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+            </md-input-container>              
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button>Respond</md-button>
+              <md-button class="md-warn">Reject</md-button>
+              <md-button class="md-primary">Accept</md-button>
+            </md-card-actions>
             </md-card>
           </div>
         </div>

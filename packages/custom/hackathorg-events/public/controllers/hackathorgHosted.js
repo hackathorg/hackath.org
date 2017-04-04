@@ -98,6 +98,17 @@
 
         };
 
+        $scope.attendeetype = 'Attending';
+
+        $scope.attendeetypes = [{
+            'type' :'Attending' 
+        }, {
+            'type' :'Organising' 
+        }, {
+            'type' :'Mentoring' 
+        }];
+
+
         $scope.contact = {
             'attendees' : true,
             'mentors' : false,
