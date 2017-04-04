@@ -76,9 +76,9 @@
 
         // This will be the heroku server associated with an event
         $scope.heroku = {
-            'status' : 'online',
+            'status' : 'offline',
             'authenticated' : true,
-            'req_rebuild' : false,
+            'req_rebuild' : true,
             'api_key' : 'tbc_s0m3_K3y39481',
             'site' : 'https://yourwebapp.com/',
             'other_field' : '',
