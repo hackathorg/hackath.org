@@ -26,7 +26,7 @@
                 userevents: {
                     method: 'GET',
                     isArray: true,
-                    url: '/api/user/events'
+                    url: '/api/user/events/hosted'
                 }
 
             }),
