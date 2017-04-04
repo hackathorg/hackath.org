@@ -21,14 +21,20 @@
             .get(events.show)
             .put(events.update);
         
-        app.get('/api/user/events', requiresLogin, events.userevents);
+        app.get('/api/user/events/hosted', requiresLogin, events.userevents);
+        app.post('/api/heroku/create/:eventid', requiresLogin, events.heroku.create);
+        //app.get('/api/heroku/status/:eventid', requiresLogin, events.heroku.status);
+        app.route('/api/heroku/maintenance/:eventid')
+            .get(requiresLogin, events.heroku.maintenance)
+            .post(requiresLogin, events.heroku.setMaintenance);
+        app.post('/api/heroku/rebuild/:eventid', requiresLogin, events.heroku.rebuild);
         app.get('/auth',  function(req, res){
            
         });
         app.get('/api/auth',  function(req, res){
            
         });
-        app.get('/api/auth/heroku/:eventid', requiresLogin,  function(req,res,next){ 
+        app.get('/api/auth/heroku/:eventid',  function(req,res,next){ 
             var state = jwt.sign({state:req.params.eventid}, config.secret,{expiresIn: "1h"})
             passport.authenticate('heroku',{state: state})(req, res, next)},  function(req, res){
            
