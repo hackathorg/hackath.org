@@ -11,6 +11,8 @@
         console.log(profiles)
         app.get('/api/users', requiresLogin, function (req, res) {res.send(req.user)})
         app.get('/api/users/:userId', function(req, res){res.send( req.profile)})
+
+        //Followers
         app.get('/api/followers', requiresLogin, profiles.followers)
         app.get('/api/follows', requiresLogin, profiles.follows)
         app.get('/api/followers/:userId', profiles.followers)
@@ -18,6 +20,12 @@
         app.get('/api/followerstats/:userId', profiles.counts)
         app.post('/api/follow/:userId', requiresLogin, profiles.follow)
         app.post('/api/unfollow/:userId', requiresLogin, profiles.unfollow)
+
+        //Applications
+        app.get('/api/eventapplications/:eventId', requiresLogin, profiles.eventapplications)
+        app.get('/api/userapplications/:userId', requiresLogin, profiles.userapplications)
+        app.post('/api/apply/:eventId', requiresLogin, profiles.apply)
+
         app.get('/api/hackathorgProfile/example/anyone', function(req, res) {
             res.send('Anyone can access this');
             

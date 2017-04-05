@@ -7,7 +7,7 @@ function profileOrUser(req, res){
   if (req.profile){
     return req.profile._id
   }
-  else if ( req.user){
+  else if (req.user){
     return req.user._id
   }
   else {
@@ -16,6 +16,16 @@ function profileOrUser(req, res){
 }
 module.exports = function(HackathorgProfile){
   return {
+    /*
+    eventapplication: function (req, res){
+    },
+    userapplication: function (req, res){
+    },
+    apply: function (req, res){
+      if its role = attend, add to the attending on event
+      otherwise add to the application db
+    },
+    */
     follows: function(req, res) {
       var id = profileOrUser(req, res);
       Follow.findOne({_id: id}).select('follows').lean().exec(function (err, result) {
