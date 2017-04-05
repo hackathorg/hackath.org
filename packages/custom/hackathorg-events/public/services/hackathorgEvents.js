@@ -27,7 +27,11 @@
                     method: 'GET',
                     isArray: true,
                     url: '/api/user/events/hosted'
-                }
+                },
+                herokuCreate: {
+                    method: 'POST',
+                    url: '/api/heroku/create/:name'
+                } 
 
             }),
             checkCircle: function(circle) {
