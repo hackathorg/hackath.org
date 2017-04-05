@@ -28,6 +28,7 @@ var eventSchema = new Schema({
     apiKey: String,
     refreshToken: String,
     appName: String,
+    appId: String,
     source: String
   }
 });

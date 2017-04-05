@@ -80,7 +80,8 @@
             'authenticated' : true,
             'req_rebuild' : true,
             'api_key' : 'tbc_s0m3_K3y39481',
-            'site' : 'https://yourwebapp.com/',
+            'source' : 'https://github.com/hackathorg/openhach.js/tarball/master',
+            'name': 'appname',
             'other_field' : '',
             'current_build_hackages' : [{
                 'id' : '0'
@@ -303,6 +304,10 @@
         };
         $scope.herokuAuth = function(){
            // herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
+        }
+        $scope.herokusubmit =
+         function () {
+            EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.heroku)
         }
         $scope.submit = function() {
             if ('create' === $scope.idSelectedEvent){
