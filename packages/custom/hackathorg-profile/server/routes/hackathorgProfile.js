@@ -22,9 +22,10 @@
         app.post('/api/unfollow/:userId', requiresLogin, profiles.unfollow)
 
         //Applications
-        app.get('/api/eventapplications/:eventId', requiresLogin, profiles.eventapplications)
-        app.get('/api/userapplications/:userId', requiresLogin, profiles.userapplications)
-        app.post('/api/apply/:eventId', requiresLogin, profiles.apply)
+        app.get('/api/event/:eventId/applications', requiresLogin, profiles.eventapplications)
+        app.get('/api/user/applications', requiresLogin, profiles.userapplications)
+        app.post('/api/events/apply/:eventid', requiresLogin, profiles.apply)
+        app.post('/api/applications/:applicationId', requiresLogin, profiles.review)
 
         app.get('/api/hackathorgProfile/example/anyone', function(req, res) {
             res.send('Anyone can access this');

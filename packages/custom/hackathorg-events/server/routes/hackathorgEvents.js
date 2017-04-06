@@ -48,6 +48,7 @@
         app.get('/api/auth/heroku/callback',  
                 passport.authenticate('heroku', { failureRedirect: '/login' }),
                 function(req, res) {
+                
                 res.redirect('/');
         });
 

@@ -27,6 +27,28 @@ var applicationSchema = new Schema({
   status: String,
   response: String
 });
+'use strict';
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
+
+var eventSchema = new Schema({
+  users: {
+    userId: ObjectId,
+    role: String
+  },
+
+});
+
+
+eventSchema.methods.toJSON = function() {
+  var obj = this.toObject();
+  delete obj.heroku;
+  return obj;
+};
+mongoose.model('ApplicationEvent', eventSchema, 'events');
+
+
 
 mongoose.model('Follow', followSchema, 'users');
 mongoose.model('Application', applicationSchema);
