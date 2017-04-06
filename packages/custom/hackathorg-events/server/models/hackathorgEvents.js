@@ -22,10 +22,10 @@ var eventSchema = new Schema({
   sponsors: Boolean,
   skillLevel: String,
   requiresApplication: [String],
-  users: {
+  users: [{
     userId: ObjectId,
     role: String
-  },
+  }],
   heroku:{
     apiKey: String,
     refreshToken: String,

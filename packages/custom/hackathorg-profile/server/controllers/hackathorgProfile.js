@@ -16,11 +16,12 @@ function profileOrUser(req, res){
     res.send('No user selected')
   }
 }
-function addToEvent(req, res, application){
+function addToEvent(req, res, application, event){
+  
   if (req.event.users){
-    req.event.users.push({userId: application.userId, role: application.role})
+    event.users.push({userId: application.userId, role: application.role})
   } else {
-    req.event.users = [{userId: application.userId, role: application.role}]
+    event.users = [{userId: application.userId, role: application.role}]
   }
   req.event.save(function (err, result){
     if (err){
@@ -69,10 +70,23 @@ module.exports = function(HackathorgProfile){
 
           application.save(function(err, result ){res.send('result')})
         } else {
-          addToEvent(req, res, application)
+          addToEvent(req, res, application,  event)
         }
       });
     },
+    cancelTicket: function (req, res) {
+      Event.update({_id: req.params.eventid}, {$pull:{users:{userId:req.user._id}}}, function(err, numrows){
+        if (err){
+          res.send(500, 'Error: ' + err)
+        }
+        res.send(200, numrows)
+      })
+
+    },
+    cancelApplication: function (req, res) {
+      
+    },
+
 
     review: function (req, res) {
         res.send(418, 'Not Implemented\nSee Status Code')
@@ -102,10 +116,10 @@ module.exports = function(HackathorgProfile){
     counts: function (req, res) {
       var id = ''
         if (req.profile){
-            id = req.profile._id
+          id = req.profile._id
         }
         else if ( req.user){
-          var id = req.user._id
+          id = req.user._id
         }
         else {
           res.send('No user selected')

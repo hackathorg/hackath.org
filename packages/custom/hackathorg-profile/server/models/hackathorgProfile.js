@@ -27,16 +27,17 @@ var applicationSchema = new Schema({
   status: String,
   response: String
 });
-'use strict';
+applicationSchema.index({userId:1, eventId:1}, {unique: true})
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 var eventSchema = new Schema({
-  users: {
+  requiresApplication: [String],
+  users: [{
     userId: ObjectId,
     role: String
-  },
+  }],
 
 });
 
