@@ -31,10 +31,10 @@
                 }
             }),
 
-            eventapplications: $resource('api/:eventId/eventapplications', {
+            eventapplications: $resource('api/events/:eventId/applications', {
                 eventId: '@eventId'
                 }, {
-                applcations: {
+                applications: {
                     method: 'GET', 
                     isArray: true, 
                     url: '/api/events/:eventId/applications'
