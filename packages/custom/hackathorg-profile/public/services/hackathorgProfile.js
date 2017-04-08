@@ -12,7 +12,7 @@
                 }
 
             }),
-            
+
             applications: $resource('api/application/:applicationId', {
                 applicationId: '@applicationId'
                 }, {
@@ -31,21 +31,21 @@
                 }
             }),
 
-            eventapplications: $resource('api/eventapplication/:eventId', {
+            eventapplications: $resource('api/:eventId/eventapplications', {
                 eventId: '@eventId'
                 }, {
-                event: {
+                applcations: {
                     method: 'GET', 
                     isArray: true, 
                     url: '/api/events/:eventId/applications'
                 },
                 apply: {
                     method: 'POST',
-                    url: '/api/events/apply/:eventId'
+                    url: '/api/events/:eventId/apply'
                 },
                 cancel: {
                     method: 'POST',
-                    url: '/api/events/cancel/:eventId'
+                    url: '/api/events/:eventId/cancel'
                 },
             }),
             
