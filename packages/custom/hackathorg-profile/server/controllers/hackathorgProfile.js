@@ -1,5 +1,5 @@
 'use strict';
-
+var async = require('async');
 var mongoose = require('mongoose'),
   Follow = mongoose.model('Follow'),
   Application = mongoose.model('Application'),
@@ -16,6 +16,7 @@ function profileOrUser(req, res){
     res.send('No user selected')
   }
 }
+
 function addToEvent(req, res, application, event){
   
   if (req.event.users){
@@ -23,31 +24,24 @@ function addToEvent(req, res, application, event){
   } else {
     event.users = [{userId: application.userId, role: application.role}]
   }
-  req.event.save(function (err, result){
+  req.event.save(responseCallback(res))
+}
+
+function responseCallback(res){
+  return function (err, result){
     if (err){
-      console.log(err)
-      res.send(500, 'Error: ' + err)
+      res.send(500, 'Error: ' + err);
     }
-    res.send(result)
-  })
+    res.send(200, result);
+  }
 }
 module.exports = function(HackathorgProfile){
   return {
     eventapplications: function (req, res){
-      Application.find({userId: req.user._id}).exec(function (err, result){
-        if (err){
-          res.send(500, 'Error: ' + err )
-        }
-        res.send(result)
-      })
+      Application.find({userId: req.user._id}).exec(responseCallback(res))
     },
     userapplications: function (req, res){
-      Application.find({userId: req.user._id}).exec(function (err, result){
-        if (err){
-          res.send(500, 'Error: ' + err )
-        }
-        res.send(result)
-      })
+      Application.find({userId: req.user._id}).exec(responseCallback(res))
     },
     apply: function (req, res){
       Event.findOne({_id: req.params.eventid}).exec(function (err, event){
@@ -75,17 +69,13 @@ module.exports = function(HackathorgProfile){
       });
     },
     cancelTicket: function (req, res) {
-      Event.update({_id: req.params.eventid}, {$pull:{users:{userId:req.user._id}}}, function(err, numrows){
-        if (err){
-          res.send(500, 'Error: ' + err)
-        }
-        res.send(200, numrows)
-      })
+      Event.update({_id: req.params.eventid}, {$pull:{users:{userId:req.user._id}}}, responseCallback(res))
 
     },
     cancelApplication: function (req, res) {
-      
+      Application.update({_id: req.params.eventid}, {$pull:{users:{userId:req.user._id}}}, responseCallback(res))
     },
+    
 
 
     review: function (req, res) {
@@ -95,7 +85,6 @@ module.exports = function(HackathorgProfile){
     follows: function(req, res) {
       var id = profileOrUser(req, res);
       Follow.findOne({_id: id}).select('follows').lean().exec(function (err, result) {
-        console.log(result)
         if (result.follows)
         res.send(result.follows);
         else {
