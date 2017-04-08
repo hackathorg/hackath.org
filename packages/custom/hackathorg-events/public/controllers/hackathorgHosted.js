@@ -121,6 +121,8 @@
         $scope.event = new EventService.events()
         $scope.event.hosts = [];
         $scope.event.tags = [];
+        $scope.event.requiresApplication = ["mentor", "sponsor", "organiser"];
+        $scope.event.attendeeApplication = false;
 
         // Event schema
         // $scope.event.title:  {type: String, unique: true},
@@ -158,11 +160,19 @@
                 $scope.event.hosts = [];
                 $scope.event.tags = [];
                 $scope.event.hidden = true;
+                $scope.event.requiresApplication = ["mentor", "sponsor", "organiser"];
+                $scope.event.attendeeApplication = false;
            } 
            // Get the event selected from db and populate page with Update event shtuff
            else if (idSelectedEvent !== null) {
                 $scope.changeManageTab('dashboard');
                 $scope.event = EventService.events.show({name:idSelectedEvent})
+                if (!$scope.event.requiresApplication || $scope.event.requiresApplication.length === 0) {
+                    console.error("Updated")
+                    $scope.event.requiresApplication = ["mentor", "sponsor", "organiser"]
+                    $scope.event.attendeeApplication = true;
+                    console.error($scope.event.requiresApplication)
+                }
            }
         };
         
@@ -215,6 +225,22 @@
             $scope.submit();
         };
 
+        $scope.updateRequiresApplication = function(usertype) {
+            if ($scope.event.requiresApplication) {
+                console.error("It found application")
+                var index = $scope.event.requiresApplication.indexOf(usertype);
+                if (index > -1) {
+                    console.error("It contains " + usertype)
+                    $scope.event.requiresApplication.splice(index, 1);
+                } else {
+                    console.error("It doesnt contain " + usertype)
+                    $scope.event.requiresApplication.push(usertype);
+                }
+            } else {
+                console.error("It did not found application")
+                $scope.event.requiresApplication = ["mentor", "sponsor", "organiser"]
+            }
+        };
         // Update the heroku build status
         $scope.updateBuildStatus = function(package_id) {
 

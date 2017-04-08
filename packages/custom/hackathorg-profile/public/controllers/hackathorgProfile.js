@@ -23,6 +23,7 @@
         };
 
         console.log($scope.thisuser)
+        
         // The current username being viewed (empty if viewing self)
         $scope.vieweduser = $stateParams.username;
 
@@ -44,7 +45,11 @@
             'tags': 'python, javascript, java'
         };
 
+        /* This user */
         $scope.user = HackathorgProfile.profiles.show({userId:$scope.userToId($scope.vieweduser)});
+
+        /* User applications */
+        $scope.userApplications = HackathorgProfile.applications.user();
 
         /* User follower data & functions */
         $scope.user_follower = HackathorgProfile.follower;
