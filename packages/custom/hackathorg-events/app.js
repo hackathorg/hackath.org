@@ -23,7 +23,7 @@ HackathorgEvents.register(function(app, auth, database, circles) {
     link: 'events',
     roles: ['authenticated'],
     menu: 'main',
-    position: 1
+    weight:1
   });
 
   HackathorgEvents.menus.add({
@@ -31,7 +31,7 @@ HackathorgEvents.register(function(app, auth, database, circles) {
     link: 'hosted',
     roles: ['authenticated'],
     menu: 'main',
-    position: 2
+    weight:2
   });
   
   /**
