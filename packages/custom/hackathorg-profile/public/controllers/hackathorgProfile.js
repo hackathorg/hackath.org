@@ -3,11 +3,42 @@
 
     /* jshint -W098 */
 
-    function HackathorgProfileController($scope, Global, HackathorgProfile, $stateParams, MeanUser) {
+    function HackathorgProfileController($scope, Global, HackathorgProfile, $stateParams, MeanUser, $rootScope) {
         $scope.global = Global;
         $scope.package = {
             name: 'hackathorg-profile'
         };
+
+        var vm = this;
+        vm.hdrvars = {      
+          authenticated: MeanUser.loggedin,
+          user: MeanUser.user,
+          isAdmin: MeanUser.isAdmin
+        }
+
+        $scope.thisuser = {
+            '_id' : vm.hdrvars.user._id,
+            'username': vm.hdrvars.user.username
+        };
+
+        $rootScope.$on('loggedin', function () {
+
+            vm.hdrvars = {
+                authenticated: MeanUser.loggedin,
+                user: MeanUser.user,
+                isAdmin: MeanUser.isAdmin
+            }
+          
+            $scope.thisuser = {
+                '_id' : vm.hdrvars.user._id,
+                'username': vm.hdrvars.user.username
+            };
+            // If this user is the user being viewed
+            if ($scope.vieweduser === null || $scope.vieweduser === undefined || $scope.thisuser._id == $scope.userToId($scope.vieweduser)){
+                $scope.viewself = true;
+            }
+
+        });
 
         /* User profile data and functions */
         
@@ -16,14 +47,8 @@
             return username
         }
 
-        // The current users information
-        $scope.thisuser = {
-            '_id' : MeanUser.user._id,
-            'username': MeanUser.user.username
-        };
-
         console.log($scope.thisuser)
-        
+
         // The current username being viewed (empty if viewing self)
         $scope.vieweduser = $stateParams.username;
 
@@ -142,6 +167,6 @@
         .module('mean.hackathorg-profile')
         .controller('HackathorgProfileController', HackathorgProfileController);
 
-    HackathorgProfileController.$inject = ['$scope', 'Global', 'HackathorgProfile', '$stateParams', 'MeanUser'];
+    HackathorgProfileController.$inject = ['$scope', 'Global', 'HackathorgProfile', '$stateParams', 'MeanUser', '$rootScope'];
 
 })();

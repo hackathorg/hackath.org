@@ -1,0 +1,107 @@
+<div layout="column" flex data-ng-controller="DashboardController">
+  	<md-content layout="column" layout-padding flex>
+     	<div flex="100" layout-wrap layout="row" layout-align="space-around start" layout-padding>
+	      	<div flex-gt-md="66" flex-md="66" flex-xs="100" flex-sm="100" flex="66">
+		        <md-card>
+					<md-card-title>
+						<md-card-title-text>
+							<p style="margin-top: 16px;margin-bottom: 0px" class="md-display-3">hackath.org</p>
+							<p style="margin-top: 0px;margin-bottom: 16px" class="md-subhead">The open-source hackathon hosting platform</p>
+							<p style="margin-top: 16px;margin-bottom: 32px">Welcome back, {{user.name}} {{loggedIn}}!</p>
+						</md-card-title-text>
+					</md-card-title>
+		        </md-card>
+	      	</div>
+	      	<div flex="33" hide-xs hide-sm>
+				<md-card>
+					<md-card-title>
+					  <md-card-title-text>
+					    <span class="md-title">Discover</span>
+					  </md-card-title-text>
+					</md-card-title>
+					<md-divider></md-divider>
+					<md-list-item class="noright" ng-href="/hosted">
+					  <p>View events you are hosting (shown if you are hosting events)</p>
+					</md-list-item>
+					<md-divider></md-divider>
+					<md-list-item class="noright" ng-href="/profile">
+					  <p>View events you are attending (shown if you are attending events)</p>
+					</md-list-item>
+					<md-divider></md-divider>
+					<md-list-item class="noright" ng-href="/events">
+					  <p>View recommended events</p>
+					</md-list-item>
+				</md-card>
+			</div>
+		    <div style="padding:0px" flex="100" layout-wrap layout="row" layout-align="space-around start" layout-padding>
+		      	<div flex-gt-md="66" flex-md="66" flex-xs="100" flex-sm="100">
+			        <md-card>
+			            <md-card-title style="padding:24px 16px 10px">
+			              	<md-card-title-text layout-wrap layout="row" layout-align="space-around start">
+			                	<md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
+				                	<label>View dashboard as</label>
+									<md-select ng-model="dashboardview">
+										<md-option ng-repeat="view in dashboardviews" value="{{view}}">
+										  {{view}}
+										</md-option>
+									</md-select>
+			                	</md-input-container>
+				                <div flex=66>
+				                </div>
+			             	</md-card-title-text>
+			            </md-card-title>
+			          	<md-divider></md-divider>
+			          	<md-list-item ng-click="null">
+			              	<div class="md-list-item-text" layout="column">
+			                	<p>https://www.warwickhack.com/</p>
+			              	</div>
+			          	</md-list-item>
+			          	<md-divider></md-divider>
+			          	<md-list-item class="md-3-line" ng-click="null">
+			            	<img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+			              	<div class="md-list-item-text" layout="column">
+			                	<h3>WarwickHACK</h3>
+			                	<h4>Bloomberg API prize</h4>
+			                	<p>https://www.warwickhack.com/</p>
+			              	</div>
+		              	</md-list-item>
+			          	<md-divider></md-divider>
+			          	<md-list-item ng-click="null">
+			              	<div class="md-list-item-text" layout="column">
+			                	<p>https://www.warwickhack.com/</p>
+			              	</div>
+			          	</md-list-item>
+			          	<md-divider></md-divider>
+			          	<md-list-item ng-click="null">
+			              	<div class="md-list-item-text" layout="column">
+			                	<p>View more</p>
+			              	</div>
+			          	</md-list-item>
+			          	<md-divider></md-divider>
+			      	</md-card>
+				</div>
+		        <div flex-gt-md="33" flex-md="33" flex-xs="100" flex-sm="100">
+					<md-card>
+						<md-card-title>
+						  <md-card-title-text>
+						    <span ng-if="following.length" class="md-title">Notifications ({{following.length}})</span>
+						    <span ng-if="!following.length" class="md-title">Notifications (0)</span>
+						  </md-card-title-text>
+						</md-card-title>
+						<md-divider></md-divider>
+						<md-list-item ng-repeat="person in following" class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
+						  <img alt="{{ person.username }}" ng-src="{{ person.img }}" class="md-avatar" />
+						  <p>{{ person.username }}</p>
+						  <md-button ng-if="viewself" ng-click="unfollow(person.id, $index)">unfollow</md-button>
+						</md-list-item>
+						<md-list-item>
+						  
+						  <p>You have no new notifications</p>
+						  <md-button ng-if="viewself" ng-click="unfollow(person.id, $index)">unfollow</md-button>
+						</md-list-item>
+					</md-card>
+		        </div>
+			</div>
+		</div>
+  	</md-content>
+</div>

@@ -27,8 +27,8 @@ var applicationSchema = new Schema({
     status: String,
     response: String
 });
-applicationSchema.index({userId:1, eventId:1}, {unique: true});
 
+applicationSchema.index({userId:1, eventId:1}, {unique: true});
 
 var eventSchema = new Schema({
     requiresApplication: [String],
@@ -38,7 +38,6 @@ var eventSchema = new Schema({
     }],
 
 });
-
 
 eventSchema.methods.toJSON = function() {
     var obj = this.toObject();

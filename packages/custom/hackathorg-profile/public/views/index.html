@@ -26,7 +26,7 @@
               <p><i class="p-icon material-icons">event_seat</i> 5 Events Attended</p>
             </md-card-content>
             <md-card-content flex=50>
-              <p><i class="p-icon material-icons">favorite</i> 15 Followers</p>
+              <p><i class="p-icon material-icons">favorite</i> {{followers.length}} Followers</p>
               <p><i class="p-icon material-icons">star</i> 2 Prizes Won</p>
             </md-card-content>
           </div>
@@ -330,7 +330,8 @@ name: {
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-title">My applications ({{user.following.length}})</span>
+                <span ng-if="userApplications.length" class="md-title">My applications ({{userApplications.length}})</span>
+                <span ng-if="!userApplications.length" class="md-title">My applications (0)</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
@@ -343,6 +344,18 @@ name: {
               </div>
               <md-button ng-if="!isFollowing(person.id)">View details</md-button>
               <md-button ng-if="!isFollowing(person.id)">Dismiss</md-button>
+              <md-divider></md-divider>
+            </md-list-item>
+            <md-list-item ng-repeat="app in userApplications" class="md-3-line" ng-click="null">
+              <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+              <div class="md-list-item-text" layout="column">
+                <h3>{{app.eventId}}</h3>
+                <h4>{{app.role}}</h4>
+                <p>{{app.status}}</p>
+              </div>
+              <md-button>View details</md-button>
+              <md-button ng-if="app.status!=='accept'">Cancel</md-button>
+              <md-divider></md-divider>
             </md-list-item>
           </md-card>
       </div>
@@ -350,7 +363,8 @@ name: {
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-title">My events ({{user.following.length}})</span>
+                <span ng-if="user.events.length" class="md-title">My events ({{user.events.length}})</span>
+                <span ng-if="!user.events.length" class="md-title">My events (0)</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
