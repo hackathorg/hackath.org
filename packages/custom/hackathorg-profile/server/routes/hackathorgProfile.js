@@ -27,7 +27,7 @@
         app.post('/api/events/apply/:eventid', requiresLogin, profiles.apply);
         app.post('/api/events/cancel/:eventid', requiresLogin, profiles.cancelApplication);
         app.post('/api/applications/cancel/:applicationId', requiresLogin, profiles.cancelTicket);
-        app.post('/api/applications/:applicationId', requiresLogin, profiles.review);
+        app.post('/api/applications/review/:applicationId', requiresLogin, profiles.review);
 
     };
 }());

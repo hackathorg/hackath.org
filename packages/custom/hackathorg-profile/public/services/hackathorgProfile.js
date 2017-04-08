@@ -12,14 +12,22 @@
                 }
 
             }),
-
-            userapplications: $resource('api/userapplication/:userId', {
-                userId: '@userId'
+            
+            applications: $resource('api/application/:applicationId', {
+                applicationId: '@applicationId'
                 }, {
                 user: {
                     method: 'GET',
                     isArray: true,
-                    url: '/api/userapplications/:userId'
+                    url: '/api/user/applications'
+                }, 
+                cancelApplication : {
+                    method: 'POST',
+                    url: '/api/applications/cancel/:applicationId'
+                },
+                reviewApplication : {
+                    method: 'POST',
+                    url: '/api/applications/review/:applicationId'
                 }
             }),
 
@@ -29,12 +37,16 @@
                 event: {
                     method: 'GET', 
                     isArray: true, 
-                    url: '/api/eventapplications/:eventId'
+                    url: '/api/events/:eventId/applications'
                 },
                 apply: {
                     method: 'POST',
-                    url: '/api/apply/:eventId'
-                }
+                    url: '/api/events/apply/:eventId'
+                },
+                cancel: {
+                    method: 'POST',
+                    url: '/api/events/cancel/:eventId'
+                },
             }),
             
             follower: $resource('api/follower/:userId', {
