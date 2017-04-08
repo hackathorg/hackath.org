@@ -11,28 +11,32 @@
                     method: 'GET'
                 }
 
-
             }),
 
-            userapplication: $resource('api/userapplication/:userId', {
+            userapplications: $resource('api/userapplication/:userId', {
                 userId: '@userId'
                 }, {
                 user: {
                     method: 'GET',
                     isArray: true,
-                    url: '/api/userapplication/:userId'
-                },
-                event: {
-                    method: 'GET', 
-                    isArray: true, 
-                    url: '/api/application/:id'
-                },
-                apply: {
-                    method: 'POST',
-                    url: '/api/follow/:id'
+                    url: '/api/userapplications/:userId'
                 }
             }),
 
+            eventapplications: $resource('api/eventapplication/:eventId', {
+                eventId: '@eventId'
+                }, {
+                event: {
+                    method: 'GET', 
+                    isArray: true, 
+                    url: '/api/eventapplications/:eventId'
+                },
+                apply: {
+                    method: 'POST',
+                    url: '/api/apply/:eventId'
+                }
+            }),
+            
             follower: $resource('api/follower/:userId', {
                 userId: '@userId'
                 }, {

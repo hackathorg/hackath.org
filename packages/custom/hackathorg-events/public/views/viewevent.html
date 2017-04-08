@@ -48,7 +48,7 @@
           <md-card-title style="padding:24px 16px 10px">
             <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
               <span flex=66 class="md-title">Attendees</span>
-              <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
+              <md-input-container style="padding:0px;margin:0px" flex=50 class="md-block">
                 <md-select ng-model="viewattendee">
                   <md-option ng-repeat="thisattendee in viewattendeetype" value="{{thisattendee.type}}">
                     {{thisattendee.type}}
@@ -62,6 +62,14 @@
             <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
             <p>{{ person.id }}</p>
             <md-button>unfollow</md-button>
+          </md-list-item>
+          <md-list-item class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
+            <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
+            <p> exampleuser2017</p>
+          </md-list-item>
+          <md-list-item class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
+            <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
+            <p> exampleuser2017</p>
           </md-list-item>
           <md-list-item class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
             <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
