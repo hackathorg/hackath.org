@@ -30,24 +30,6 @@
                     url: '/api/applications/:applicationId/review'
                 }
             }),
-
-            eventapplications: $resource('api/events/:eventId/applications', {
-                eventId: '@eventId'
-                }, {
-                applications: {
-                    method: 'GET', 
-                    isArray: true, 
-                    url: '/api/events/:eventId/applications'
-                },
-                apply: {
-                    method: 'POST',
-                    url: '/api/events/:eventId/apply'
-                },
-                cancel: {
-                    method: 'POST',
-                    url: '/api/events/:eventId/cancel'
-                },
-            }),
             
             follower: $resource('api/follower/:userId', {
                 userId: '@userId'

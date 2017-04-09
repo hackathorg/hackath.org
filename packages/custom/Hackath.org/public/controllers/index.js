@@ -1,8 +1,33 @@
 'use strict';
 
-angular.module('mean.system').controller('IndexController', ['$scope', 'Global',
-  function ($scope, Global) {
+angular.module('mean.system').controller('IndexController', ['$scope', 'Global', 'MeanUser', '$state','$rootScope',
+  function ($scope, Global, MeanUser, $state, $rootScope) {
     $scope.global = Global;
+
+    var vm = this;
+
+    vm.hdrvars = {      
+      authenticated: MeanUser.loggedin,
+      user: MeanUser.user,
+      isAdmin: MeanUser.isAdmin
+    }
+
+    if (vm.hdrvars.authenticated) {
+      $state.go('dashboard');
+    }
+
+    $rootScope.$on('loggedin', function () {
+
+      vm.hdrvars = {
+        authenticated: MeanUser.loggedin,
+        user: MeanUser.user,
+        isAdmin: MeanUser.isAdmin
+      }
+      
+      $state.go('dashboard');
+
+    });
+
     $scope.sites = [{
       'name': 'makeapoint',
       'text': 'Makeapoint is a platform to craft and fine-tune ideas and messages providing a graphical experience which brough an offline methodlogy online',
@@ -16,6 +41,7 @@ angular.module('mean.system').controller('IndexController', ['$scope', 'Global',
       'link': 'http://www.qed42.com',
       'image': '/meanStarter/assets/img/cactus.png'
     }];
+
     $scope.packages = {
       'gmap': {
         'name': 'gmap',

@@ -30,7 +30,8 @@
                 }
 
             }),
-            eventapplications: $resource('api/events/:eventId/applications', {
+
+            applications: $resource('api/events/:eventId/applications', {
                 eventId: '@eventId'
                 }, {
                 applications: {

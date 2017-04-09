@@ -1,6 +1,5 @@
 (function() {
     'use strict';
-    var mongoose = require('mongoose')
     /* jshint -W098 */
 
     function HackathorgCreateController($scope, Global, $stateParams, EventService, $state) {
@@ -21,9 +20,9 @@
             'type': 'Advanced'
         }];
 
-        $scope.event = new EventService.events()
-        $scope.event.tags = []
-        $scope.event.hosts = []
+        $scope.event = new EventService.events();
+        $scope.event.tags = [];
+        $scope.event.hosts = [];
         $scope.startDate = new Date();
         $scope.endDate = new Date();
         $scope.minDate = new Date(
@@ -32,10 +31,10 @@
               $scope.startDate.getDate());
         $scope.setStartDate = function(){
             $scope.event.startDate = $scope.startDate.toISOString();
-        }
+        };
         $scope.setEndDate = function(){
             $scope.event.endDate = $scope.endDate.toISOString();
-        }
+        };
         $scope.submit = function() {
             $scope.event.$save(function() {
                 $state.go('events'); 

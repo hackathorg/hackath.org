@@ -22,7 +22,7 @@ HackathorgDocs.register(function(app, auth, database, circles) {
     link: 'docs',
     roles: ['authenticated'],
     menu: 'main',
-    position: 3
+    weight:3
   });
   
   /**

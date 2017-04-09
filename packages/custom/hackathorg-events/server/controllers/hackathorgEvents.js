@@ -3,8 +3,7 @@ var async = require('async');
 var jwt = require('jsonwebtoken');
 var Heroku = require('heroku-client')
 var mongoose = require('mongoose'),
-  Event = mongoose.model('Event'),
-  User = mongoose.model('User');
+  Event = mongoose.model('Event');
 
 module.exports = function(HackathorgEvents){
   return {
@@ -39,8 +38,8 @@ module.exports = function(HackathorgEvents){
         }],
         function (err, event) {
           if (err){
-            console.log(err)
-            res.status(500)
+            console.log(err);
+            res.status(500);
           }
           res.json(event);
         }
