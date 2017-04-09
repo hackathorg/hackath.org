@@ -33,11 +33,12 @@
                 <p>{{event.description}}</p>
                 <p>Past events organised by 
                 <p>This event doesn't have a web application set up yet. However you can still register for the event or apply for mentoring / sponsorship below! </p>
-                <p style="padding-top:20px;" class="md-title">We've noticed you're already attending this event as a {role}! Great news!</p>
-                <p>The event organisers should keep you updated on the event by email!</p>
-                <p>If you no longer wish to attend, please click below!</p>
-                <p style="padding-top:20px;" class="md-title">We've noticed you've already applied for this event! Great news!</p>
-                <p>If you wish to review or remove your application, visit your event applications on your profile page.</p>
+                <p ng-if="previousApplication && applied.status === 'accepted'" style="padding-top:20px;" class="md-title">We've noticed you're already attending this event as a {{applied.role}}! Great news!</p>
+                <p ng-if="previousApplication && applied.status === 'accepted'">The event organisers should keep you updated on the event by email!</p>
+                <p ng-if="previousApplication && applied.status === 'accepted'">If you no longer wish to attend, please click below!</p>
+                <md-button ng-if="previousApplication && applied.status === 'accepted'" type="submit" class="md-raised md-primary">Unattend this event</md-button>
+                <p ng-if="previousApplication && applied.status === 'pending'" style="padding-top:20px;" class="md-title">We've noticed you've already applied for this event! Great news!</p>
+                <p ng-if="previousApplication && applied.status === 'pending'">If you wish to review or remove your application, visit your event applications on your profile page.</p>
               </md-card-content>
             </div>
           </div>
@@ -77,7 +78,7 @@
           </md-list-item>
         </md-card>
       </div>
-      <div flex-gt-md="66" flex-md="100" flex-xs="100" flex-sm="100" flex=66>
+      <div ng-if="!previousApplication"  flex-gt-md="66" flex-md="100" flex-xs="100" flex-sm="100" flex=66>
       <form name="applyform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
         <md-card>
           <md-card-title style="padding:24px 16px 10px">

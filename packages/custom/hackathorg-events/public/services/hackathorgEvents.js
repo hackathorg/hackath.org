@@ -30,7 +30,25 @@
                 }
 
             }),
-            
+
+            applications: $resource('api/application/:applicationId', {
+                applicationId: '@applicationId'
+                }, {
+                user: {
+                    method: 'GET',
+                    isArray: true,
+                    url: '/api/user/applications'
+                }, 
+                cancelApplication : {
+                    method: 'POST',
+                    url: '/api/applications/cancel/:applicationId'
+                },
+                reviewApplication : {
+                    method: 'POST',
+                    url: '/api/applications/review/:applicationId'
+                }
+            }),
+
             eventapplications: $resource('api/events/:eventId/applications', {
                 eventId: '@eventId'
                 }, {

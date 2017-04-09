@@ -41,11 +41,27 @@
         //     status: String,
         //     response: String
         // });
+
         $scope.application = EventService.eventapplications;
-        console.error($scope.application)
         $scope.application.eventId = $scope.getEventId
         $scope.application.role = 'Attendee'
-        
+
+        $scope.previousApplication = false;
+        $scope.applied = {}
+
+        function updateApplications() {
+            var usersapplications = EventService.applications.user(function(applications) {
+                for (var i = 0; i < usersapplications.length; i++) {
+                    if ($scope.getEventId === usersapplications[i].eventId){
+                        $scope.applied = usersapplications[i]
+                        $scope.previousApplication = true;
+                    }
+                }
+            });
+        };
+
+        updateApplications();
+
         $scope.viewattendeetype = [{
             'type' :'Organiser' 
         }, {
@@ -64,9 +80,8 @@
 
         $scope.submit = function() {
             $scope.application.apply({eventId:$scope.getEventId}, function(application) {
-                //$scope.events.push({_id:event._id, title:event.title, organisation: event.organisation})
+                updateApplications();
                 //show a thank you message
-
             });
         };
 
