@@ -32,7 +32,7 @@ module.exports = function(HackathorgEvents){
           }
           var event = new Event(req.body);
           event.ownerid = req.user._id;
-          event.users = result.map(function(val) {return {userId: val, role: 'host'}});
+          event.users = result.map(function(val) {return {userId: val, role: 'organiser'}});
 
           
           event.save(callback);

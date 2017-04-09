@@ -23,11 +23,11 @@
                 }, 
                 cancelApplication : {
                     method: 'POST',
-                    url: '/api/applications/cancel/:applicationId'
+                    url: '/api/applications/:applicationId/cancel'
                 },
                 reviewApplication : {
                     method: 'POST',
-                    url: '/api/applications/review/:applicationId'
+                    url: '/api/applications/:applicationId/review'
                 }
             }),
 

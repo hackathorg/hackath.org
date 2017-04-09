@@ -5,12 +5,11 @@
     // The Package is past automatically as first parameter
     module.exports = function(HackathorgProfile, app, auth, database, circles) {
 
-        var requiresAdmin = circles.controller.hasCircle('admin');
         var requiresLogin = circles.controller.hasCircle('authenticated');
-        var profiles = HackathorgProfile.controller
-
-        app.get('/api/users', requiresLogin, function (req, res) {res.send(req.user)})
-        app.get('/api/users/:userId', function(req, res){res.send( req.profile)})
+        var profiles = HackathorgProfile.controller;
+        app.param('applicationId', profiles.getUserEvents);
+        app.get('/api/users', requiresLogin, function (req, res) {res.send(req.user); });
+        app.get('/api/users/:userId', function(req, res){res.send(req.profile); });
 
         //Followers
         app.get('/api/followers', requiresLogin, profiles.followers);
@@ -22,12 +21,14 @@
         app.post('/api/unfollow/:userId', requiresLogin, profiles.unfollow);
 
         //Applications
-        app.get('/api/events/:eventId/applications', requiresLogin, profiles.eventapplications);
+        app.get('/api/events/:eventid/applications', requiresLogin, profiles.eventapplications);
         app.get('/api/user/applications', requiresLogin, profiles.userapplications);
-        app.post('/api/events/apply/:eventid', requiresLogin, profiles.apply);
-        app.post('/api/events/cancel/:eventid', requiresLogin, profiles.cancelApplication);
-        app.post('/api/applications/cancel/:applicationId', requiresLogin, profiles.cancelTicket);
-        app.post('/api/applications/review/:applicationId', requiresLogin, profiles.review);
+        app.post('/api/events/:eventid/apply', requiresLogin, profiles.apply);
+        app.post('/api/events/:eventid/cancel', requiresLogin, profiles.cancelApplication);
+        app.post('/api/applications/:applicationId/cancel', requiresLogin, profiles.cancelTicket);
+        app.post('/api/applications/:applicationId/review', requiresLogin, profiles.review);
+        // app.get('/api/applications/:applicationId', requiresLogin, profiles.application);
+
 
     };
 }());
