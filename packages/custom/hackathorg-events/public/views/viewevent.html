@@ -47,7 +47,7 @@
         <md-card>
           <md-card-title style="padding:24px 16px 10px">
             <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
-              <span flex=66 class="md-title">Attendees</span>
+              <span flex=50 class="md-title">Attendees</span>
               <md-input-container style="padding:0px;margin:0px" flex=50 class="md-block">
                 <md-select ng-model="viewattendee">
                   <md-option ng-repeat="thisattendee in viewattendeetype" value="{{thisattendee.type}}">
@@ -78,13 +78,14 @@
         </md-card>
       </div>
       <div flex-gt-md="66" flex-md="100" flex-xs="100" flex-sm="100" flex=66>
+      <form name="applyform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
         <md-card>
           <md-card-title style="padding:24px 16px 10px">
             <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
               <span flex=66 class="md-title">Apply to {{event.title}}</span>
               <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
                 <label>Application type</label>
-                <md-select ng-model="applyattendee">
+                <md-select ng-model="application.role">
                   <md-option ng-repeat="thisattendee in applyattendeetype" value="{{thisattendee.type}}">
                     {{thisattendee.type}}
                   </md-option>
@@ -94,16 +95,16 @@
           </md-card-title>
           <md-divider></md-divider>
           <md-card-content>
-            <p><b>You are applying as: {{applyattendee}}</b></p>
-            <md-input-container ng-if="applyattendee === 'Mentor'" class="md-block">
+            <p><b>You are applying as: {{application.role}}</b></p>
+            <md-input-container ng-if="application.role === 'Mentor'" class="md-block">
               <label>Description</label>
               <div class="hint">Tell the organisers a bit about yourself and why you want the role</div>
               <textarea ng-model="application.desc" md-maxlength="150" rows="3" md-select-on-focus></textarea>
             </md-input-container>
-            <md-switch ng-if="applyattendee === 'Mentor'" style="padding-bottom:20px; font-size:14px" ng-model="application.includeresume" aria-label="Switch 1">
+            <md-switch ng-if="application.role === 'Mentor'" style="padding-bottom:20px; font-size:14px" ng-model="application.includeresume" aria-label="Switch 1">
               Include resume
             </md-switch>
-            <div ng-if="applyattendee === 'Sponsor'" layout-gt-sm="row">
+            <div ng-if="application.role === 'Sponsor'" layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Company or Organisation</label>
                 <input ng-model="application.name">
@@ -113,12 +114,12 @@
                 <input ng-model="application.contact">
               </md-input-container>
             </div>
-            <md-input-container  ng-if="applyattendee === 'Sponsor'" class="md-block">
+            <md-input-container  ng-if="application.role === 'Sponsor'" class="md-block">
               <label>Description</label>
               <div class="hint">Tell the organisers briefly about your company and what can you offer</div>
               <textarea ng-model="application.desc" md-maxlength="150" rows="3" md-select-on-focus></textarea>
             </md-input-container>
-            <div ng-if="applyattendee === 'Sponsor'" layout-gt-sm="row">
+            <div ng-if="application.role === 'Sponsor'" layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Upload a proposal document</label>
                 <input ng-model="application.proposal">
@@ -147,9 +148,10 @@
             <p>Your privacy settings can be managed and updated at any time from your profile settings.</p>
           </md-card-content>
           <md-card-actions layout="row" layout-align="end center">
-            <md-button class="md-raised md-primary">Apply</md-button>
+            <md-button type="submit" class="md-raised md-primary">Apply</md-button>
           </md-card-actions>
         </md-card>
+        </form>
       </div>
     </div>
   </md-content>

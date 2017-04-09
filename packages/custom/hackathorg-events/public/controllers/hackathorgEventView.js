@@ -28,7 +28,23 @@
         /* Attendee types */
 
         $scope.viewattendee = 'Organiser';
-        $scope.applyattendee = 'Attendee';
+
+        // var applicationSchema = new Schema({
+        //     userId:{type: ObjectId, index: true},
+        //     eventId:{type: ObjectId, index: true},
+        //     username: String,
+        //     role: String,
+        //     description: String,
+        //     site: String,
+        //     contact: String,
+        //     proposal: String,
+        //     status: String,
+        //     response: String
+        // });
+        $scope.application = EventService.eventapplications;
+        console.error($scope.application)
+        $scope.application.eventId = $scope.getEventId
+        $scope.application.role = 'Attendee'
         
         $scope.viewattendeetype = [{
             'type' :'Organiser' 
@@ -45,6 +61,14 @@
         }, {
             'type' :'Sponsor' 
         }];
+
+        $scope.submit = function() {
+            $scope.application.apply({eventId:$scope.getEventId}, function(application) {
+                //$scope.events.push({_id:event._id, title:event.title, organisation: event.organisation})
+                //show a thank you message
+
+            });
+        };
 
     }
 
