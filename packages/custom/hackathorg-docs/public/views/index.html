@@ -39,6 +39,8 @@
               External API
             </md-nav-item>
 
+
+
             <!-- openhack.js -->
             <md-nav-item ng-if="(selectedDocs === 'openhack')" md-nav-click="changeTab('modules')" name="modules">
               Packages
@@ -49,6 +51,43 @@
 
           </md-nav-bar>
         </div>
+            <div flex=100>
+              <md-card>
+                <md-card-title style="padding-bottom: 24px">
+                  <md-card-title-text class="md-headline">
+                    Event Management
+                  </md-card-title-text>
+                </md-card-title>
+                <md-divider></md-divider>
+                <div layout-wrap layout="row" layout-align="space-around start">
+                  <div flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100" style="padding-right:15px;padding-left: 15px">
+                  <p class="md-title">Event creation</p>
+                  <p>The create button at the bottom of the menu on the left will bring up the default event creation interface. 
+                  This will allow you to fill in the basic details of the event and organising team.</p> 
+                  <p>Events won't be made public until you have explicitly stated. Once public, the event will be made available on the event search and users can begin applying for your event.</p>
+                  </div>
+                  <div flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100" style="padding-right:15px;padding-left: 15px">
+                  <p class="md-title">Event managing</p>
+                  <p>Events you've created will be available on the left menu, and once created, a number of additional options will be available</p>
+                  <p style="font-weight:500">Event applications</p>
+                  <p>Once your event is public, the event is open for applications, as determined by the settings of your event. Applications for any role in your event can be managed on the event, including viewing the application in detail and responding to the application.</p>
+                  <p style="font-weight:500">Attendee management</p>
+                  <p>Once your event is public, you can manage the attendees of the event. Additionally, you can send messages to attendees from this interface, if necessary.</p>
+                  <p style="font-weight:500">Updating event details</p>
+                  <p>You can easily modify the basic event information from here, as well as the discovery status of the event. You can also view and manage discovery statistics from this panel. </p>
+                  <p style="font-weight:500">Web application deployment</p>
+                  <p>One key feature of the created event is the ability to easily deploy and customise a hackathon web application, which enables organisers to deploy an offsite, customised hackathon experience for all those involved with the hackathon. </p>
+
+                  <p>The web application developed for this purpose is an Open-Source framework called <a href="http://www.github.com/" target="__blank">Openhack.js</a>. This is a highly customisable hackathon framework, which connects to Hackath.org using OAuth. From Hackath.org, you can manage the different modules included in the deployed framework, from our database of pre-created modules.</p>
+                  <p>Developers can easily modify the framework and create additional modules, if they wish. More information is available in the <a href="/docs">documentation</a> for Openhack.js.</p>
+                  <p>Furthermore, advanced developers can create their own completely customised deployment by integrating Hackath.orgs OAuth and APIs for deployed events. This allows complete flexibility in the deployed solution.</p>
+                  <p>Once the application is deployed, it can be managed from the deployed instance, including managing the event, event resources and additional features included on the deployed instance.</p>
+
+                  <p>We use Heroku as a platform for hosting the web application, allowing users of all ability and any scale of event to easily deploy their web application from Hackath.org.</p>
+                  </div>
+                </div>
+              </md-card>
+            </div>
       </div>
     </div>
   </md-content>
