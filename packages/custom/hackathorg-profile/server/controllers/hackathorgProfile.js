@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
   Follow = mongoose.model('Follow'),
   Application = mongoose.model('Application'),
   Event = mongoose.model('ApplicationEvent'),
-  User = mongoose.model('User');
+  User = mongoose.model('UserEvent');
 
 function profileOrUser(req, res){
   if (req.profile){
@@ -19,7 +19,7 @@ function profileOrUser(req, res){
 }
 
 function addToEvent(req, res, callback){
-  
+
       if (req.event.users){
         req.event.users.push({userId: req.application.userId, role: req.application.role});
       } else {
@@ -87,7 +87,7 @@ module.exports = function(HackathorgProfile){
           res.send(500);
           return;
         }
-        if (event.users.some(function(user){return user.userId === req.user._id && user.role === 'organiser';})){
+        if (event.users.some(function(user){return user.userId === req.user._id && user.role.toLowerCase() === 'organiser';})){
           Application.find({eventId: event._id}).exec(responseCallback(res));
         } else {
           res.send(403, 'Forbidden');
@@ -99,13 +99,19 @@ module.exports = function(HackathorgProfile){
       Application.find({userId: req.user._id}).exec(responseCallback(res));
     },
     apply: function (req, res){
-      Event.findOne({_id: req.params.eventid}).exec(function (err, event){
+      async.parallel([
+        function(callback){
+          Event.findOne({_id: req.params.eventid}).exec(callback);
+        },
+        function(callback){
+          User.findOne({_id: req.user._id}).exec(callback);
+        }], function (err, result){
         if (err){
           console.log(err);
           res.send(500, err);
         }
-        req.event = event;
-        console.log( event);
+        req.event = result[0];
+        req.userevents = result[1];
         req.application = new Application(req.body);
         req.application.userId = req.user._id;
         req.application.status = 'pending';
@@ -113,11 +119,11 @@ module.exports = function(HackathorgProfile){
         if (err){
           res.send(500, 'Error: ' + err);
         }
-        if (!event){
+        if (!result[0]){
           res.send(404, 'Event not found');
         }
 
-        if ( event && event.requiresApplication && event.requiresApplication.indexOf(req.body.role) !== -1){
+        if ( req.event.requiresApplication.indexOf(req.body.role.toLowerCase()) !== -1){
           req.application.save(function(err, result ){res.send(result); });
         } else {
           addToEvent(req, res, responseCallback(res));

@@ -100,7 +100,7 @@
             <md-input-container ng-if="application.role === 'Mentor'" class="md-block">
               <label>Description</label>
               <div class="hint">Tell the organisers a bit about yourself and why you want the role</div>
-              <textarea ng-model="application.desc" md-maxlength="150" rows="3" md-select-on-focus></textarea>
+              <textarea ng-model="application.description" md-maxlength="150" rows="3" md-select-on-focus></textarea>
             </md-input-container>
             <md-switch ng-if="application.role === 'Mentor'" style="padding-bottom:20px; font-size:14px" ng-model="application.includeresume" aria-label="Switch 1">
               Include resume

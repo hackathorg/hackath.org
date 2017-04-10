@@ -1,6 +1,5 @@
 (function() {
     'use strict';
-    var mongoose = require('mongoose')
     /* jshint -W098 */
 
     function HackathorgEventViewController($scope, Global, EventService, $stateParams) {
@@ -12,18 +11,14 @@
 
         /* Event information */
         $scope.getEventId = $stateParams.eventid;
-        $scope.event = EventService.events.show({name:$scope.getEventId})
+        $scope.event = EventService.events.show({name:$scope.getEventId});
 
         $scope.sites = $scope.events;
         $scope.currentNavItem = 'discover';
 
         $scope.currentNavItem = '';
 
-        var containsId = function(array, id) {
-            return array.some(function(arrVal) {
-                return id === arrVal.id
-            })
-        };
+
 
         /* Attendee types */
 
@@ -42,23 +37,23 @@
         //     response: String
         // });
 
-        $scope.application = EventService.applications;
-        $scope.application.eventId = $scope.getEventId
-        $scope.application.role = 'Attendee'
+        $scope.application = new EventService.eventapplications();
+        $scope.application.eventId = $scope.getEventId;
+        $scope.application.role = 'Attendee';
 
         $scope.previousApplication = false;
-        $scope.applied = {}
+        $scope.applied = {};
 
         function updateApplications() {
             var usersapplications = EventService.applications.user(function(applications) {
                 for (var i = 0; i < usersapplications.length; i++) {
                     if ($scope.getEventId === usersapplications[i].eventId){
-                        $scope.applied = usersapplications[i]
+                        $scope.applied = usersapplications[i];
                         $scope.previousApplication = true;
                     }
                 }
             });
-        };
+        }
 
         updateApplications();
 
@@ -79,7 +74,8 @@
         }];
 
         $scope.submit = function() {
-            $scope.application.apply({eventId:$scope.getEventId}, function(application) {
+            
+            $scope.application.$apply({eventId:$scope.getEventId}, function(application) {
                 updateApplications();
                 //show a thank you message
             });
