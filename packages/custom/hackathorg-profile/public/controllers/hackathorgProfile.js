@@ -3,7 +3,7 @@
 
     /* jshint -W098 */
 
-    function HackathorgProfileController($scope, Global, HackathorgProfile, $stateParams, MeanUser, $rootScope) {
+    function HackathorgProfileController($scope, Global, HackathorgProfile, $stateParams, MeanUser, $rootScope, $mdDialog) {
         $scope.global = Global;
         $scope.package = {
             name: 'hackathorg-profile'
@@ -161,12 +161,43 @@
                 $scope.resStatus = 'danger';
             });
         };
+
+        $scope.cancelApplication = function(application_id){
+            HackathorgProfile.applications.cancelApplication({applicationId : application_id});
+        };
+
+        $scope.showApplication = function(event, application) {
+            if(application.role == "attendee") {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .title('Application for ' + application.eventId)
+                    .htmlContent('<p>Role : ' + application.role +'</p>'
+                        + '<p>Response : ' + application.response +'</p>')
+                    .ariaLabel(application.eventId + ' application')
+                    .ok('Close')
+                    .targetEvent(event)
+                );
+            } else {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .title('Application for ' + application.eventId)
+                    .htmlContent('<p>Role : ' + application.role +'</p>'
+                        + '<p>Description : ' + application.description +'</p>'
+                        + '<p>Site : ' + application.site+'</p>'
+                        + '<p>Contact : ' + application.contact+'</p>'
+                        + '<p>Response : ' + application.response +'</p>')
+                    .ariaLabel(application.eventId + ' package info')
+                    .ok('Close')
+                    .targetEvent(event)
+                );
+            }
+        };
     }
 
     angular
         .module('mean.hackathorg-profile')
         .controller('HackathorgProfileController', HackathorgProfileController);
 
-    HackathorgProfileController.$inject = ['$scope', 'Global', 'HackathorgProfile', '$stateParams', 'MeanUser', '$rootScope'];
+    HackathorgProfileController.$inject = ['$scope', 'Global', 'HackathorgProfile', '$stateParams', 'MeanUser', '$rootScope', '$mdDialog'];
 
 })();
