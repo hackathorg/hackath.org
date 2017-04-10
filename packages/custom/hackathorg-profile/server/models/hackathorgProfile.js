@@ -42,7 +42,7 @@ var applicationSchema = new Schema({
 applicationSchema.index({userId:1, eventId:1}, {unique: true});
 
 var eventSchema = new Schema({
-  requiresApplication: [String],
+  noApplication: [String],
   users: [{
     userId: ObjectId,
     role: String

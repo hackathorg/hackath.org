@@ -24,8 +24,8 @@
         app.get('/api/events/:eventid/applications', requiresLogin, profiles.eventapplications);
         app.get('/api/user/applications', requiresLogin, profiles.userapplications);
         app.post('/api/events/:eventid/apply', requiresLogin, profiles.apply);
-        app.post('/api/events/:eventid/cancel', requiresLogin, profiles.cancelApplication);
-        app.post('/api/applications/:applicationId/cancel', requiresLogin, profiles.cancelTicket);
+        app.post('/api/events/:eventid/cancel', requiresLogin, profiles.cancelTicket);
+        app.post('/api/applications/:applicationId/cancel', requiresLogin, profiles.cancelApplication);
         app.post('/api/applications/:applicationId/review', requiresLogin, profiles.review);
         // app.get('/api/applications/:applicationId', requiresLogin, profiles.application);
 

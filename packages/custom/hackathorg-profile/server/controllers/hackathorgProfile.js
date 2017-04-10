@@ -66,9 +66,13 @@ module.exports = function(HackathorgProfile){
             }
           ], 
           function(err, result){
+            if (err){
+              next(err);
+            } else {
               req.userevents = result[0];
               req.event = result[1];
-              callback(err, result);
+              next();
+            }
           });
         }
       ],
@@ -87,7 +91,9 @@ module.exports = function(HackathorgProfile){
           res.send(500);
           return;
         }
-        if (event.users.some(function(user){return user.userId === req.user._id && user.role.toLowerCase() === 'organiser';})){
+        console.log(event._id);
+        if (event.users.some(function(user){
+          return user.userId.toString() === req.user._id.toString() && user.role.toLowerCase() === 'organiser';})){
           Application.find({eventId: event._id}).exec(responseCallback(res));
         } else {
           res.send(403, 'Forbidden');
@@ -114,7 +120,7 @@ module.exports = function(HackathorgProfile){
         req.userevents = result[1];
         req.application = new Application(req.body);
         req.application.userId = req.user._id;
-        req.application.status = 'pending';
+        req.application.status = 'Pending';
         req.application.response = '';
         if (err){
           res.send(500, 'Error: ' + err);
@@ -122,8 +128,8 @@ module.exports = function(HackathorgProfile){
         if (!result[0]){
           res.send(404, 'Event not found');
         }
-
-        if ( req.event.requiresApplication.indexOf(req.body.role.toLowerCase()) !== -1){
+        
+        if ( req.event.noApplication.indexOf(req.body.role.toLowerCase()) === -1){
           req.application.save(function(err, result ){res.send(result); });
         } else {
           addToEvent(req, res, responseCallback(res));
@@ -135,7 +141,8 @@ module.exports = function(HackathorgProfile){
       User.update({_id: req.user._id}, {$pull: {events: {eventId: req.params.eventid}}});
     },
     cancelApplication: function (req, res) {
-      Application.findByIdAndRemove(req.params.applicationId, {$pull:{users:{userId:req.user._id}}}, responseCallback(res));
+      console.log(req.params);
+      Application.findByIdAndRemove(req.params.applicationId, responseCallback(res));
     },
     
 
