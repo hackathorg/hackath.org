@@ -2,12 +2,32 @@
     'use strict';
     /* jshint -W098 */
 
-    function HackathorgEventViewController($scope, Global, EventService, $stateParams) {
+    function HackathorgEventViewController($scope, Global, EventService, $stateParams, MeanUser, $rootScope) {
         $scope.global = Global;
 
         $scope.package = {
             name: 'hackathorg-events'
         };
+
+        // User stuff
+        var vm = this;
+        vm.hdrvars = {      
+          authenticated: MeanUser.loggedin,
+          user: MeanUser.user,
+          isAdmin: MeanUser.isAdmin
+        }
+
+        $rootScope.$on('loggedin', function () {
+
+            vm.hdrvars = {
+                authenticated: MeanUser.loggedin,
+                user: MeanUser.user,
+                isAdmin: MeanUser.isAdmin
+            }
+            $scope.event = EventService.events.show({name:$scope.getEventId}, function() {
+                isAttending();
+            });
+        });
 
         /* Event information */
         $scope.getEventId = $stateParams.eventid;
@@ -57,12 +77,31 @@
 
         updateApplications();
 
-        $scope.viewattendeetype = [{
-            'type' :'Organiser' 
+        // Attendee filtering
+
+        $scope.attendingAs = null;
+
+        function isAttending () {
+            for(var i = 0; i < $scope.event.users.length; i++){
+                if ($scope.event.users[i].userId === vm.hdrvars.user._id) {
+                    $scope.attendingAs = $scope.event.users[i].role
+                    return true
+                }
+            }
+            return false
+        };
+
+        $scope.attendeetype = 'attendee';
+
+        $scope.attendeetypes = [{
+            'type' :'Attending',
+            'value' : 'attendee'
         }, {
-            'type' :'Mentor' 
+            'type' :'Organising',
+            'value' : 'organiser' 
         }, {
-            'type' :'Attendee' 
+            'type' :'Mentoring',
+            'value' : 'mentor'  
         }];
 
         $scope.applyattendeetype = [{
@@ -81,12 +120,19 @@
             });
         };
 
+        $scope.cancel = function() {
+            
+            $scope.application.$cancel({eventId:$scope.getEventId}, function() {
+                updateApplications();
+                //show a thank you message
+            });
+        };
     }
 
     angular
         .module('mean.hackathorg-events')
         .controller('HackathorgEventViewController', HackathorgEventViewController);
 
-    HackathorgEventViewController.$inject = ['$scope', 'Global', 'EventService', '$stateParams'];
+    HackathorgEventViewController.$inject = ['$scope', 'Global', 'EventService', '$stateParams', 'MeanUser', '$rootScope'];
 
 })();

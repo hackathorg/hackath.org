@@ -97,14 +97,19 @@
 
         };
 
-        $scope.attendeetype = 'Attending';
+        // Attendee filtering
+
+        $scope.attendeetype = 'attendee';
 
         $scope.attendeetypes = [{
-            'type' :'Attending' 
+            'type' :'Attending',
+            'value' : 'attendee'
         }, {
-            'type' :'Organising' 
+            'type' :'Organising',
+            'value' : 'organiser' 
         }, {
-            'type' :'Mentoring' 
+            'type' :'Mentoring',
+            'value' : 'mentor'  
         }];
 
 
@@ -146,12 +151,19 @@
         
         // Event applications
 
-        $scope.reviewedApplication = {}
+        $scope.reviewedApplicationId = null;
+        $scope.reviewedApplication = new EventService.applications();
 
-        $scope.setReviewed = function(application){
-            reviewedApplication = application
-        }
+        $scope.setReviewed = function(application_id){
+            $scope.reviewedApplicationId = application_id;
+        };
 
+        $scope.reviewApplication = function(status) {
+            $scope.reviewedApplication.status = status
+            $scope.reviewedApplication.review({applicationId : $scope.reviewedApplicationId})
+        };
+
+        // Event updating, creating etc
 
         $scope.setSelected = function (idSelectedEvent) {
 
