@@ -264,7 +264,7 @@
             </md-card-title>
             <md-divider></md-divider>
             <div style="height:300px;overflow-y:scroll;">
-              <md-list-item class="md-3-line" ng-repeat="application in mentorApplications" ng-click="null">
+              <md-list-item class="md-3-line" ng-click="setReviewed(application)" ng-repeat="application in eventApplications" ng-click="null">
                 <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
                 <div class="md-list-item-text" layout="column">
                   <h3>{{ application.name }}</h3>
@@ -275,12 +275,12 @@
             </div>
             <md-input-container style="margin:32px;padding-bottom: 0px;" flex="100" class="md-block">
               <label>Application response here</label>
-              <textarea required ng-model="contact.information" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+              <textarea required ng-model="reviewedApplication.response" md-maxlength="500" rows="3" md-select-on-focus></textarea>
             </md-input-container>              
             <md-card-actions layout="row" layout-align="end center">
-              <md-button>Respond</md-button>
-              <md-button class="md-warn">Reject</md-button>
-              <md-button class="md-primary">Accept</md-button>
+              <md-button ng-if="reviewedApplication._id">Respond</md-button>
+              <md-button ng-if="reviewedApplication._id" ng-click="reviewApplication('rejected')" class="md-warn">Reject</md-button>
+              <md-button ng-if="reviewedApplication._id" ng-click="reviewApplication('accepted')" class="md-primary">Accept</md-button>
             </md-card-actions>
             </md-card>
           </div>

@@ -143,6 +143,16 @@
         // mentors:[ObjectId],
         // attendees:[ObjectId]
 
+        
+        // Event applications
+
+        $scope.reviewedApplication = {}
+
+        $scope.setReviewed = function(application){
+            reviewedApplication = application
+        }
+
+
         $scope.setSelected = function (idSelectedEvent) {
 
            // Change State
@@ -162,6 +172,7 @@
            else if (idSelectedEvent !== null) {
                 $scope.changeManageTab('dashboard');
                 $scope.event = EventService.events.show({name:idSelectedEvent})
+                $scope.eventApplications = EventService.eventapplications.applications({eventId : idSelectedEvent})
            }
         };
         
@@ -295,6 +306,7 @@
         $scope.herokuAuth = function(){
            // herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
         }
+
         $scope.submit = function() {
             if ('create' === $scope.idSelectedEvent){
                 console.log($scope.event)

@@ -3,7 +3,8 @@ var async = require('async');
 var jwt = require('jsonwebtoken');
 var Heroku = require('heroku-client')
 var mongoose = require('mongoose'),
-  Event = mongoose.model('Event');
+Event = mongoose.model('Event'),
+User = mongoose.model('User');
 
 module.exports = function(HackathorgEvents){
   return {
