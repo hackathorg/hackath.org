@@ -137,14 +137,17 @@
 
         /* Event viewing data & functions */
 
-        $scope.eventtype = 'Attending';
+        $scope.eventtype = 'attendee';
 
         $scope.eventtypes = [{
-            'type' :'Attending' 
+            'type' :'Attending',
+            'value' : 'attendee'
         }, {
-            'type' :'Organising' 
+            'type' :'Organising',
+            'value' : 'organiser' 
         }, {
-            'type' :'Mentoring' 
+            'type' :'Mentoring',
+            'value' : 'mentor'  
         }];
 
         $scope.selectedTab = 'default';
@@ -163,7 +166,9 @@
         };
 
         $scope.cancelApplication = function(application_id){
-            HackathorgProfile.applications.cancelApplication({applicationId : application_id});
+            HackathorgProfile.applications.cancelApplication({applicationId : application_id}, function(){
+                $scope.userApplications = HackathorgProfile.applications.user();
+            });
         };
 
         $scope.showApplication = function(event, application) {

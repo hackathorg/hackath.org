@@ -38,7 +38,7 @@
 
         $scope.currentNavItem = '';
 
-
+        
 
         /* Attendee types */
 
@@ -72,6 +72,7 @@
                         $scope.previousApplication = true;
                     }
                 }
+                return false
             });
         }
 
