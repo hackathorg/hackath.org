@@ -31,7 +31,9 @@
 
         /* Event information */
         $scope.getEventId = $stateParams.eventid;
-        $scope.event = EventService.events.show({name:$scope.getEventId});
+        $scope.event = EventService.events.show({name:$scope.getEventId}, function() {
+            isAttending();
+        });
 
         $scope.sites = $scope.events;
         $scope.currentNavItem = 'discover';
@@ -117,7 +119,9 @@
             
             $scope.application.$apply({eventId:$scope.getEventId}, function(application) {
                 updateApplications();
-                //show a thank you message
+                $scope.event = EventService.events.show({name:$scope.getEventId}, function() {
+                    isAttending();
+                });
             });
         };
 
