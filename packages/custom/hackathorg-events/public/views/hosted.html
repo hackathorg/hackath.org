@@ -105,11 +105,10 @@
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
-              <p>Current event state (before, during, after)</p>
-              <p ng-click="changeManageTab('applications')" ng-if="event.maxMentors > 0">Mentors - {{event.users.length}} / {{event.maxMentors}}</p>
-              <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{(event.users.length / event.maxMentors)*100}}"></md-progress-linear>
-              <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{event.users.length}} / {{event.maxAttendees}}</p>
-              <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{(event.users.length / event.maxAttendees) * 100}}"></md-progress-linear>
+              <p ng-click="changeManageTab('applications')" ng-if="event.maxMentors > 0">Mentors - {{mentors.length}} / {{event.maxMentors}}</p>
+              <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{(mentors.length / event.maxMentors)*100}}"></md-progress-linear>
+              <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{attendees.length}} / {{event.maxAttendees}}</p>
+              <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{(attendees.length / event.maxAttendees) * 100}}"></md-progress-linear>
               <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - To be added to schema</p>
               <p>The event can be managed from within the web application.</p>
             </md-card-content>

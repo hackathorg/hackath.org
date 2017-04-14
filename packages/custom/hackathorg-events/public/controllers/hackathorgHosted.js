@@ -126,6 +126,10 @@
         $scope.event.hosts = [];
         $scope.event.tags = [];
 
+        $scope.attendees = [];
+        $scope.mentors = [];
+        $scope.sponsors = [];
+
         // Event schema
         // $scope.event.title:  {type: String, unique: true},
         // description: String,
@@ -186,7 +190,11 @@
            // Get the event selected from db and populate page with Update event shtuff
            else if (idSelectedEvent !== null) {
                 $scope.changeManageTab('dashboard');
-                $scope.event = EventService.events.show({name:idSelectedEvent})
+                $scope.event = EventService.events.show({name:idSelectedEvent}, function(event) {
+                    $scope.mentors = event.users.filter(function(x){return x.role.toLowerCase() === 'mentor'})
+                    $scope.attendees = event.users.filter(function(x){return x.role.toLowerCase() === 'attendee'})
+                    $scope.sponsors = event.users.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
+                })
                 $scope.eventApplications = EventService.eventapplications.applications({eventId : idSelectedEvent})
            }
         };
