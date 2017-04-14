@@ -49,13 +49,13 @@ function responseCallback(res){
 }
 module.exports = function(HackathorgProfile){
   return {
-    getUserEvents: function(res, req, next, id){
+    getUserEvents: function(req, res, next, id){
       async.waterfall(
         [
         function (callback){
           Application.findById(id, callback);
         },
-        function(callback, application){
+        function( application, callback){
           req.application = application;
           async.parallel([
             function(callback){
@@ -75,13 +75,7 @@ module.exports = function(HackathorgProfile){
             }
           });
         }
-      ],
-      function(err, result){
-        if (err){
-          console.log(err + result);
-        }
-        next();
-      });
+      ]);
     },
       
 
@@ -120,6 +114,7 @@ module.exports = function(HackathorgProfile){
         req.userevents = result[1];
         req.application = new Application(req.body);
         req.application.userId = req.user._id;
+        req.application.username = username;
         req.application.status = 'Pending';
         req.application.response = '';
         if (err){
@@ -148,7 +143,7 @@ module.exports = function(HackathorgProfile){
 
 
     review: function (req, res) {
-      if (req.event.users.some(function(user){return user.userId === req.user._id && user.role === 'organiser';})){
+      if (req.event.users.some(function(user){return user.userId.toString() === req.user._id.toString() && user.role.toLowerCase() === 'organiser';})){
         async.waterfall([
           function(callback){
               req.application.status = req.body.status;
@@ -156,7 +151,7 @@ module.exports = function(HackathorgProfile){
               req.application.save(callback);
           },
           
-          function(result, callback){
+          function(result, num, callback){
             if (req.body.status === 'accepted'){
               addToEvent(req, res, callback);
             }
