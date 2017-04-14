@@ -331,13 +331,29 @@
         }
 
         $scope.showApplication = function(event, application) {
-            $mdDialog.show(
-              $mdDialog.alert()
-                .title(application.userId + ' userid')
-                .textContent(application)
-                .ok('Roger that!')
-                .targetEvent(event)
-            );
+            if(application.role == "sponsor") {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .title(application.userId + ' userid')
+                        .htmlContent('<p>Role : ' + application.role +'</p>'
+                            + '<p>Description : ' + application.description +'</p>'
+                            + '<p>Proposal : ' + application.proposal +'</p>'
+                            + '<p>Contact : ' + application.contact +'</p>'
+                            + '<p>Status : ' + application.status +'</p>')
+                    .ok('Roger that!')
+                    .targetEvent(event)
+                );
+            } else {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .title(application.userId + ' userid')
+                        .htmlContent('<p>Role : ' + application.role +'</p>'
+                            + '<p>Description : ' + application.description +'</p>'
+                            + '<p>Status : ' + application.status +'</p>')
+                    .ok('Roger that!')
+                    .targetEvent(event)
+                );
+            }
         };
 
 
