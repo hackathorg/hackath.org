@@ -36,7 +36,7 @@
                 <p ng-if="attendingAs" style="padding-top:20px;" class="md-title">We've noticed you're already attending this event as a(n) {{attendingAs}}! Great news!</p>
                 <p ng-if="attendingAs">The event organisers should keep you updated on the event by email!</p>
                 <p ng-if="attendingAs">If you no longer wish to attend, please click below!</p>
-                <md-button ng-if="attendingAs" type="submit" class="md-raised md-primary">Cancel your ticket</md-button>
+                <md-button ng-if="attendingAs && attendingAs !== 'organiser'" type="submit" ng-click="cancel()" class="md-raised md-primary">Cancel your ticket</md-button>
                 <p ng-if="previousApplication && applied.status === 'Pending'" style="padding-top:20px;" class="md-title">We've noticed you've already applied for this event! Great news!</p>
                 <p ng-if="previousApplication && applied.status === 'Pending'">If you wish to review or remove your application, visit your event applications on your profile page.</p>
               </md-card-content>

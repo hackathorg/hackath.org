@@ -91,6 +91,7 @@
                     return true
                 }
             }
+            $scope.attendingAs = null;
             return false
         };
 
@@ -128,8 +129,9 @@
         $scope.cancel = function() {
             
             $scope.application.$cancel({eventId:$scope.getEventId}, function() {
-                updateApplications();
-                //show a thank you message
+                $scope.event = EventService.events.show({name:$scope.getEventId}, function() {
+                    isAttending();
+                });
             });
         };
     }
