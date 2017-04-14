@@ -160,7 +160,10 @@
 
         $scope.reviewApplication = function(status) {
             $scope.reviewedApplication.status = status
-            $scope.reviewedApplication.review({applicationId : $scope.reviewedApplicationId})
+            $scope.reviewedApplication.$reviewApplication({applicationId : $scope.reviewedApplicationId}, function() {
+                reviewedApplicationId = null;
+                $scope.eventApplications = EventService.eventapplications.applications({eventId : idSelectedEvent})
+            })
         };
 
         // Event updating, creating etc
@@ -319,6 +322,17 @@
            // herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
         }
 
+        $scope.showApplication = function(event, application) {
+            $mdDialog.show(
+              $mdDialog.alert()
+                .title(application.userId + ' userid')
+                .textContent(application)
+                .ok('Roger that!')
+                .targetEvent(event)
+            );
+        };
+
+
         $scope.submit = function() {
             if ('create' === $scope.idSelectedEvent){
                 console.log($scope.event)
@@ -332,8 +346,6 @@
                 $scope.newEventStatus = null;
             }
         };
-        
-
     
     }
 

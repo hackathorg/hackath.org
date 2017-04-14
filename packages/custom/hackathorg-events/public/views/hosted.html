@@ -240,13 +240,13 @@
             </md-card-title>
             <md-divider></md-divider>
             <div style="height:300px;overflow-y:scroll;">
-              <md-list-item class="md-3-line" ng-click="setReviewed(application)" ng-repeat="application in eventApplications">
+              <md-list-item class="md-3-line" ng-click="setReviewed(application._id)" ng-repeat="application in eventApplications">
                 <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
                 <div class="md-list-item-text" layout="column">
                   <h3>{{ application.userId }}</h3>
                   <h4>{{ application.role }}</h4>
-                  <p>{{ application }}</p>
                 </div>
+                <md-button ng-click="showApplication($event, application)" >view</md-button>
               </md-list-item>
             </div>
             <md-input-container style="margin:32px;padding-bottom: 0px;" flex="100" class="md-block">
