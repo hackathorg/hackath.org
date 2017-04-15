@@ -3,13 +3,17 @@ var async = require('async');
 var jwt = require('jsonwebtoken');
 var Heroku = require('heroku-client')
 var mongoose = require('mongoose'),
-  Event = mongoose.model('Event'),
-  User = mongoose.model('User');
+Event = mongoose.model('Event'),
+User = mongoose.model('User');
 
 module.exports = function(HackathorgEvents){
   return {
     all: function(req, res) {
       Event.find({}).exec(function (err, events) {
+        if(err){
+          console.log (err)
+          res.send(500, 'Error: ' + err)
+        }
         res.send(events);
       });
     },
@@ -28,15 +32,15 @@ module.exports = function(HackathorgEvents){
           }
           var event = new Event(req.body);
           event.ownerid = req.user._id;
-          event.hosts = result;
+          event.users = result.map(function(val) {return {userId: val, role: 'organiser'}});
 
           
           event.save(callback);
         }],
         function (err, event) {
           if (err){
-            console.log(err)
-            res.status(500)
+            console.log(err);
+            res.status(500);
           }
           res.json(event);
         }

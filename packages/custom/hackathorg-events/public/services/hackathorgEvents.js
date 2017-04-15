@@ -30,6 +30,44 @@
                 }
 
             }),
+
+
+            applications: $resource('api/application/:applicationId', {
+                applicationId: '@applicationId'
+                }, {
+                user: {
+                    method: 'GET',
+                    isArray: true,
+                    url: '/api/user/applications'
+                }, 
+                cancelApplication : {
+                    method: 'POST',
+                    url: '/api/applications/:applicationId/cancel'
+                },
+                reviewApplication : {
+                    method: 'POST',
+                    url: '/api/applications/:applicationId/review'
+                }
+            }),
+
+
+            eventapplications: $resource('api/events/:eventId/applications', {
+                eventId: '@eventId'
+                }, {
+                applications: {
+                    method: 'GET', 
+                    isArray: true, 
+                    url: '/api/events/:eventId/applications'
+                },
+                apply: {
+                    method: 'POST',
+                    url: '/api/events/:eventId/apply'
+                },
+                cancel: {
+                    method: 'POST',
+                    url: '/api/events/:eventId/cancel'
+                },
+            }),
             checkCircle: function(circle) {
                 var deferred = $q.defer();
 

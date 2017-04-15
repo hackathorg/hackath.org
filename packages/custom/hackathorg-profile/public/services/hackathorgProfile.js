@@ -11,7 +11,24 @@
                     method: 'GET'
                 }
 
+            }),
 
+            applications: $resource('api/application/:applicationId', {
+                applicationId: '@applicationId'
+                }, {
+                user: {
+                    method: 'GET',
+                    isArray: true,
+                    url: '/api/user/applications'
+                }, 
+                cancelApplication : {
+                    method: 'POST',
+                    url: '/api/applications/:applicationId/cancel'
+                },
+                reviewApplication : {
+                    method: 'POST',
+                    url: '/api/applications/:applicationId/review'
+                }
             }),
             
             follower: $resource('api/follower/:userId', {

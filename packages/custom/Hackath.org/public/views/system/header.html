@@ -33,7 +33,7 @@
   <md-button class="md-buttonbrand" aria-label="Sign Up" ui-sref="auth.register" ng-if="!hdrctr.hdrvars.authenticated">
     hackath.org
   </md-button>
-  <md-button hide-xs class="md-button" aria-label="{{item.link}}" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}" ng-repeat="item in hdrctr.menus.main" ui-sref="{{item.link}}" mean-token="item.link">
+  <md-button hide-xs class="md-button" aria-label="{{item.link}}" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}" ng-repeat="item in hdrctr.menus.main | orderBy : 'weight'" ui-sref="{{item.link}}" mean-token="item.link">
     {{item.title}}<!--<div style="display:inline" ng-if="item.icon"><i style="font-size:14px"class="material-icons">{{item.icon}}</i></div>-->
   </md-button>
   <span flex></span>

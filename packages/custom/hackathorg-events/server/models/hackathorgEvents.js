@@ -12,7 +12,6 @@ var eventSchema = new Schema({
   image:String,
   url:   String,
   ownerid: ObjectId,
-  hosts:[ObjectId], 
   tags:[String],
   comments: [{ body: String, date: Date }],
   date: { type: Date, default: Date.now },
@@ -22,8 +21,11 @@ var eventSchema = new Schema({
   location: String,
   sponsors: Boolean,
   skillLevel: String,
-  mentors:[ObjectId],
-  attendees:[ObjectId],
+  requiresApplication: [String],
+  users: [{
+    userId: ObjectId,
+    role: String
+  }],
   heroku:{
     apiKey: String,
     refreshToken: String,

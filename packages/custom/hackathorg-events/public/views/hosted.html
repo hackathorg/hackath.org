@@ -40,6 +40,50 @@
       <!-- Updating event -->
       <div layout-wrap layout="row" layout-align="space-around start" flex-gt-md="75" flex-md="66" flex-xs="100" flex-sm="100">
         <a style="margin-top:-24px" name="top"></a>
+
+
+
+        <div ng-if="idSelectedEvent === null" flex="100">
+          <md-card>
+            <md-card-title style="padding-bottom: 24px">
+              <md-card-title-text class="md-headline">
+                Event Management
+              </md-card-title-text>
+            </md-card-title>
+            <md-divider></md-divider>
+            <div layout-wrap layout="row" layout-align="space-around start">
+              <div flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100" style="padding-right:15px;padding-left: 15px">
+              <p class="md-title">Event creation</p>
+              <p>The create button at the bottom of the menu on the left will bring up the default event creation interface. 
+              This will allow you to fill in the basic details of the event and organising team.</p> 
+              <p>Events won't be made public until you have explicitly stated. Once public, the event will be made available on the event search and users can begin applying for your event.</p>
+              </div>
+              <div flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100" style="padding-right:15px;padding-left: 15px">
+              <p class="md-title">Event managing</p>
+              <p>Events you've created will be available on the left menu, and once created, a number of additional options will be available</p>
+              <p style="font-weight:500">Event applications</p>
+              <p>Once your event is public, the event is open for applications, as determined by the settings of your event. Applications for any role in your event can be managed on the event, including viewing the application in detail and responding to the application.</p>
+              <p style="font-weight:500">Attendee management</p>
+              <p>Once your event is public, you can manage the attendees of the event. Additionally, you can send messages to attendees from this interface, if necessary.</p>
+              <p style="font-weight:500">Updating event details</p>
+              <p>You can easily modify the basic event information from here, as well as the discovery status of the event. You can also view and manage discovery statistics from this panel. </p>
+              <p style="font-weight:500">Web application deployment</p>
+              <p>One key feature of the created event is the ability to easily deploy and customise a hackathon web application, which enables organisers to deploy an offsite, customised hackathon experience for all those involved with the hackathon. </p>
+
+              <p>The web application developed for this purpose is an Open-Source framework called <a href="http://www.github.com/" target="__blank">Openhack.js</a>. This is a highly customisable hackathon framework, which connects to Hackath.org using OAuth. From Hackath.org, you can manage the different modules included in the deployed framework, from our database of pre-created modules.</p>
+              <p>Developers can easily modify the framework and create additional modules, if they wish. More information is available in the <a href="/docs">documentation</a> for Openhack.js.</p>
+              <p>Furthermore, advanced developers can create their own completely customised deployment by integrating Hackath.orgs OAuth and APIs for deployed events. This allows complete flexibility in the deployed solution.</p>
+              <p>Once the application is deployed, it can be managed from the deployed instance, including managing the event, event resources and additional features included on the deployed instance.</p>
+
+              <p>We use Heroku as a platform for hosting the web application, allowing users of all ability and any scale of event to easily deploy their web application from Hackath.org.</p>
+              </div>
+            </div>
+          </md-card>
+        </div>
+
+
+
+
         <div ng-if="!('create' === idSelectedEvent || null === idSelectedEvent)" style="margin:8px;" flex="100">
           <md-nav-bar md-selected-nav-item="manageTab" nav-bar-aria-label="navigation links">
             <md-nav-item md-nav-click="changeManageTab('dashboard')" name="dashboard">
@@ -61,11 +105,10 @@
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
-              <p>Current event state (before, during, after)</p>
-              <p ng-click="changeManageTab('applications')" ng-if="event.maxMentors > 0">Mentors - {{event.mentors.length}} / {{event.maxMentors}}</p>
-              <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{event.mentors.length / event.maxMentors}}"></md-progress-linear>
-              <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{event.attendees.length}} / {{event.maxAttendees}}</p>
-              <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{event.attendees.length / event.maxAttendees}}"></md-progress-linear>
+              <p ng-click="changeManageTab('applications')" ng-if="event.maxMentors > 0">Mentors - {{mentors.length}} / {{event.maxMentors}}</p>
+              <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{(mentors.length / event.maxMentors)*100}}"></md-progress-linear>
+              <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{attendees.length}} / {{event.maxAttendees}}</p>
+              <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{(attendees.length / event.maxAttendees) * 100}}"></md-progress-linear>
               <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - To be added to schema</p>
               <p>The event can be managed from within the web application.</p>
             </md-card-content>
@@ -171,42 +214,18 @@
                 <span flex=66 class="md-title">Attendees</span>
                 <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
                   <md-select ng-model="attendeetype">
-                    <md-option ng-repeat="type in attendeetypes" value="{{type.type}}">
+                    <md-option ng-repeat="type in attendeetypes" value="{{type.value}}">
                       {{type.type}}
                     </md-option>
                   </md-select>
                 </md-input-container>
               </md-card-title-text>
             </md-card-title>
-            <div style="height:300px;overflow-y:scroll;">
             <md-divider></md-divider>
-            <md-list-item ng-click="null">
+            <div style="height:300px;overflow-y:scroll;">
+            <md-list-item ng-repeat="user in event.users | filter : {role : attendeetype}" aria-label="/profile/{{user.userId}}" ui-sref="profile username({username: user.userId})" mean-token="person.id" ng-click="null">
                 <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
-                <p>mahoneyj2</p>
-            </md-list-item>   
-            <md-list-item ng-click="null">
-                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
-                <p>mahoneyj2</p>
-            </md-list-item>               
-            <md-list-item ng-click="null">
-                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
-                <p>mahoneyj2</p>
-            </md-list-item>
-            <md-list-item ng-click="null">
-                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
-                <p>mahoneyj2</p>
-            </md-list-item>   
-            <md-list-item ng-click="null">
-                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
-                <p>mahoneyj2</p>
-            </md-list-item>   
-            <md-list-item ng-click="null">
-                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
-                <p>mahoneyj2</p>
-            </md-list-item>   
-            <md-list-item ng-click="null">
-                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
-                <p>mahoneyj2</p>
+                <p>{{user.userId}}</p>
             </md-list-item>   
             </div>       
           </md-card>
@@ -220,23 +239,23 @@
             </md-card-title>
             <md-divider></md-divider>
             <div style="height:300px;overflow-y:scroll;">
-              <md-list-item class="md-3-line" ng-repeat="application in mentorApplications" ng-click="null">
+              <md-list-item class="md-3-line" ng-class="{selected: application._id === reviewedApplicationId}"  ng-click="setReviewed(application._id)" ng-repeat="application in eventApplications">
                 <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
                 <div class="md-list-item-text" layout="column">
-                  <h3>{{ application.name }}</h3>
-                  <h4>{{ application.desc }}</h4>
-                  <p>{{ application.site }}</p>
+                  <h3>{{ application.userId }} {{ application.username }}</h3>
+                  <h4>{{ application.role }}</h4>
                 </div>
+                <md-button ng-click="showApplication($event, application)" >view</md-button>
               </md-list-item>
             </div>
             <md-input-container style="margin:32px;padding-bottom: 0px;" flex="100" class="md-block">
               <label>Application response here</label>
-              <textarea required ng-model="contact.information" md-maxlength="500" rows="3" md-select-on-focus></textarea>
+              <textarea required ng-model="reviewedApplication.response" md-maxlength="500" rows="3" md-select-on-focus></textarea>
             </md-input-container>              
             <md-card-actions layout="row" layout-align="end center">
-              <md-button>Respond</md-button>
-              <md-button class="md-warn">Reject</md-button>
-              <md-button class="md-primary">Accept</md-button>
+              <md-button ng-if="reviewedApplicationId" ng-click="reviewApplication('pending')">Respond</md-button>
+              <md-button ng-if="reviewedApplicationId" ng-click="reviewApplication('rejected')" class="md-warn">Reject</md-button>
+              <md-button ng-if="reviewedApplicationId" ng-click="reviewApplication('accepted')" class="md-primary">Accept</md-button>
             </md-card-actions>
             </md-card>
           </div>
@@ -281,19 +300,18 @@
                   </div>
                   <div flex="100" style="padding-top: 20px;">
                   </div>
-                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="50" >
                     <label>Attendees</label>
                     <input required type="number" step="any" name="rate" ng-model="event.maxAttendees" min="0"
                            max="1000" />
                   </md-input-container>
-                <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
-                  <label>Skill level</label>
-                  <md-select ng-model="event.skillLevel">
-                    <md-option ng-repeat="skill in skills" value="{{skill.type}}">
-                      {{skill.type}}
-                    </md-option>
-                  </md-select>
-                </md-input-container>
+                  <md-input-container style="padding-left: 60px;" flex-gt-sm="50" flex-xs="100" flex-sm="50"  >
+                    <md-checkbox md-no-ink aria-label="attendeeapplications" ng-model="event.attendeeApplication" ng-click="updateRequiresApplication('attendee')" class="md-primary">
+
+                      Requires application?
+                      {{event.requiresApplication}}
+                    </md-checkbox>
+                  </md-input-container>
                   <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
                     <label>Mentors</label>
                     <input required type="number" step="any" name="rate" ng-model="event.maxMentors" min="0"
@@ -303,6 +321,14 @@
                     <md-checkbox md-no-ink aria-label="sponsor" ng-model="event.sponsors" class="md-primary">
                       Allow sponsorship?
                     </md-checkbox>
+                  </md-input-container>
+                  <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
+                    <label>Skill level</label>
+                    <md-select ng-model="event.skillLevel">
+                      <md-option ng-repeat="skill in skills" value="{{skill.type}}">
+                        {{skill.type}}
+                      </md-option>
+                    </md-select>
                   </md-input-container>
                 </div>
               </div>

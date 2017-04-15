@@ -3,11 +3,42 @@
 
     /* jshint -W098 */
 
-    function HackathorgProfileController($scope, Global, HackathorgProfile, $stateParams, MeanUser) {
+    function HackathorgProfileController($scope, Global, HackathorgProfile, $stateParams, MeanUser, $rootScope, $mdDialog) {
         $scope.global = Global;
         $scope.package = {
             name: 'hackathorg-profile'
         };
+
+        var vm = this;
+        vm.hdrvars = {      
+          authenticated: MeanUser.loggedin,
+          user: MeanUser.user,
+          isAdmin: MeanUser.isAdmin
+        }
+
+        $scope.thisuser = {
+            '_id' : vm.hdrvars.user._id,
+            'username': vm.hdrvars.user.username
+        };
+
+        $rootScope.$on('loggedin', function () {
+
+            vm.hdrvars = {
+                authenticated: MeanUser.loggedin,
+                user: MeanUser.user,
+                isAdmin: MeanUser.isAdmin
+            }
+          
+            $scope.thisuser = {
+                '_id' : vm.hdrvars.user._id,
+                'username': vm.hdrvars.user.username
+            };
+            // If this user is the user being viewed
+            if ($scope.vieweduser === null || $scope.vieweduser === undefined || $scope.thisuser._id == $scope.userToId($scope.vieweduser)){
+                $scope.viewself = true;
+            }
+
+        });
 
         /* User profile data and functions */
         
@@ -16,13 +47,8 @@
             return username
         }
 
-        // The current users information
-        $scope.thisuser = {
-            '_id' : MeanUser.user._id,
-            'username': MeanUser.user.username
-        };
-
         console.log($scope.thisuser)
+
         // The current username being viewed (empty if viewing self)
         $scope.vieweduser = $stateParams.username;
 
@@ -44,7 +70,11 @@
             'tags': 'python, javascript, java'
         };
 
+        /* This user */
         $scope.user = HackathorgProfile.profiles.show({userId:$scope.userToId($scope.vieweduser)});
+
+        /* User applications */
+        $scope.userApplications = HackathorgProfile.applications.user();
 
         /* User follower data & functions */
         $scope.user_follower = HackathorgProfile.follower;
@@ -107,14 +137,17 @@
 
         /* Event viewing data & functions */
 
-        $scope.eventtype = 'Attending';
+        $scope.eventtype = 'attendee';
 
         $scope.eventtypes = [{
-            'type' :'Attending' 
+            'type' :'Attending',
+            'value' : 'attendee'
         }, {
-            'type' :'Organising' 
+            'type' :'Organising',
+            'value' : 'organiser' 
         }, {
-            'type' :'Mentoring' 
+            'type' :'Mentoring',
+            'value' : 'mentor'  
         }];
 
         $scope.selectedTab = 'default';
@@ -131,12 +164,45 @@
                 $scope.resStatus = 'danger';
             });
         };
+
+        $scope.cancelApplication = function(application_id){
+            HackathorgProfile.applications.cancelApplication({applicationId : application_id}, function(){
+                $scope.userApplications = HackathorgProfile.applications.user();
+            });
+        };
+
+        $scope.showApplication = function(event, application) {
+            if(application.role == "attendee") {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .title('Application for ' + application.eventId)
+                    .htmlContent('<p>Role : ' + application.role +'</p>'
+                        + '<p>Response : ' + application.response +'</p>')
+                    .ariaLabel(application.eventId + ' application')
+                    .ok('Close')
+                    .targetEvent(event)
+                );
+            } else {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .title('Application for ' + application.eventId)
+                    .htmlContent('<p>Role : ' + application.role +'</p>'
+                        + '<p>Description : ' + application.description +'</p>'
+                        + '<p>Site : ' + application.site+'</p>'
+                        + '<p>Contact : ' + application.contact+'</p>'
+                        + '<p>Response : ' + application.response +'</p>')
+                    .ariaLabel(application.eventId + ' package info')
+                    .ok('Close')
+                    .targetEvent(event)
+                );
+            }
+        };
     }
 
     angular
         .module('mean.hackathorg-profile')
         .controller('HackathorgProfileController', HackathorgProfileController);
 
-    HackathorgProfileController.$inject = ['$scope', 'Global', 'HackathorgProfile', '$stateParams', 'MeanUser'];
+    HackathorgProfileController.$inject = ['$scope', 'Global', 'HackathorgProfile', '$stateParams', 'MeanUser', '$rootScope', '$mdDialog'];
 
 })();
