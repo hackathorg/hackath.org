@@ -13,10 +13,10 @@
 
                   <!-- event tags here -->
                   <!--<span class="md-subhead">{{event.maxMentors - event.mentors.length}} / {{event.maxMentors}} mentor spots available</span>-->
-                  <p ng-click="changeManageTab('applications')" ng-if="event.maxMentors > 0">Mentors - {{event.mentors.length}} / {{event.maxMentors}}</p>
-                  <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{event.mentors.length / event.maxMentors}}"></md-progress-linear>
-                  <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{event.attendees.length}} / {{event.maxAttendees}}</p>
-                  <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{event.attendees.length / event.maxAttendees}}"></md-progress-linear>
+                  <p ng-click="changeManageTab('applications')" ng-if="event.maxMentors > 0">Mentors - {{event.users.length}} / {{event.maxMentors}}</p>
+                  <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{event.users.length / event.maxMentors}}"></md-progress-linear>
+                  <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{event.users.length}} / {{event.maxAttendees}}</p>
+                  <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{event.users.length / event.maxAttendees}}"></md-progress-linear>
                   <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - To be added to schema</p>
                   <span class="md-subhead">{{event.skillLevel}}</span>
                   <span class="md-subhead">python, javascript, java</span>
@@ -31,52 +31,51 @@
               </md-card-title>
               <md-card-content>
                 <p>{{event.description}}</p>
-                <p>Past events organised by 
-                <p>This event doesn't have a web application set up yet. However you can still register for the event or apply for mentoring / sponsorship below! </p>
-                <p style="padding-top:20px;" class="md-title">We've noticed you're already attending this event as a {role}! Great news!</p>
-                <p>The event organisers should keep you updated on the event by email!</p>
-                <p>If you no longer wish to attend, please click below!</p>
-                <p style="padding-top:20px;" class="md-title">We've noticed you've already applied for this event! Great news!</p>
-                <p>If you wish to review or remove your application, visit your event applications on your profile page.</p>
+                <p>Past events organised by {{event.organisation}}</p>
+                <p>This event doesn't have a web application set up yet. However you can still register for the event or apply for mentoring / sponsorship below!</p>
+                <p ng-if="attendingAs" style="padding-top:20px;" class="md-title">We've noticed you're already attending this event as a(n) {{attendingAs}}! Great news!</p>
+                <p ng-if="attendingAs">The event organisers should keep you updated on the event by email!</p>
+                <p ng-if="attendingAs">If you no longer wish to attend, please click below!</p>
+                <md-button ng-if="attendingAs && attendingAs !== 'organiser'" type="submit" ng-click="cancel()" class="md-raised md-primary">Cancel your ticket</md-button>
+                <p ng-if="previousApplication && applied.status === 'Pending'" style="padding-top:20px;" class="md-title">We've noticed you've already applied for this event! Great news!</p>
+                <p ng-if="previousApplication && applied.status === 'Pending'">If you wish to review or remove your application, visit your event applications on your profile page.</p>
               </md-card-content>
             </div>
           </div>
         </md-card>
       </div>
-      <div flex-gt-md="33" flex-md="66" flex-xs="100" flex-sm=66 flex=33>
+      <div flex-gt-md="33" flex-md="100" flex-xs="100" flex-sm=66 flex=33>
         <md-card>
           <md-card-title style="padding:24px 16px 10px">
             <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
               <span flex=66 class="md-title">Attendees</span>
               <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
-                <md-select ng-model="viewattendee">
-                  <md-option ng-repeat="thisattendee in viewattendeetype" value="{{thisattendee.type}}">
-                    {{thisattendee.type}}
+                <md-select ng-model="attendeetype">
+                  <md-option ng-repeat="type in attendeetypes" value="{{type.value}}">
+                    {{type.type}}
                   </md-option>
                 </md-select>
               </md-input-container>
             </md-card-title-text>
           </md-card-title>
           <md-divider></md-divider>
-          <md-list-item ng-repeat="person in user.following" class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
-            <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
-            <p>{{ person.id }}</p>
-            <md-button>unfollow</md-button>
-          </md-list-item>
-          <md-list-item class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
-            <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
-            <p> exampleuser2017</p>
-          </md-list-item>
+          <div style="max-height:300px;overflow-y: scroll">
+          <md-list-item ng-repeat="user in event.users | filter : {role : attendeetype}" aria-label="/profile/{{user.userId}}" ui-sref="profile username({username: user.userId})" mean-token="person.id" ng-click="null">
+              <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+              <p>{{user.userId}}</p>
+          </md-list-item>   
+          </div>       
         </md-card>
       </div>
-      <div flex-gt-md="66" flex-md="100" flex-xs="100" flex-sm="100" flex=66>
+      <div ng-if="!previousApplication && !attendingAs"  flex-gt-md="66" flex-md="100" flex-xs="100" flex-sm="100" flex=66>
+      <form name="applyform" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()" novalidate>
         <md-card>
           <md-card-title style="padding:24px 16px 10px">
             <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
               <span flex=66 class="md-title">Apply to {{event.title}}</span>
               <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
                 <label>Application type</label>
-                <md-select ng-model="applyattendee">
+                <md-select ng-model="application.role">
                   <md-option ng-repeat="thisattendee in applyattendeetype" value="{{thisattendee.type}}">
                     {{thisattendee.type}}
                   </md-option>
@@ -86,16 +85,16 @@
           </md-card-title>
           <md-divider></md-divider>
           <md-card-content>
-            <p><b>You are applying as: {{applyattendee}}</b></p>
-            <md-input-container ng-if="applyattendee === 'Mentor'" class="md-block">
+            <p><b>You are applying as: {{application.role}}</b></p>
+            <md-input-container ng-if="application.role === 'Mentor'" class="md-block">
               <label>Description</label>
               <div class="hint">Tell the organisers a bit about yourself and why you want the role</div>
-              <textarea ng-model="application.desc" md-maxlength="150" rows="3" md-select-on-focus></textarea>
+              <textarea ng-model="application.description" md-maxlength="150" rows="3" md-select-on-focus></textarea>
             </md-input-container>
-            <md-switch ng-if="applyattendee === 'Mentor'" style="padding-bottom:20px; font-size:14px" ng-model="application.includeresume" aria-label="Switch 1">
+            <md-switch ng-if="application.role === 'Mentor'" style="padding-bottom:20px; font-size:14px" ng-model="application.includeresume" aria-label="Switch 1">
               Include resume
             </md-switch>
-            <div ng-if="applyattendee === 'Sponsor'" layout-gt-sm="row">
+            <div ng-if="application.role === 'Sponsor'" layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Company or Organisation</label>
                 <input ng-model="application.name">
@@ -105,12 +104,12 @@
                 <input ng-model="application.contact">
               </md-input-container>
             </div>
-            <md-input-container  ng-if="applyattendee === 'Sponsor'" class="md-block">
+            <md-input-container  ng-if="application.role === 'Sponsor'" class="md-block">
               <label>Description</label>
               <div class="hint">Tell the organisers briefly about your company and what can you offer</div>
               <textarea ng-model="application.desc" md-maxlength="150" rows="3" md-select-on-focus></textarea>
             </md-input-container>
-            <div ng-if="applyattendee === 'Sponsor'" layout-gt-sm="row">
+            <div ng-if="application.role === 'Sponsor'" layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Upload a proposal document</label>
                 <input ng-model="application.proposal">
@@ -139,9 +138,10 @@
             <p>Your privacy settings can be managed and updated at any time from your profile settings.</p>
           </md-card-content>
           <md-card-actions layout="row" layout-align="end center">
-            <md-button class="md-raised md-primary">Apply</md-button>
+            <md-button type="submit" class="md-raised md-primary">Apply</md-button>
           </md-card-actions>
         </md-card>
+        </form>
       </div>
     </div>
   </md-content>

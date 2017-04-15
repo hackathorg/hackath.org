@@ -5,7 +5,8 @@ var HerokuStrategy = require('passport-heroku').Strategy;
 var jwt = require('jsonwebtoken')
 var config = require('meanio').getConfig();
 var mongoose = require('mongoose'),
-    Event = mongoose.model('Event');
+    Event = mongoose.model('Event'),
+    User = mongoose.model('User');
 
   passport.serializeUser(function(user, done) {
     done(null, user.id);
@@ -38,9 +39,10 @@ function(request, accessToken, refreshToken, profile, done) {
               if (err) {
                 console.log(err)
               }
-              console.log(event)
+
+              done(null, profile);
             });
-  done(null, profile);
+
 }));
 
 module.exports = passport;

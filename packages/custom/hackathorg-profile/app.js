@@ -14,6 +14,7 @@ var HackathorgProfile = new Module('hackathorg-profile');
 HackathorgProfile.register(function(app, auth, database, circles) {
 
   //We enable routing. By default the Package Object is passed to the routes
+  HackathorgProfile.controller = require('./server/controllers/hackathorgProfile')(HackathorgProfile);
   HackathorgProfile.routes(app, auth, database, circles);
 
   //We are adding a link to the main menu for all authenticated users

@@ -1,15 +1,14 @@
 <div layout="column" flex class="HackathorgProfile" ng-controller="HackathorgProfileController">
   <md-content layout="column" layout-padding flex>
-  {{viewself}}
     <div layout-wrap layout="row" layout-align="space-around start" layout-padding>
       <div flex-gt-md="33" flex-md="33" flex-xs="100" flex-sm="100">
         <md-card>
           <md-card-title>
             <md-card-title-text  style="padding-right:32px">
-              <span class="md-headline">Jamie Mahoney</span>
-              <span class="md-subhead"><i class="p-icon material-icons">visibility</i> mahoneyj2</span>
-              <p>I'm a fourth year Computer Science student from the UK, I love spaghetti and meatballs</p>
-              <span class="md-subhead">python, javascript, java</span>
+              <span class="md-headline">{{user.name}}</span>
+              <span class="md-subhead"><i class="p-icon material-icons">visibility</i> {{user.username}}</span>
+              <p>{{user.bio}}</p>
+              <span class="md-subhead">{{user.tags}}</span>
             </md-card-title-text>
             <md-card-title-media style="margin-top:0px;margin-right:8px;">
               <div style="background-color:gray;" class="md-media-lg card-media"></div>
@@ -17,23 +16,23 @@
           </md-card-title>
           <md-divider></md-divider>
           <div layout-wrap layout="row" layout-align="space-around start" layout-padding>
-          <md-card-content flex=100>
-            <p>Profile overview </p>
-          </md-card-content>
-          </md-card-content>
-          <md-card-content flex=50>
-            <p><i class="p-icon material-icons">work</i> 2 Events Mentored</p>
-            <p><i class="p-icon material-icons">event</i> 5 Events Hosted</p>
-            <p><i class="p-icon material-icons">event_seat</i> 5 Events Attended</p>
-          </md-card-content>
-          <md-card-content flex=50>
-            <p><i class="p-icon material-icons">favorite</i> 15 Followers</p>
-            <p><i class="p-icon material-icons">star</i> 2 Prizes Won</p>
+            <md-card-content flex=100>
+              <p>Profile overview </p>
+            </md-card-content>
+            <md-card-content flex=50>
+              <p><i class="p-icon material-icons">work</i> 2 Events Mentored</p>
+              <p><i class="p-icon material-icons">event</i> 5 Events Hosted</p>
+              <p><i class="p-icon material-icons">event_seat</i> 5 Events Attended</p>
+            </md-card-content>
+            <md-card-content flex=50>
+              <p><i class="p-icon material-icons">favorite</i> {{followers.length}} Followers</p>
+              <p><i class="p-icon material-icons">star</i> 2 Prizes Won</p>
+            </md-card-content>
           </div>
           <md-divider></md-divider>
           <md-card-content>
             <p><i class="p-icon material-icons">place</i> Location</p>
-            <p><i class="p-icon material-icons">public</i> Website</p>
+            <p><i class="p-icon material-icons">public</i> {{user.website}}</p>
           </md-card-content>
         </md-card>
       </div>
@@ -56,10 +55,10 @@
               Settings
             </md-nav-item>
             <span flex></span>
-            <md-button ng-if="!viewself" md-nav-click="follow(u_id)" name="follow">
+            <md-button ng-if="!viewself && !isFollowing(user._id)" ng-click="follow(user._id, user.username)" name="follow">
               Follow
             </md-button>
-            <md-button ng-if="!viewself" md-nav-click="unfollow(u_id)" name="unfollow">
+            <md-button ng-if="!viewself && isFollowing(user._id)" ng-click="unfollow(user._id,-1)" name="unfollow">
               Unfollow
             </md-button>
           </md-nav-bar>
@@ -74,7 +73,7 @@
                 <span flex=66 class="md-title">Your events</span>
                 <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
                   <md-select ng-model="eventtype">
-                    <md-option ng-repeat="type in eventtypes" value="{{type.type}}">
+                    <md-option ng-repeat="type in eventtypes" value="{{type.value}}">
                       {{type.type}}
                     </md-option>
                   </md-select>
@@ -82,18 +81,18 @@
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-            <md-list-item class="md-3-line" ng-click="null">
+            <md-list-item ng-repeat="event in user.events | filter : {role : eventtype}" aria-label="/events/{{event.eventId}}" ui-sref="events eventid({eventid: event.eventId})" mean-token="person.id" class="md-3-line" ng-click="null">
               <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
               <div class="md-list-item-text" layout="column">
-                <h3>WarwickHACK</h3>
-                <h4>Mentor</h4>
+                <h3>{{event.eventId}}</h3>
+                <h4>{{event.role}}</h4>
                 <p>https://www.warwickhack.com/</p>
               </div>
               <div class="md-list-item-text" layout="column">
                 <h4> Date here </h4>
               </div>
               <md-button>view</md-button>
-            </md-list-item>          
+            </md-list-item>            
           </md-card>
         </div>
         <div ng-if="selectedTab === 'default'" flex-gt-md="33" flex-md="50" flex-xs="100" flex-sm="100">
@@ -114,44 +113,109 @@
             </md-list-item>
           </md-card>
         </div>
-        <!-- </overview> -->
-
-        <!--<div ng-if="selectedTab === 'default'" flex-gt-md="30" flex-md="50" flex-xs="100" flex-sm="100">
+        <div ng-if="selectedTab === 'settings'" flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100">
+          <form name="profileUpdate" layout="row" layout-align="space-around start" layout-wrap ng-submit="submit()">
+            <md-card ng-if="viewself">
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-title">Your profile</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-divider></md-divider>
+              <div style="padding:16px" layout-wrap layout="row" layout-align="space-around start" flex>
+                <md-input-container style="margin-bottom:0px;" flex=100 class="md-block">
+                  <label>Full name</label>
+                  <input required type="text" ng-model="user.name">
+                </md-input-container>
+                <md-input-container style="margin-bottom:0px;" flex="100" class="md-block">
+                  <label>Profile bio here</label>
+                  <textarea ng-model="user.bio" md-maxlength="140" rows="2" md-select-on-focus></textarea>
+                </md-input-container>
+                <md-input-container style="margin-bottom:0px;" flex=100 class="md-block">
+                  <label>Profile tags</label>
+                  <input type="text" ng-model="user.tags">
+                </md-input-container>
+                <md-input-container style="margin-bottom:0px;" flex=100 class="md-block">
+                  <label>Location {not implemented}</label>
+                  <input type="text" ng-model="user.location">
+                </md-input-container>
+                <md-input-container style="margin-bottom:0px;" flex=100 class="md-block">
+                  <label>Website</label>
+                  <input type="text" ng-model="user.website">
+                </md-input-container>
+              </div>
+              <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-primary" ng-click="submit()">Update</md-button>
+              </md-card-actions>
+            </md-card>
+          </form>
+        </div>
+        <div ng-if="selectedTab === 'settings'" flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100">
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-title">Notifications</span>
+                <span class="md-title">Your privacy settings</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-            <md-list-item ng-click="goToPerson()" class="noright">
-              <i style="padding-right:10px;" class="p-icon material-icons">favorite</i>
-              <p> 5 new followers!</p>
+            <md-list-item>
+              <p><i class="p-icon material-icons">visibility</i> Public profile</p>
+              <md-switch class="md-secondary" ng-model="setting.public"></md-switch>
             </md-list-item>
-            <md-list-item ng-click="goToPerson()" class="noright">
-              <i style="padding-right:10px;" class="p-icon material-icons">event</i>
-              <p> WarwickHACKB updated!</p>
+            <md-list-item ng-if="setting.public">
+              <p><i class="p-icon material-icons">visibility</i> Share resume</p>
+              <md-switch class="md-secondary" ng-model="setting.enabled"></md-switch>
             </md-list-item>
-            <md-list-item ng-click="goToPerson()" class="noright">
-              <i style="padding-right:10px;" class="p-icon material-icons">event</i>
-              <p> WarwickHACKB cancelled!</p>
+            <md-list-item ng-if="setting.public">
+              <p><i class="p-icon material-icons">star</i> Share prizes</p>
+              <md-switch class="md-secondary" ng-model="setting.enabled"></md-switch>
+            </md-list-item>
+            <md-list-item ng-if="setting.public">
+              <p><i class="p-icon material-icons">event_seat</i> Share attendance</p>
+              <md-switch class="md-secondary" ng-model="setting.enabled"></md-switch>
             </md-list-item>
           </md-card>
-        </div>-->
+          <md-card ng-if="viewself">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-title">Data sharing</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-divider></md-divider>
+            <md-list-item class="md-3-line" ng-click="null">
+              <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+              <div class="md-list-item-text" layout="column">
+                <h3>WarwickHACK</h3>
+                <h4>Mentor</h4>
+                <p class="md-subhead">https://www.warwickhack.com/</p>
+              </div>
+              <div style="padding-top:8px;padding-bottom: 8px" class="md-list-item-text" layout="column">
+                <h4> - Name</h4>
+                <h4> - Username</h4>
+                <h4> - Public profile</h4>
+                <h4> - T-Shirt size </h4>
+                <h4> - Food preference </h4>
+              </div>
+              <md-button>view</md-button>
+            </md-list-item>          
+          </md-card>
+        </div>
+        <!-- </overview> -->
 
         <!-- <follows> -->
         <div ng-if="selectedTab === 'follows'" flex-gt-md="50" flex-md="50" flex-xs="100" flex-sm="100">
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-title">Following ({{user.following.length}})</span>
+                <span ng-if="following.length" class="md-title">Following ({{following.length}})</span>
+                <span ng-if="!following.length" class="md-title">Following (0)</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="person in user.following" class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
-              <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
-              <p>{{ person.id }}</p>
-              <md-button>unfollow</md-button>
+            <md-list-item ng-repeat="person in following" class="noright" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id">
+              <img alt="{{ person.username }}" ng-src="{{ person.img }}" class="md-avatar" />
+              <p>{{ person.username }}</p>
+              <md-button ng-if="viewself" ng-click="unfollow(person.id, $index)">unfollow</md-button>
             </md-list-item>
           </md-card>
         </div>
@@ -159,15 +223,16 @@
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-title">Followers ({{user.followers.length}})</span>
+                <span ng-if="followers.length" class="md-title">Followers ({{followers.length}})</span>
+                <span ng-if="!followers.length" class="md-title">Followers (0)</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-            <md-list-item ng-repeat="person in user.followers" ng-click="goToPerson(person.name, $event)" class="noright">
-              <img alt="{{ person.name }}" ng-src="{{ person.img }}" class="md-avatar" />
-              <p>{{ person.id }}</p>
-              <md-button ng-if="isFollowing(person.id)">unfollow</md-button>
-              <md-button ng-if="!isFollowing(person.id)">follow</md-button>
+            <md-list-item ng-repeat="person in followers" aria-label="/profile/{{person.id}}" ui-sref="profile username({username: person.id})" mean-token="person.id" class="noright">
+              <img alt="{{ person.username }}" ng-src="{{ person.img }}" class="md-avatar" />
+              <p>{{ person.username }}</p>
+              <md-button ng-click="unfollow(person.id, $index)" ng-if="isFollowing(person.id) && viewself">unfollow</md-button>
+              <md-button  ng-click="follow(person.id, person.username)" ng-if="!isFollowing(person.id) && viewself">follow</md-button>
             </md-list-item>
           </md-card>
         </div>
@@ -176,42 +241,25 @@
 
         <!-- <applications> -->
 
-        <div ng-if="selectedTab === 'applications' && viewself" flex-gt-md="66" flex-md="100" flex-xs="100" flex-sm="100">
+        <div ng-if="selectedTab === 'applications' && viewself" flex-gt-md="100" flex-md="100" flex-xs="100" flex-sm="100">
           <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-title">My applications ({{user.following.length}})</span>
+                <span ng-if="userApplications.length" class="md-title">My applications ({{userApplications.length}})</span>
+                <span ng-if="!userApplications.length" class="md-title">My applications (0)</span>
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-            <md-list-item class="md-3-line" ng-click="null">
+            <md-list-item ng-repeat="app in userApplications" aria-label="/events/{{app.eventId}}" ui-sref="events eventid({eventid: app.eventId})" mean-token="app.eventId" class="md-3-line" ng-click="null">
               <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
               <div class="md-list-item-text" layout="column">
-                <h3>WarwickHACK</h3>
-                <h4>Mentor</h4>
-                <p>Rejected</p>
+                <h3>{{app.eventId}}</h3>
+                <h4>{{app.role}}</h4>
+                <p>{{app.status}}</p>
               </div>
-              <md-button ng-if="!isFollowing(person.id)">View details</md-button>
-              <md-button ng-if="!isFollowing(person.id)">Dismiss</md-button>
-            </md-list-item>
-          </md-card>
-      </div>
-        <div ng-if="selectedTab === 'applications' && viewself" flex-gt-md="33" flex-md="100" flex-xs="100" flex-sm="100">
-          <md-card>
-            <md-card-title>
-              <md-card-title-text>
-                <span class="md-title">My events ({{user.following.length}})</span>
-              </md-card-title-text>
-            </md-card-title>
-            <md-divider></md-divider>
-            <md-list-item class="md-3-line" ng-click="null">
-              <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
-              <div class="md-list-item-text" layout="column">
-                <h3>WarwickHACK</h3>
-                <h4>Mentor</h4>
-                <p>James Mahoney</p>
-              </div>
-              <md-button ng-if="!isFollowing(person.id)">View</md-button>
+              <md-button ng-click="showApplication($event, app)">View details</md-button>
+              <md-button ng-click="cancelApplication(app._id)" ng-if="app.status!=='accept'">Cancel</md-button>
+              <md-divider></md-divider>
             </md-list-item>
           </md-card>
       </div>

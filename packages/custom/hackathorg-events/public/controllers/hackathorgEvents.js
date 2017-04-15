@@ -1,6 +1,5 @@
 (function() {
     'use strict';
-    var mongoose = require('mongoose')
     /* jshint -W098 */
 
     function HackathorgEventsController($scope, Global, EventService, $stateParams) {
@@ -66,7 +65,7 @@
 
         var containsId = function(array, id) {
             return array.some(function(arrVal) {
-                return id === arrVal.id
+                return id === arrVal.id;
             })
         };
 
@@ -77,8 +76,8 @@
             if ($scope.discover.search) {
                 // TO IMPLEMENT
                 if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
-                    console.error(a.title + ' unmatched')
-                    return false
+                    console.error(a.title + ' unmatched');
+                    return false;
                 }
             } 
             // implement a recommended system
