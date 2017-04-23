@@ -9,7 +9,43 @@ User = mongoose.model('User');
 module.exports = function(HackathorgEvents){
   return {
     all: function(req, res) {
-      Event.find({}).exec(function (err, events) {
+      Event.aggregate([
+        
+        {$project: {
+          _id:1,
+          title:1,
+          organisation:1,
+          description:1, 
+          url:1,
+          image:1,
+          maxAttendees:1,
+          maxMentors:1,
+          attendeesCount:{
+            '$size': {
+              '$filter': {
+                'input': '$users',
+                'as': 'user',
+                'cond': {
+                  '$eq': [ '$$user.role', 'Attendee' ]
+                }
+              }
+            }
+          },
+          mentorCount:{
+            '$size': {
+              '$filter': {
+                'input': '$users',
+                'as': 'user',
+                'cond': {
+                  '$eq': [ '$$user.role', 'Mentor' ]
+                }
+              }
+            }
+          }
+        }
+      }
+
+      ]).exec(function (err, events) {
         if(err){
           console.log (err)
           res.send(500, 'Error: ' + err)
@@ -58,29 +94,23 @@ module.exports = function(HackathorgEvents){
     update: function (req, res) {
       if (!req.params.eventid) return res.send(404, 'No name specified');
 
-        Event.findOne({
-          _id: req.params.eventid
-        }).exec(function (err, event) {
-          if (!err && event) {
-            Event.findOneAndUpdate({
-              _id: event._id
+
+            Event.update({
+              _id: req.params.eventid, 
+              users:{$elemMatch:{userId: req.user._id, role: 'organiser'}}
             }, {
               $set: req.body
             }, {
               multi: false,
               upsert: false
-            }, function (err, circle) {
+            }, function (err, result) {
               if (err) {
                 return res.send(500, err.message);
               }
-
-
-
-              res.send(200, 'updated');
+              res.send(200, result);
             });
-          }
-        });
-      },
+          },
+      
     userevents : function(req, res){
       Event.find({ownerid: req.user._id}).select('title organisation').exec(function (err, events) {
         res.send(events);
