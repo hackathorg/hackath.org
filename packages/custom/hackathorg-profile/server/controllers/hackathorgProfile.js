@@ -80,6 +80,7 @@ module.exports = function(HackathorgProfile){
       ]);
     },
     updateProfile: function (req, res){
+      UserProfile.findOneAndupdate({_id: req.user._id}, {$set: req.body}, {new: true}).exec(function(err, result){
         if (err){
           console.log(err);
           res.status(500).send(err);
