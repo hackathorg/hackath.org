@@ -14,7 +14,7 @@
           authenticated: MeanUser.loggedin,
           user: MeanUser.user,
           isAdmin: MeanUser.isAdmin
-        }
+        };
 
         $scope.thisuser = {
             '_id' : vm.hdrvars.user._id,
@@ -27,14 +27,14 @@
                 authenticated: MeanUser.loggedin,
                 user: MeanUser.user,
                 isAdmin: MeanUser.isAdmin
-            }
+            };
           
             $scope.thisuser = {
                 '_id' : vm.hdrvars.user._id,
                 'username': vm.hdrvars.user.username
             };
             // If this user is the user being viewed
-            if ($scope.vieweduser === null || $scope.vieweduser === undefined || $scope.thisuser._id == $scope.userToId($scope.vieweduser)){
+            if ($scope.vieweduser === null || $scope.vieweduser === undefined || $scope.thisuser._id === $scope.userToId($scope.vieweduser)){
                 $scope.viewself = true;
             }
 
@@ -44,19 +44,19 @@
         
         $scope.userToId = function(username) {
             //Get the ID for a given username
-            return username
-        }
+            return username;
+        };
 
-        console.log($scope.thisuser)
+        console.log($scope.thisuser);
 
         // The current username being viewed (empty if viewing self)
         $scope.vieweduser = $stateParams.username;
 
         $scope.viewself = false;
-        console.log($scope.vieweduser)
+        console.log($scope.vieweduser);
 
         // If this user is the user being viewed
-        if ($scope.vieweduser === null || $scope.vieweduser === undefined || $scope.thisuser._id == $scope.userToId($scope.vieweduser)){
+        if ($scope.vieweduser === null || $scope.vieweduser === undefined || $scope.thisuser._id === $scope.userToId($scope.vieweduser)){
             $scope.viewself = true;
         }
 
@@ -95,7 +95,7 @@
             } else {
                 $scope.followers.push({'id':$scope.thisuser._id,'username':$scope.thisuser.username});
             }
-        }
+        };
         
         $scope.unfollow = function(user, index) {
             $scope.user_follower.unfollow({userId: user});
@@ -114,14 +114,14 @@
                     $scope.followers.splice(index,1);
                 }
             } else {
-                for (var i =0; i < $scope.followers.length; i++){
+                for (i = 0; i < $scope.followers.length; i++){
                    if ($scope.followers[i].id === $scope.thisuser._id) {
                       $scope.followers.splice(i,1);
                       break;
                    }
                 }
             }
-        }
+        };
 
         $scope.isFollowing = function(_id) {
             //console.log(_id)
@@ -129,10 +129,10 @@
             var followinglen = $scope.selffollowing.length;
             for (var i = 0; i < followinglen; i++) {
                 if ($scope.selffollowing[i].id === _id) {
-                    return true
+                    return true;
                 }
             }
-            return false
+            return false;
         };
 
         /* Event viewing data & functions */
@@ -172,12 +172,12 @@
         };
 
         $scope.showApplication = function(event, application) {
-            if(application.role == "attendee") {
+            if(application.role.toString() === 'attendee') {
                 $mdDialog.show(
                   $mdDialog.alert()
                     .title('Application for ' + application.eventId)
-                    .htmlContent('<p>Role : ' + application.role +'</p>'
-                        + '<p>Response : ' + application.response +'</p>')
+                    .htmlContent('<p>Role : ' + application.role +'</p>' +
+                    '<p>Response : ' + application.response +'</p>')
                     .ariaLabel(application.eventId + ' application')
                     .ok('Close')
                     .targetEvent(event)
@@ -186,11 +186,11 @@
                 $mdDialog.show(
                   $mdDialog.alert()
                     .title('Application for ' + application.eventId)
-                    .htmlContent('<p>Role : ' + application.role +'</p>'
-                        + '<p>Description : ' + application.description +'</p>'
-                        + '<p>Site : ' + application.site+'</p>'
-                        + '<p>Contact : ' + application.contact+'</p>'
-                        + '<p>Response : ' + application.response +'</p>')
+                    .htmlContent('<p>Role : ' + application.role +'</p>' +
+                    '<p>Description : ' + application.description +'</p>' + 
+                    '<p>Site : ' + application.site+'</p>' + 
+                    '<p>Contact : ' + application.contact+'</p>' + 
+                    '<p>Response : ' + application.response +'</p>')
                     .ariaLabel(application.eventId + ' package info')
                     .ok('Close')
                     .targetEvent(event)

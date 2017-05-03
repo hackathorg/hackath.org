@@ -118,8 +118,8 @@
                 <span class="md-subhead">{{event.description}}</span>
                 <!-- event tags here -->
                 <!--<span class="md-subhead">{{event.maxMentors - event.mentors.length}} / {{event.maxMentors}} mentor spots available</span>-->
-                <span style="padding-bottom:10px" class="md-subhead">{{(event.maxMentors + event.maxAttendees) - event.users.length}} / {{(event.maxMentors + event.maxAttendees)}} tickets remaining</span>
-                <md-progress-linear md-mode="determinate" value="{{(((event.maxMentors + event.maxAttendees) - event.users.length) /(event.maxMentors + event.maxAttendees))*100}}"></md-progress-linear>
+                <span style="padding-bottom:10px" class="md-subhead">{{(event.maxMentors + event.maxAttendees) - (event.attendeesCount+ event.mentorCount)}} / {{(event.maxMentors + event.maxAttendees)}} tickets remaining</span>
+                <md-progress-linear md-mode="determinate" value="{{(((event.maxMentors + event.maxAttendees) - (event.attendeesCount+ event.mentorCount))/(event.maxMentors + event.maxAttendees))*100}}"></md-progress-linear>
               </md-card-title-text>
             </md-card-title>
             <md-card-actions layout="row" layout-align="end center">

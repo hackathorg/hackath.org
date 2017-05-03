@@ -1,4 +1,4 @@
-#hackath.org
+# hackath.org
 
 hackath.org is the starting point for all users and all events organised with our service. It will allow users to signup, create and manage their hacker profile, discover and host hackathon events, and view leaderboards and use other services provided by our application.
 

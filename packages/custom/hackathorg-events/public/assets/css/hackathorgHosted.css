@@ -1,4 +1,5 @@
 .selected {
+	background-color: rgb(200,200,200);
 	background-color: rgba(158,158,158,0.2);
 }
 .warning {
