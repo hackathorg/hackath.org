@@ -76,7 +76,7 @@
 
         /* This user */
         $scope.user = HackathorgProfile.profiles.show({userId:$scope.userToId($scope.vieweduser)}, function(){
-            user.icon = 'https://www.gravatar.com/avatar/' +  MD5(user.email) + '?s=152&r=pg&d=identicon'
+            $scope.user.icon = 'https://www.gravatar.com/avatar/' +  MD5($scope.user.email) + '?s=152&r=pg&d=identicon'
         });
 
         /* User applications */
