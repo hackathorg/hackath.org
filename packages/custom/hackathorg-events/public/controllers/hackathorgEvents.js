@@ -90,8 +90,13 @@
             // search
             if ($scope.discover.search) {
                 // TODO implement a better search
-                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
-                    console.error(a.title + ' unmatched')
+                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) > -1) {
+                    return true
+                } else if (((a.organisation.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) > -1) {
+                    return true
+                } else if (((a.description.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) > -1) {
+                    return true
+                } else {
                     return false
                 }
             } 
