@@ -227,7 +227,10 @@
                 <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
                 <p>{{user.userId}}</p>
             </md-list-item>   
-            </div>       
+            </div>     
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button ng-click="" class="md-warn">Remove</md-button>
+            </md-card-actions>  
           </md-card>
           </div>
           <div flex="50">
@@ -239,10 +242,10 @@
             </md-card-title>
             <md-divider></md-divider>
             <div style="height:300px;overflow-y:scroll;">
-              <md-list-item class="md-3-line" ng-class="{selected: application._id === reviewedApplicationId}"  ng-click="setReviewed(application._id)" ng-repeat="application in eventApplications">
-                <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
+              <md-list-item class="md-3-line" ng-class="{selected: application._id === reviewedApplicationId}" ng-click="setReviewed(application._id)" ng-repeat="application in eventApplications | filter: { status: 'pending' }">
+                <img ui-sref="profile username({username: user.userId})"  ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
                 <div class="md-list-item-text" layout="column">
-                  <h3>{{ application.userId }} {{ application.username }}</h3>
+                  <h3>{{ application.username }}</h3>
                   <h4>{{ application.role }}</h4>
                 </div>
                 <md-button ng-click="showApplication($event, application)" >view</md-button>
@@ -309,7 +312,8 @@
                     <md-checkbox md-no-ink aria-label="attendeeapplications" ng-model="event.attendeeApplication" ng-click="updateRequiresApplication('attendee')" class="md-primary">
 
                       Requires application?
-                      {{event.requiresApplication}}
+                      {{event.noApplication}}
+                      
                     </md-checkbox>
                   </md-input-container>
                   <md-input-container flex-gt-sm="50" flex-xs="100" flex-sm="100" >
@@ -400,9 +404,9 @@
                 <p ng-if="event.hidden === false">The event is public. The event can be found on the discovery service.</p>
                 <p ng-if="event.hidden === true">The event is  private. The event can't be found on the discovery service.</p>
               </md-card-content>            
-              <md-card-actions ng-if="heroku.authenticated" layout="row" layout-align="end center">
+<!--               <md-card-actions ng-if="heroku.authenticated" layout="row" layout-align="end center">
                 <md-button class="md-primary" ng-click="submit()" ng-disabled="!(heroku.status === 'online')">Update</md-button>
-              </md-card-actions>
+              </md-card-actions> -->
             </md-card>
           </div>
           <!-- if already created event -->
@@ -415,7 +419,7 @@
                 </md-card-title-text>
               </md-card-title>
               <md-card-actions layout="row" layout-align="end center">
-                <md-button class="md-warn">Update</md-button>
+                <md-button  ng-click="submit()" class="md-warn">Update</md-button>
               </md-card-actions>
             </md-card>
           </div>
