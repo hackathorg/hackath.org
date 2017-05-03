@@ -165,8 +165,8 @@
         $scope.reviewApplication = function(status) {
             $scope.reviewedApplication.status = status
             $scope.reviewedApplication.$reviewApplication({applicationId : $scope.reviewedApplicationId}, function() {
-                reviewedApplicationId = null;
-                $scope.eventApplications = EventService.eventapplications.applications({eventId : idSelectedEvent})
+                $scope.reviewedApplicationId = null;
+                $scope.eventApplications = EventService.eventapplications.applications({eventId : $scope.idSelectedEvent})
             })
         };
 
@@ -331,15 +331,15 @@
         }
 
         $scope.showApplication = function(event, application) {
-            if(application.role == "sponsor") {
+            if(application.role === 'sponsor') {
                 $mdDialog.show(
                   $mdDialog.alert()
                     .title(application.userId + ' userid')
-                        .htmlContent('<p>Role : ' + application.role +'</p>'
-                            + '<p>Description : ' + application.description +'</p>'
-                            + '<p>Proposal : ' + application.proposal +'</p>'
-                            + '<p>Contact : ' + application.contact +'</p>'
-                            + '<p>Status : ' + application.status +'</p>')
+                        .htmlContent('<p>Role : ' + application.role +'</p>' +
+                            '<p>Description : ' + application.description +'</p>' +
+                            '<p>Proposal : ' + application.proposal +'</p>' +
+                            '<p>Contact : ' + application.contact +'</p>' +
+                            '<p>Status : ' + application.status +'</p>') 
                     .ok('Roger that!')
                     .targetEvent(event)
                 );
@@ -347,9 +347,9 @@
                 $mdDialog.show(
                   $mdDialog.alert()
                     .title(application.userId + ' userid')
-                        .htmlContent('<p>Role : ' + application.role +'</p>'
-                            + '<p>Description : ' + application.description +'</p>'
-                            + '<p>Status : ' + application.status +'</p>')
+                        .htmlContent('<p>Role : ' + application.role +'</p>' +
+                             '<p>Description : ' + application.description +'</p>' +
+                             '<p>Status : ' + application.status +'</p>')
                     .ok('Roger that!')
                     .targetEvent(event)
                 );

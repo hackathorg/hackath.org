@@ -8,8 +8,7 @@
 
     module.exports = function(HackathorgEvents, app, auth, database, circles) {
         var passport = require('../../passport');
-        var jwt = require('jsonwebtoken')
-        var requiresAdmin = circles.controller.hasCircle('admin');
+        var jwt = require('jsonwebtoken');
         var requiresLogin = circles.controller.hasCircle('authenticated');
         var events = HackathorgEvents.controller;
         var config = require('meanio').getConfig();
@@ -30,7 +29,7 @@
         app.post('/api/heroku/rebuild/:eventid', requiresLogin, events.heroku.rebuild);
 
         app.get('/api/auth/heroku/:eventid',  function(req,res,next){ 
-            var state = jwt.sign({state:req.params.eventid}, config.secret,{expiresIn: "1h"})
+            var state = jwt.sign({state:req.params.eventid}, config.secret,{expiresIn: '1h'})
             passport.authenticate('heroku',{state: state})(req, res, next)},  function(req, res){
            
         });

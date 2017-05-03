@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
   Follow = mongoose.model('Follow'),
   Application = mongoose.model('Application'),
   Event = mongoose.model('ApplicationEvent'),
-  User = mongoose.model('UserEvent');
+  UserEvent = mongoose.model('UserEvent'),
+  UserProfile = mongoose.model('Profile');
 
 function profileOrUser(req, res){
   if (req.profile){
@@ -60,7 +61,7 @@ module.exports = function(HackathorgProfile){
 
           async.parallel([
             function(callback){
-              User.findById(application.userId, 'events', callback);
+              UserEvent.findById(application.userId, 'events', callback);
             },
             function(callback){
               Event.findById(application.eventId, 'users', callback);
@@ -72,15 +73,22 @@ module.exports = function(HackathorgProfile){
             } else {
               req.userevents = result[0];
               req.event = result[1];
-                    console.log(req.event)
-      console.log(req.userevents)
               next();
             }
           });
         }
       ]);
     },
+    updateProfile: function (req, res){
+        if (err){
+          console.log(err);
+          res.status(500).send(err);
+        } else {
+          res.send(result); 
+        }
+      })
       
+    },
 
     eventapplications: function (req, res){
       Event.findById(req.params.eventid, function(err, event){
@@ -107,7 +115,7 @@ module.exports = function(HackathorgProfile){
           Event.findOne({_id: req.params.eventid}).exec(callback);
         },
         function(callback){
-          User.findOne({_id: req.user._id}).exec(callback);
+          UserEvent.findOne({_id: req.user._id}).exec(callback);
         }], function (err, result){
         if (err){
           console.log(err);
@@ -117,7 +125,7 @@ module.exports = function(HackathorgProfile){
         req.userevents = result[1];
         req.application = new Application(req.body);
         req.application.userId = req.user._id;
-        req.application.username = username;
+        req.application.username = req.user.username;
         req.application.status = 'Pending';
         req.application.response = '';
         if (err){
@@ -136,7 +144,7 @@ module.exports = function(HackathorgProfile){
     },
     cancelTicket: function (req, res) {
       Event.update({_id: req.params.eventid}, {$pull:{users:{userId:req.user._id}}}, responseCallback(res));
-      User.update({_id: req.user._id}, {$pull: {events: {eventId: req.params.eventid}}});
+      UserEvent.update({_id: req.user._id}, {$pull: {events: {eventId: req.params.eventid}}});
     },
     cancelApplication: function (req, res) {
       Application.findByIdAndRemove(req.params.applicationId, responseCallback(res));
@@ -155,9 +163,6 @@ module.exports = function(HackathorgProfile){
           
           function(result, num, callback){
             if (req.body.status === 'accepted'){
-              console.log (result)
-              console.log(typeof callback)
-              console.log(callback)
               addToEvent(req, res, callback);
             }
           }
@@ -165,7 +170,7 @@ module.exports = function(HackathorgProfile){
         responseCallback(res)
         );
       } else {
-        res.send(403, 'Forbidden')
+        res.send(403, 'Forbidden');
       } 
     },
     

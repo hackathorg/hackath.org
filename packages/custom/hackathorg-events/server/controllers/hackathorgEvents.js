@@ -1,17 +1,17 @@
 'use strict';
 var async = require('async');
-var jwt = require('jsonwebtoken');
-var Heroku = require('heroku-client')
+var Heroku = require('heroku-client');
 var mongoose = require('mongoose'),
 Event = mongoose.model('Event'),
 User = mongoose.model('User');
 
+
 module.exports = function(HackathorgEvents){
   return {
     all: function(req, res) {
-      Event.aggregate([
-        
-        {$project: {
+      console.log(req.user._id)
+      var userId = req.user._id;
+      var projection =  {
           _id:1,
           title:1,
           organisation:1,
@@ -20,6 +20,15 @@ module.exports = function(HackathorgEvents){
           image:1,
           maxAttendees:1,
           maxMentors:1,
+          users:{
+              '$filter': {
+                'input': '$users',
+                'as': 'user',
+                'cond': {
+                  '$eq': [ '$$user.userId', userId ]
+                }
+              }
+          },
           attendeesCount:{
             '$size': {
               '$filter': {
@@ -42,13 +51,11 @@ module.exports = function(HackathorgEvents){
               }
             }
           }
-        }
-      }
-
-      ]).exec(function (err, events) {
+        };
+      Event.aggregate([{$project:projection}]).exec(function (err, events) {
         if(err){
-          console.log (err)
-          res.send(500, 'Error: ' + err)
+          console.log(err);
+          res.send(500, 'Error: ' + err);
         }
         res.send(events);
       });
@@ -180,7 +187,6 @@ module.exports = function(HackathorgEvents){
             Event.find({_id: req.params.eventid, ownerid: req.user._id}).exec(callback)
           },
           function (event, callback){
-            eventdata = event
             var heroku = new Heroku({token: event.heroku.apiKey})
             heroku.patch('/apps/' + event.heroku.appId, {body: {maintenance: req.params.maintenance}}).then(callback).catch(callback)
           },

@@ -9,6 +9,10 @@
                 }, {
                 show: {
                     method: 'GET'
+                },
+                save: {
+                    method: 'POST',
+                    url:'api/profile/update'
                 }
 
             }),

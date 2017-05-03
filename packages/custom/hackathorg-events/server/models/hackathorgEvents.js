@@ -21,7 +21,7 @@ var eventSchema = new Schema({
   location: String,
   sponsors: Boolean,
   skillLevel: String,
-  requiresApplication: [String],
+  noApplication: [String],
   users: [{
     userId: ObjectId,
     role: String
