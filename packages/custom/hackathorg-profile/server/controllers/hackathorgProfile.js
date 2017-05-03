@@ -57,6 +57,7 @@ module.exports = function(HackathorgProfile){
         },
         function( application, callback){
           req.application = application;
+
           async.parallel([
             function(callback){
               User.findById(application.userId, 'events', callback);
@@ -71,6 +72,8 @@ module.exports = function(HackathorgProfile){
             } else {
               req.userevents = result[0];
               req.event = result[1];
+                    console.log(req.event)
+      console.log(req.userevents)
               next();
             }
           });
@@ -85,8 +88,8 @@ module.exports = function(HackathorgProfile){
           res.send(500);
           return;
         }
-        console.log(event._id);
         if (event.users.some(function(user){
+          console.log(user);
           return user.userId.toString() === req.user._id.toString() && user.role.toLowerCase() === 'organiser';})){
           Application.find({eventId: event._id}).exec(responseCallback(res));
         } else {
@@ -136,7 +139,6 @@ module.exports = function(HackathorgProfile){
       User.update({_id: req.user._id}, {$pull: {events: {eventId: req.params.eventid}}});
     },
     cancelApplication: function (req, res) {
-      console.log(req.params);
       Application.findByIdAndRemove(req.params.applicationId, responseCallback(res));
     },
     
@@ -153,6 +155,9 @@ module.exports = function(HackathorgProfile){
           
           function(result, num, callback){
             if (req.body.status === 'accepted'){
+              console.log (result)
+              console.log(typeof callback)
+              console.log(callback)
               addToEvent(req, res, callback);
             }
           }
