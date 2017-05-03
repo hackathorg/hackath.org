@@ -72,8 +72,6 @@ module.exports = function(HackathorgProfile){
             } else {
               req.userevents = result[0];
               req.event = result[1];
-                    console.log(req.event)
-      console.log(req.userevents)
               next();
             }
           });
@@ -117,7 +115,7 @@ module.exports = function(HackathorgProfile){
         req.userevents = result[1];
         req.application = new Application(req.body);
         req.application.userId = req.user._id;
-        req.application.username = username;
+        req.application.username = req.user.username;
         req.application.status = 'Pending';
         req.application.response = '';
         if (err){
@@ -155,9 +153,6 @@ module.exports = function(HackathorgProfile){
           
           function(result, num, callback){
             if (req.body.status === 'accepted'){
-              console.log (result)
-              console.log(typeof callback)
-              console.log(callback)
               addToEvent(req, res, callback);
             }
           }
@@ -165,7 +160,7 @@ module.exports = function(HackathorgProfile){
         responseCallback(res)
         );
       } else {
-        res.send(403, 'Forbidden')
+        res.send(403, 'Forbidden');
       } 
     },
     

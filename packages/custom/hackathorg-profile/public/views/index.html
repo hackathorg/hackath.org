@@ -48,9 +48,9 @@
             <md-nav-item md-nav-click="changeTab('follows')" name="follows">
               Follows
             </md-nav-item>
-            <md-nav-item md-nav-click="changeTab('resume')" name="adv">
+<!--             <md-nav-item md-nav-click="changeTab('resume')" name="adv">
               Resume
-            </md-nav-item>
+            </md-nav-item> -->
             <md-nav-item ng-if="viewself" md-nav-click="changeTab('settings')" name="settings">
               Settings
             </md-nav-item>
@@ -86,12 +86,12 @@
               <div class="md-list-item-text" layout="column">
                 <h3>{{event.eventId}}</h3>
                 <h4>{{event.role}}</h4>
-                <p>https://www.warwickhack.com/</p>
+ <!--                <p>https://www.warwickhack.com/</p> -->
               </div>
-              <div class="md-list-item-text" layout="column">
+<!--               <div class="md-list-item-text" layout="column">
                 <h4> Date here </h4>
-              </div>
-              <md-button>view</md-button>
+              </div> -->
+              <md-button ui-sref="events eventid({eventid: event.eventId})">view</md-button>
             </md-list-item>            
           </md-card>
         </div>
@@ -182,21 +182,19 @@
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-            <md-list-item class="md-3-line" ng-click="null">
+            <md-list-item ui-sref="events eventid({eventid: event.eventId})" ng-repeat="event in user.events"  class="md-3-line" ng-click="null">
               <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
               <div class="md-list-item-text" layout="column">
-                <h3>WarwickHACK</h3>
-                <h4>Mentor</h4>
-                <p class="md-subhead">https://www.warwickhack.com/</p>
+                <h3>{{event.eventId}}</h3>
+                <h4>{{event.role}}</h4>
+                <!-- <p class="md-subhead">https://www.warwickhack.com/</p> -->
               </div>
               <div style="padding-top:8px;padding-bottom: 8px" class="md-list-item-text" layout="column">
-                <h4> - Name</h4>
-                <h4> - Username</h4>
                 <h4> - Public profile</h4>
                 <h4> - T-Shirt size </h4>
                 <h4> - Food preference </h4>
               </div>
-              <md-button>view</md-button>
+              <md-button ui-sref="events eventid({eventid: event.eventId})">view</md-button>
             </md-list-item>          
           </md-card>
         </div>
