@@ -31,8 +31,11 @@
 
         /* Event information */
         $scope.getEventId = $stateParams.eventid;
-        $scope.event = EventService.events.show({name:$scope.getEventId}, function() {
+        $scope.event = EventService.events.show({name:$scope.getEventId}, function(event) {
             isAttending();
+            $scope.mentors = event.users.filter(function(x){return x.role.toLowerCase() === 'mentor'})
+            $scope.attendees = event.users.filter(function(x){return x.role.toLowerCase() === 'attendee'})
+            $scope.sponsors = event.users.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
         });
 
         $scope.sites = $scope.events;
@@ -85,10 +88,12 @@
         $scope.attendingAs = null;
 
         function isAttending () {
-            for(var i = 0; i < $scope.event.users.length; i++){
-                if ($scope.event.users[i].userId === vm.hdrvars.user._id) {
-                    $scope.attendingAs = $scope.event.users[i].role
-                    return true
+            if ($scope.event.users) {
+                for(var i = 0; i < $scope.event.users.length; i++){
+                    if ($scope.event.users[i].userId === vm.hdrvars.user._id) {
+                        $scope.attendingAs = $scope.event.users[i].role
+                        return true
+                    }
                 }
             }
             $scope.attendingAs = null;
