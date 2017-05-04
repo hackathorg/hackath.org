@@ -110,7 +110,7 @@
 
       <div layout-wrap layout="row" layout-align="space-around start" flex="80" flex-sm="100" flex-md="100">
         <md-card flex="33" style="max-width:350px;min-width:200px" ng-repeat="event in filteredEvents = (events | filter:filterEvents | orderBy:bestMatch)">
-          <img ng-src="{{event.image}}" class="md-card-image" alt="{{event.title}} image">
+          <img ng-src="{{event.image}}" ng-href="/events/{{event._id}}" class="md-card-image" alt="{{event.title}} image">
             <md-card-title>
               <md-card-title-text>
                 <span class="md-headline">{{event.title}}</span>

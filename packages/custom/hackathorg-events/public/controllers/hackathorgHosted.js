@@ -185,15 +185,22 @@
                 $scope.event = new EventService.events()
                 $scope.event.hosts = [];
                 $scope.event.tags = [];
+                $scope.event.noApplication = [];
                 $scope.event.hidden = true;
            } 
            // Get the event selected from db and populate page with Update event shtuff
            else if (idSelectedEvent !== null) {
                 $scope.changeManageTab('dashboard');
                 $scope.event = EventService.events.show({name:idSelectedEvent}, function(event) {
-                    $scope.mentors = event.users.filter(function(x){return x.role.toLowerCase() === 'mentor'})
+                    $scope.mentors = event.users.filter(function(x){return x.role.toLowerCase() === 'mentor';});
                     $scope.attendees = event.users.filter(function(x){return x.role.toLowerCase() === 'attendee'})
                     $scope.sponsors = event.users.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
+                    // quick fix for presentation
+                    if (!$scope.event.noApplication || $scope.event.noApplication.length === 0) {
+                        $scope.event.attendeeApplication = false;
+                    } else {
+                        $scope.event.attendeeApplication = true;
+                    }
                 })
                 $scope.eventApplications = EventService.eventapplications.applications({eventId : idSelectedEvent})
            }
@@ -330,8 +337,17 @@
            // herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
         }
 
+        // This is just a quick fix, to extend, just check if the type is in array, if not, add, else remove
+        $scope.updateRequiresApplication = function(type) {
+            if(!$scope.event.noApplication || $scope.event.noApplication.length === 0) {
+                $scope.event.noApplication = [type]
+            } else {
+                $scope.event.noApplication = []
+            }
+        }
+
         $scope.showApplication = function(event, application) {
-            if(application.role === 'sponsor') {
+            if(application.role.toString() === 'sponsor' || application.role.toString === 'mentor' ) {
                 $mdDialog.show(
                   $mdDialog.alert()
                     .title(application.userId + ' userid')
@@ -347,8 +363,7 @@
                 $mdDialog.show(
                   $mdDialog.alert()
                     .title(application.userId + ' userid')
-                        .htmlContent('<p>Role : ' + application.role +'</p>' +
-                             '<p>Description : ' + application.description +'</p>' +
+                        .htmlContent('<p>Role: ' + application.role +'</p>' +
                              '<p>Status : ' + application.status +'</p>')
                     .ok('Roger that!')
                     .targetEvent(event)
