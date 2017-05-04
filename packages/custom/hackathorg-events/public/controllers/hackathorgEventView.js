@@ -91,14 +91,14 @@
             if ($scope.event.users) {
                 for(var i = 0; i < $scope.event.users.length; i++){
                     if ($scope.event.users[i].userId === vm.hdrvars.user._id) {
-                        $scope.attendingAs = $scope.event.users[i].role
-                        return true
+                        $scope.attendingAs = $scope.event.users[i].role;
+                        return true;
                     }
                 }
             }
             $scope.attendingAs = null;
-            return false
-        };
+            return false;
+        }
 
         $scope.attendeetype = 'attendee';
 

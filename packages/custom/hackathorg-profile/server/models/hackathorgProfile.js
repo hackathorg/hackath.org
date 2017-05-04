@@ -19,7 +19,8 @@ var profileSchema = new Schema({
     bio: String,
     website: String, 
     tags: String,
-    location: String
+    location: String,
+    public: Boolean
 });
 
 var userEventSchema = new Schema({

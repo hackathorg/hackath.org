@@ -1,0 +1,8 @@
+engines:
+  # ... CONFIG CONTENT ...
+  eslint:
+    enabled: true
+    # ... CONFIG CONTENT ...
+    checks:
+      linebreak-style:
+        enabled: false

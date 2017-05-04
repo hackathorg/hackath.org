@@ -166,7 +166,7 @@
             $scope.reviewedApplication.status = status
             $scope.reviewedApplication.$reviewApplication({applicationId : $scope.reviewedApplicationId}, function() {
                 $scope.reviewedApplicationId = null;
-                $scope.eventApplications = EventService.eventapplications.applications({eventId : idSelectedEvent})
+                $scope.eventApplications = EventService.eventapplications.applications({eventId : $scope.idSelectedEvent})
             })
         };
 
@@ -192,7 +192,7 @@
            else if (idSelectedEvent !== null) {
                 $scope.changeManageTab('dashboard');
                 $scope.event = EventService.events.show({name:idSelectedEvent}, function(event) {
-                    $scope.mentors = event.users.filter(function(x){return x.role.toLowerCase() === 'mentor'})
+                    $scope.mentors = event.users.filter(function(x){return x.role.toLowerCase() === 'mentor';});
                     $scope.attendees = event.users.filter(function(x){return x.role.toLowerCase() === 'attendee'})
                     $scope.sponsors = event.users.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
                     // quick fix for presentation
@@ -347,15 +347,15 @@
         }
 
         $scope.showApplication = function(event, application) {
-            if(application.role == "sponsor" || application.role == "mentor" ) {
+            if(application.role.toString() === 'sponsor' || application.role.toString === 'mentor' ) {
                 $mdDialog.show(
                   $mdDialog.alert()
                     .title(application.userId + ' userid')
-                        .htmlContent('<p>Role : ' + application.role +'</p>'
-                            + '<p>Description : ' + application.description +'</p>'
-                            + '<p>Proposal : ' + application.proposal +'</p>'
-                            + '<p>Contact : ' + application.contact +'</p>'
-                            + '<p>Status : ' + application.status +'</p>')
+                        .htmlContent('<p>Role : ' + application.role +'</p>' +
+                            '<p>Description : ' + application.description +'</p>' +
+                            '<p>Proposal : ' + application.proposal +'</p>' +
+                            '<p>Contact : ' + application.contact +'</p>' +
+                            '<p>Status : ' + application.status +'</p>') 
                     .ok('Roger that!')
                     .targetEvent(event)
                 );
@@ -363,8 +363,8 @@
                 $mdDialog.show(
                   $mdDialog.alert()
                     .title(application.userId + ' userid')
-                        .htmlContent('<p>Role: ' + application.role +'</p>'
-                            + '<p>Status : ' + application.status +'</p>')
+                        .htmlContent('<p>Role: ' + application.role +'</p>' +
+                             '<p>Status : ' + application.status +'</p>')
                     .ok('Roger that!')
                     .targetEvent(event)
                 );

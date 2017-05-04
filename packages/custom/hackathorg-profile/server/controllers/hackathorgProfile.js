@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
   Follow = mongoose.model('Follow'),
   Application = mongoose.model('Application'),
   Event = mongoose.model('ApplicationEvent'),
-  User = mongoose.model('UserEvent');
+  UserEvent = mongoose.model('UserEvent'),
+  UserProfile = mongoose.model('Profile');
 
 function profileOrUser(req, res){
   if (req.profile){
@@ -60,7 +61,7 @@ module.exports = function(HackathorgProfile){
 
           async.parallel([
             function(callback){
-              User.findById(application.userId, 'events', callback);
+              UserEvent.findById(application.userId, 'events', callback);
             },
             function(callback){
               Event.findById(application.eventId, 'users', callback);
@@ -78,7 +79,19 @@ module.exports = function(HackathorgProfile){
         }
       ]);
     },
+    updateProfile: function (req, res){
+      UserProfile.findOneAndUpdate({_id: req.user._id}, {$set: req.body}, {new: true, projection:{
+        public:1, name:1, tags:1, username:1, location:1, bio:1, website:1, events: 1}
+      }).exec(function(err, result){
+        if (err){
+          console.log(err);
+          res.status(500).send(err);
+        } else {
+          res.send(result); 
+        }
+      })
       
+    },
 
     eventapplications: function (req, res){
       Event.findById(req.params.eventid, function(err, event){
@@ -105,7 +118,7 @@ module.exports = function(HackathorgProfile){
           Event.findOne({_id: req.params.eventid}).exec(callback);
         },
         function(callback){
-          User.findOne({_id: req.user._id}).exec(callback);
+          UserEvent.findOne({_id: req.user._id}).exec(callback);
         }], function (err, result){
         if (err){
           console.log(err);
@@ -134,7 +147,7 @@ module.exports = function(HackathorgProfile){
     },
     cancelTicket: function (req, res) {
       Event.update({_id: req.params.eventid}, {$pull:{users:{userId:req.user._id}}}, responseCallback(res));
-      User.update({_id: req.user._id}, {$pull: {events: {eventId: req.params.eventid}}});
+      UserEvent.update({_id: req.user._id}, {$pull: {events: {eventId: req.params.eventid}}});
     },
     cancelApplication: function (req, res) {
       Application.findByIdAndRemove(req.params.applicationId, responseCallback(res));

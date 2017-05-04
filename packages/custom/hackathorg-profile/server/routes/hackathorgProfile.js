@@ -8,8 +8,11 @@
         var requiresLogin = circles.controller.hasCircle('authenticated');
         var profiles = HackathorgProfile.controller;
         app.param('applicationId', profiles.getUserEvents);
+
+        //Profile
         app.get('/api/users', requiresLogin, function (req, res) {res.send(req.user); });
         app.get('/api/users/:userId', function(req, res){res.send(req.profile); });
+        app.post('/api/profile/update', requiresLogin, profiles.updateProfile)
 
         //Followers
         app.get('/api/followers', requiresLogin, profiles.followers);
