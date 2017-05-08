@@ -193,6 +193,12 @@
                 $scope.event.tags = [];
                 $scope.event.noApplication = [];
                 $scope.event.hidden = true;
+                $scope.event.startDate = new Date();
+                $scope.event.endDate = new Date();
+                $scope.event.minDate = new Date(
+                      $scope.event.startDate.getFullYear(),
+                      $scope.event.startDate.getMonth(),
+                      $scope.event.startDate.getDate());
            } 
            // Get the event selected from db and populate page with Update event shtuff
            else if (idSelectedEvent !== null) {
@@ -332,13 +338,6 @@
         }, {
             'type': 'Advanced'
         }];
-
-        $scope.startDate = new Date();
-        $scope.endDate = new Date();
-        $scope.minDate = new Date(
-              $scope.startDate.getFullYear(),
-              $scope.startDate.getMonth(),
-              $scope.startDate.getDate());
 
         $scope.events = EventService.events.userevents();
         $scope.sites = $scope.events;
