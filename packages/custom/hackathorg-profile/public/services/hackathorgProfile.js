@@ -13,6 +13,10 @@
                 save: {
                     method: 'POST',
                     url:'api/profile/update'
+                }, 
+                events: {
+                    method: 'GET',
+                    url:'api/users/:userId/events'
                 }
 
             }),

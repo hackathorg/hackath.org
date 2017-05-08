@@ -15,6 +15,35 @@
             { name: 'Peter Carlsson', img: 'img/100-2.jpeg'}
         ];
 
+        $scope.userleadertype = 'attendee';
+
+        $scope.userleadertypes = [{
+            'type' :'Most attended',
+            'value' : 'attendee'
+        }, {
+            'type' :'Most organised',
+            'value' : 'organiser' 
+        }, {
+            'type' :'Most mentored',
+            'value' : 'mentor'  
+        }];
+
+        $scope.eventleadertype = 'best';
+
+        $scope.eventleadertypes = [{
+            'type' :'Largest event',
+            'value' : 'largest'
+        }, {
+            'type' :'Best rated event',
+            'value' : 'best' 
+        }, {
+            'type' :'Most mentors',
+            'value' : 'mentor'  
+        },{
+            'type' :'Most prizes',
+            'value' : 'prizes'  
+        }];
+
         $scope.checkCircle = function() {
             HackathorgLeaderboards.checkCircle($stateParams.circle).then(function(response) {
                 $scope.res = response;
