@@ -75,13 +75,18 @@
         }];
 
         // This will be the heroku server associated with an event
+        /*
+            apiKey: String,
+            refreshToken: String,
+            appName: String,
+            appId: String,
+            source: String
+        */
         $scope.heroku = {
-            'status' : 'offline',
-            'authenticated' : true,
             'req_rebuild' : true,
-            'api_key' : 'tbc_s0m3_K3y39481',
-            'source' : 'https://github.com/hackathorg/openhach.js/tarball/master',
+            'source' : 'https://github.com/hackathorg/openhack.js/tarball/master',
             'name': 'appname',
+            // This is currently obsolete but would be added in future as build options
             'other_field' : '',
             'current_build_hackages' : [{
                 'id' : '0'
@@ -302,13 +307,15 @@
                 $scope.resStatus = 'danger';
             });
         };
+
         $scope.herokuAuth = function(){
            // herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
         }
-        $scope.herokusubmit =
-         function () {
+
+        $scope.herokusubmit = function () {
             EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.heroku)
         }
+
         $scope.submit = function() {
             if ('create' === $scope.idSelectedEvent){
                 console.log($scope.event)
