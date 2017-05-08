@@ -95,13 +95,16 @@
             // search
             if ($scope.discover.search) {
                 // TODO implement a better search
+                var found = false
                 if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
-                    return false
+                    found = true
                 } else if (((a.organisation.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
-                    return false
+                    found = true
                 } else if (((a.description.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
-                    return false
-                } else {
+                    found = true
+                } 
+
+                if (!found) {
                     return false
                 }
             } 
