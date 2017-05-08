@@ -95,6 +95,8 @@ module.exports = function(HackathorgEvents){
         }).exec(function (err, event) {
           if (!err && event) {
             res.send(200,event);
+        } else{
+          res.send(500,err);
         }
       });
     },
@@ -127,6 +129,7 @@ module.exports = function(HackathorgEvents){
       create: function(req, res){
         var heroku;
         var eventdata;
+        var appdata;
         async.waterfall([
           function (callback){
             Event.findOne({_id: req.params.eventid, ownerid: req.user._id}).exec(callback)
@@ -141,10 +144,11 @@ module.exports = function(HackathorgEvents){
             var cb = function(resp){console.log('yay '+resp);callback(null,resp)}
             var cbe = function(resp){console.log('err '+resp);callback(resp, null)}
 
-            heroku.post('/app-setups',  {debug: true, body: {app: {name: appName}, source_blob: {url: source}}}).then(cb).catch(cbe)
+            heroku.post('/app-setups',  {debug: true, body: {app: {name: appName}, source_blob: {url: source}}}).then(cb).catch(cbe);
           },
           function (app, callback){
             console.log(app.heroku)
+            appdata = app
             eventdata.heroku.appName = app.app.name;
             eventdata.heroku.appId = app.app.id;
             eventdata.save(callback);
@@ -155,7 +159,7 @@ module.exports = function(HackathorgEvents){
               console.log(err);
               res.send(500, err)
             } else{
-            res.send(200, result);
+            res.send(200, appdata);
             }
           }
         )

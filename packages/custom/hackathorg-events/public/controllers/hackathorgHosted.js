@@ -3,7 +3,7 @@
     //var herokuPassport = require('../../passport')
     /* jshint -W098 */
 
-    function HackathorgHostedController($scope, Global, $stateParams, EventService, $state, $mdDialog, $filter) {
+    function HackathorgHostedController($scope, Global, $stateParams, EventService, $state, $mdDialog, $filter, $http) {
         $scope.global = Global;
 
         $scope.package = {
@@ -347,12 +347,17 @@
            // herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
         }
 
-
-        $scope.herokusubmit = function () {
-            EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.event.heroku, function(result) {
-                console.log(result)
+       $scope.herokusubmit = function () {
+            $http.post('/api/heroku/create/' + $scope.event._id, $scope.event.heroku).then(function(result){
+                $scope.message = 'success';
+            },function(err){
+                $scope.message = err;
             })
-        }
+           // EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.event.heroku);
+        };
+
+
+
 
 
         // This is just a quick fix, to extend, just check if the type is in array, if not, add, else remove
@@ -409,5 +414,5 @@
         .module('mean.hackathorg-events')
         .controller('HackathorgHostedController', HackathorgHostedController);
 
-    HackathorgHostedController.$inject = ['$scope', 'Global', '$stateParams', 'EventService', '$state', '$mdDialog', '$filter'];
+    HackathorgHostedController.$inject = ['$scope', 'Global', '$stateParams', 'EventService', '$state', '$mdDialog', '$filter', '$http'];
 })();

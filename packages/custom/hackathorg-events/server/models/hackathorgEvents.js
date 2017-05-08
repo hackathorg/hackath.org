@@ -49,8 +49,10 @@ eventSchema.methods.isattendee = function (userId){
 }
 eventSchema.methods.toJSON = function() {
   var obj = this.toObject();
-  delete obj.heroku.apiKey;
-  delete obj.heroku.refreshToken;
+  if (obj.heroku){
+    delete obj.heroku.apiKey;
+    delete obj.heroku.refreshToken;
+  }
   return obj;
 };
 mongoose.model('Event', eventSchema);
