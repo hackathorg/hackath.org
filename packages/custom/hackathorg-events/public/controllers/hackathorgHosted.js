@@ -82,11 +82,11 @@
             source: String
         */
         $scope.heroku = {
-            'req_rebuild' : true,
             'source' : 'https://github.com/hackathorg/openhack.js/tarball/master',
-            'name': 'appname',
+            'appName': 'appname',
             // This is currently obsolete but would be added in future as build options
             'other_field' : '',
+            'req_rebuild' : true,
             'current_build_hackages' : [{
                 'id' : '0'
             }, {
@@ -207,6 +207,11 @@
                     } else {
                         $scope.event.attendeeApplication = true;
                     }
+                    // Specify default source for Heroku, if set up
+                    if ($scope.event.heroku) {
+                        $scope.event.heroku.source = 'https://github.com/hackathorg/openhack.js/tarball/master'
+                    }
+
                 })
                 $scope.eventApplications = EventService.eventapplications.applications({eventId : idSelectedEvent})
            }
@@ -344,7 +349,9 @@
 
 
         $scope.herokusubmit = function () {
-            EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.heroku)
+            EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.event.heroku, function(result) {
+                console.log(result)
+            })
         }
 
 
