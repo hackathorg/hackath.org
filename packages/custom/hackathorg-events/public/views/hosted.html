@@ -109,7 +109,7 @@
               <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{(mentors.length / event.maxMentors)*100}}"></md-progress-linear>
               <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{attendees.length}} / {{event.maxAttendees}}</p>
               <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{(attendees.length / event.maxAttendees) * 100}}"></md-progress-linear>
-              <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - To be added to schema</p>
+              <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - {{sponsors.length}}</p>
               <p>The event can be managed from within the web application.</p>
             </md-card-content>
           </md-card>
@@ -311,7 +311,7 @@
                   <md-input-container style="padding-left: 60px;" flex-gt-sm="50" flex-xs="100" flex-sm="50"  >
                     <md-checkbox md-no-ink aria-label="attendeeapplications" ng-model="event.attendeeApplication" ng-click="updateRequiresApplication('attendee')" class="md-primary">
 
-                      Requires application?
+                      No application?
                       {{event.noApplication}}
                       
                     </md-checkbox>
@@ -374,7 +374,10 @@
                 <md-card-title-text>
                   <span class="md-headline">Event discovery image</span>
                   <span class="md-subhead">600x400</span>
-                  <span class="md-subhead">File upload and selection here</span>
+                  <md-input-container class="md-block">
+                    <label>Image location</label>
+                    <input required ng-model="event.image">
+                  </md-input-container>
                 </md-card-title-text>
                 <md-card-title-media>
                   <div class="card-media placeholder"></div>

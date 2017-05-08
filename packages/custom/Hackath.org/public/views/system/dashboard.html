@@ -51,6 +51,14 @@
 			             	</md-card-title-text>
 			            </md-card-title>
 			          	<md-divider></md-divider>
+			            <md-list-item ng-repeat="event in userevents | filter : {role : eventtype}" aria-label="/events/{{event.eventId}}" ui-sref="events eventid({eventid: event.eventId})" mean-token="person.id" class="md-3-line" ng-click="null">
+			              <img ng-src="{{event.face}}?{{$index}}" class="md-avatar" alt="{{event.name}}" />
+			              <div class="md-list-item-text" layout="column">
+			                <h3>{{event.eventId}}</h3>
+			                <h4>{{event.role}}</h4>
+			              </div>
+			              <md-button ui-sref="events eventid({eventid: event.eventId})">view</md-button>
+			            </md-list-item> 
 			          	<md-list-item ng-click="null">
 			              	<div class="md-list-item-text" layout="column">
 			                	<p>https://www.warwickhack.com/</p>

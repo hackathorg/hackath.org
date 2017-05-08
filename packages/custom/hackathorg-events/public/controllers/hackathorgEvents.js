@@ -168,8 +168,12 @@
                     console.error('Unimplemented')
                 }
                 if ($scope.discover.tickets) {
-                    // check attendees < max size
-                    console.error('Unimplemented')
+                    if (a.attendeesCount >= a.maxAttendees) {
+                        return false
+                    }
+                    if (a.mentorCount >= a.maxMentors) {
+                        return false
+                    }
                 }
                 return true
             }

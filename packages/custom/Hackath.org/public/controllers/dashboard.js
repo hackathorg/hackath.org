@@ -19,6 +19,7 @@ angular.module('mean.system').controller('DashboardController', ['$scope', 'Glob
     $scope.dashboardviews = [vm.hdrvars.user.name];
     $scope.dashboardview = vm.hdrvars.user.name;
     $scope.following = Dashboard.follower.follows();
+    $scope.userevents = Dashboard.profiles.events();
 
     $rootScope.$on('loggedin', function () {
 
