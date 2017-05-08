@@ -30,6 +30,7 @@ var userEventSchema = new Schema({
 var applicationSchema = new Schema({
   userId:{type: ObjectId, index: true},
   eventId:{type: ObjectId, index: true},
+  eventtitle: String,
   username: String,
   role: String,
   description: String,

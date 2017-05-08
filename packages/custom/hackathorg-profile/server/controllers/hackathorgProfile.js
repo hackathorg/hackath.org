@@ -79,6 +79,15 @@ module.exports = function(HackathorgProfile){
         }
       ]);
     },
+    myevents: function(req, res){
+      UserEvent.findById(profileOrUser(req, res), 'events', function(err, result){
+      if (err){
+        res.status(500).send(err);
+      }else {
+        res.send(result);
+      }
+    });
+  },
     updateProfile: function (req, res){
       UserProfile.findOneAndUpdate({_id: req.user._id}, {$set: req.body}, {new: true, projection:{
         public:1, name:1, tags:1, username:1, location:1, bio:1, website:1, events: 1}
