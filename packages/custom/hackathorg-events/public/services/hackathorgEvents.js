@@ -33,7 +33,7 @@
                     url: '/api/heroku/create/:name'
                 }, 
                 herokuRebuild:{
-                    method: 'POST'
+                    method: 'POST',
                     url: '/api/heroku/rebuild/:name'
                 }
 

@@ -162,7 +162,7 @@
               </md-card-content>
               <md-card-actions ng-if="!event.heroku" layout="row" layout-align="end center">
                 <!--<md-button class="md-raised md-primary">Custom deployment</md-button>-->
-                <md-button ng-click="herokuAuth()" class="md-raised md-primary">Login with Heroku</md-button>
+                <md-button ng-href="/api/auth/heroku/{{event._id}}" ng-click="herokuAuth()" class="md-raised md-primary">Login with Heroku</md-button>
               </md-card-actions>
               <md-card-content ng-if="event.heroku">
                 <p>Status : {{heroku.status}}</p>
