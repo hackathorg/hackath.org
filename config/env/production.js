@@ -26,9 +26,9 @@ module.exports = {
     }
     */
   },
-  hostname: 'http://localhost:3000',
+  hostname: 'https://hackath.org',
   app: {
-    name: 'hackathorg - The Hackathon organiser tool'
+    name: 'Hackathorg - The Hackathon organiser tool'
   },
   logging: {
     format: 'combined'
@@ -38,35 +38,42 @@ module.exports = {
       enabled: true
     },
     landingPage: '/',
-    facebook: {
-      clientID: 'APP_ID',
-      clientSecret: 'APP_SECRET',
+   facebook: {
+      clientID: process.env.facebook_client_id,
+      clientSecret: process.env.facebook_client_secret,
       callbackURL: 'http://localhost:3000/api/auth/facebook/callback',
-      enabled: false
+      enabled: true
     },
     twitter: {
-      clientID: 'CONSUMER_KEY',
+      clientID: 'DEFAULT_CONSUMER_KEY',
       clientSecret: 'CONSUMER_SECRET',
       callbackURL: 'http://localhost:3000/api/auth/twitter/callback',
       enabled: false
     },
     github: {
-      clientID: 'APP_ID',
+      clientID: 'DEFAULT_APP_ID',
       clientSecret: 'APP_SECRET',
       callbackURL: 'http://localhost:3000/api/auth/github/callback',
       enabled: false
     },
     google: {
-      clientID: 'APP_ID',
-      clientSecret: 'APP_SECRET',
+      clientID: process.env.google_client_id,
+      clientSecret: process.env.google_client_secret,
       callbackURL: 'http://localhost:3000/api/auth/google/callback',
-      enabled: false
+      enabled: true
     },
     linkedin: {
-      clientID: 'API_KEY',
+      clientID: 'DEFAULT_API_KEY',
       clientSecret: 'SECRET_KEY',
       callbackURL: 'http://localhost:3000/api/auth/linkedin/callback',
       enabled: false
+    },
+    heroku: {
+      clientID: process.env.heroku_client_id,
+      clientSecret: process.env.heroku_client_secret,
+      callbackURL: 'http://localhost:3000/api/auth/heroku/callback',
+      enabled:true
+
     }
   },
   emailFrom: 'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
@@ -78,4 +85,4 @@ module.exports = {
     }
   },
   secret: 'SOME_TOKEN_SECRET'
-}
+};

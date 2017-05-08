@@ -1,6 +1,3 @@
-.MEAN-Logo {
-  height: 80%
-}
 
 .brand {
 	  font-family: Roboto,Helvetica Neue,sans-serif;
@@ -8,4 +5,72 @@
     font-weight: 300;
     letter-spacing: -.01em;
     text-transform: lowercase;
+}
+
+/* Shared */
+.loginBtn {
+  border: none;
+  border-radius: 0.2em;
+  box-sizing: border-box;
+  color: #FFF;
+  font-size: 16px;
+  line-height: 34px;
+  margin: 0.2em;
+  padding: 0 15px 0 46px;
+  position: relative;
+  /* width: 13em;  - apply for fixed size */
+  text-align: left;
+  white-space: nowrap;
+}
+.loginBtn:before {
+  box-sizing: border-box;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 34px;
+}
+.loginBtn:focus {
+  outline: none;
+}
+.loginBtn:active {
+  box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+}
+
+
+/* Facebook */
+.loginBtn--facebook {
+  background-color: #4C69BA;
+  background-image: linear-gradient(#4C69BA, #3B55A0);
+  /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
+  text-shadow: 0 -1px 0 #354C8C;
+}
+.loginBtn--facebook:before {
+  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
+  border-right: #364e92 1px solid;
+}
+.loginBtn--facebook:hover,
+.loginBtn--facebook:focus {
+  background-color: #5B7BD5;
+  background-image: linear-gradient(#5B7BD5, #4864B1);
+}
+
+
+/* Google */
+.loginBtn--google {
+  /*font-family: "Roboto", Roboto, arial, sans-serif;*/
+  background: #DD4B39;
+}
+.loginBtn--google:before {
+  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_google.png') 6px 6px no-repeat;
+  border-right: #BB3F30 1px solid;
+}
+.loginBtn--google:hover,
+.loginBtn--google:focus {
+  background: #E74B37;
+}
+
+.MEAN-Logo {
+  height: 80%
 }

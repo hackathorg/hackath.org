@@ -1,15 +1,62 @@
 'use strict';
 var async = require('async');
-var jwt = require('jsonwebtoken');
-var Heroku = require('heroku-client')
+var Heroku = require('heroku-client');
 var mongoose = require('mongoose'),
-  Event = mongoose.model('Event'),
-  User = mongoose.model('User');
+Event = mongoose.model('Event'),
+User = mongoose.model('User');
+
 
 module.exports = function(HackathorgEvents){
   return {
     all: function(req, res) {
-      Event.find({}).exec(function (err, events) {
+      console.log(req.user._id)
+      var userId = req.user._id;
+      var projection =  {
+          _id:1,
+          title:1,
+          organisation:1,
+          description:1, 
+          url:1,
+          image:1,
+          maxAttendees:1,
+          maxMentors:1,
+          users:{
+              '$filter': {
+                'input': '$users',
+                'as': 'user',
+                'cond': {
+                  '$eq': [ '$$user.userId', userId ]
+                }
+              }
+          },
+          attendeesCount:{
+            '$size': {
+              '$filter': {
+                'input': '$users',
+                'as': 'user',
+                'cond': {
+                  '$eq': [ '$$user.role', 'Attendee' ]
+                }
+              }
+            }
+          },
+          mentorCount:{
+            '$size': {
+              '$filter': {
+                'input': '$users',
+                'as': 'user',
+                'cond': {
+                  '$eq': [ '$$user.role', 'Mentor' ]
+                }
+              }
+            }
+          }
+        };
+      Event.aggregate([{$project:projection}]).exec(function (err, events) {
+        if(err){
+          console.log(err);
+          res.send(500, 'Error: ' + err);
+        }
         res.send(events);
       });
     },
@@ -28,15 +75,15 @@ module.exports = function(HackathorgEvents){
           }
           var event = new Event(req.body);
           event.ownerid = req.user._id;
-          event.hosts = result;
+          event.users = result.map(function(val) {return {userId: val, role: 'organiser'}});
 
           
           event.save(callback);
         }],
         function (err, event) {
           if (err){
-            console.log(err)
-            res.status(500)
+            console.log(err);
+            res.status(500);
           }
           res.json(event);
         }
@@ -54,29 +101,23 @@ module.exports = function(HackathorgEvents){
     update: function (req, res) {
       if (!req.params.eventid) return res.send(404, 'No name specified');
 
-        Event.findOne({
-          _id: req.params.eventid
-        }).exec(function (err, event) {
-          if (!err && event) {
-            Event.findOneAndUpdate({
-              _id: event._id
+
+            Event.update({
+              _id: req.params.eventid, 
+              users:{$elemMatch:{userId: req.user._id, role: 'organiser'}}
             }, {
               $set: req.body
             }, {
               multi: false,
               upsert: false
-            }, function (err, circle) {
+            }, function (err, result) {
               if (err) {
                 return res.send(500, err.message);
               }
-
-
-
-              res.send(200, 'updated');
+              res.send(200, result);
             });
-          }
-        });
-      },
+          },
+      
     userevents : function(req, res){
       Event.find({ownerid: req.user._id}).select('title organisation').exec(function (err, events) {
         res.send(events);
@@ -145,7 +186,6 @@ module.exports = function(HackathorgEvents){
             Event.find({_id: req.params.eventid, ownerid: req.user._id}).exec(callback)
           },
           function (event, callback){
-            eventdata = event
             var heroku = new Heroku({token: event.heroku.apiKey})
             heroku.patch('/apps/' + event.heroku.appId, {body: {maintenance: req.params.maintenance}}).then(callback).catch(callback)
           },

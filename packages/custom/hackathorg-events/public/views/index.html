@@ -108,9 +108,9 @@
           </md-card-actions>
       </md-card>
 
-      <div layout-wrap layout="row" layout-align="space-around start" flex="80"flex-sm="100" flex-md="100">
+      <div layout-wrap layout="row" layout-align="space-around start" flex="80" flex-sm="100" flex-md="100">
         <md-card flex="33" style="max-width:350px;min-width:200px" ng-repeat="event in filteredEvents = (events | filter:filterEvents | orderBy:bestMatch)">
-          <img ng-src="{{event.image}}" class="md-card-image" alt="{{event.title}} image">
+          <img ng-src="{{event.image}}" ng-href="/events/{{event._id}}" class="md-card-image" alt="{{event.title}} image">
             <md-card-title>
               <md-card-title-text>
                 <span class="md-headline">{{event.title}}</span>
@@ -118,12 +118,13 @@
                 <span class="md-subhead">{{event.description}}</span>
                 <!-- event tags here -->
                 <!--<span class="md-subhead">{{event.maxMentors - event.mentors.length}} / {{event.maxMentors}} mentor spots available</span>-->
-                <span style="padding-bottom:10px" class="md-subhead">{{event.maxAttendees - event.attendees.length}} / {{event.maxAttendees}} tickets remaining</span>
-                <md-progress-linear md-mode="determinate" value="{{((event.maxAttendees - event.attendees.length) /event.maxAttendees)*100}}"></md-progress-linear>
+                <span style="padding-bottom:10px" class="md-subhead">{{(event.maxMentors + event.maxAttendees) - (event.attendeesCount+ event.mentorCount)}} / {{(event.maxMentors + event.maxAttendees)}} tickets remaining</span>
+                <md-progress-linear md-mode="determinate" value="{{(((event.maxMentors + event.maxAttendees) - (event.attendeesCount+ event.mentorCount))/(event.maxMentors + event.maxAttendees))*100}}"></md-progress-linear>
               </md-card-title-text>
             </md-card-title>
             <md-card-actions layout="row" layout-align="end center">
-              <md-button ng-href="{{event.url}}" target="_blank">More Info</md-button>
+              <md-button ng-if="event.url" ng-href="{{event.url}}" target="_blank">More Info</md-button>
+              <md-button ng-if="!event.url" ng-href="/events/{{event._id}}">More Info</md-button>
             </md-card-actions>
         </md-card>
       </div>

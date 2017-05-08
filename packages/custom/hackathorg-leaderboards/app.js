@@ -21,7 +21,8 @@ HackathorgLeaderboards.register(function(app, auth, database, circles) {
     title: 'Leaderboard',
     link: 'leaderboard',
     roles: ['authenticated'],
-    menu: 'main'
+    menu: 'main',
+    weight:5
   });
   
   /**

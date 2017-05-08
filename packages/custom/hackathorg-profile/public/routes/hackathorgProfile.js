@@ -23,4 +23,4 @@
 
     HackathorgProfile.$inject = ['$stateProvider'];
 
-})();
+}());
