@@ -76,18 +76,21 @@
             'tags': 'python, javascript, java'
         };
 
-        $scope.mentors = []
-        $scope.attendees = []
-        $scope.sponsors = []
-        $scope.organisers = []
-
         /* This user */
         $scope.user = HackathorgProfile.profiles.show({userId:$scope.userToId($scope.vieweduser)}, function(){
             $scope.user.icon = 'https://www.gravatar.com/avatar/' +  MD5($scope.user.email) + '?s=152&r=pg&d=identicon';
-            $scope.mentors = $scope.users.filter(function(x){return x.role.toLowerCase() === 'mentor';});
-            $scope.attendees = $scope.users.filter(function(x){return x.role.toLowerCase() === 'attendee'})
-            $scope.sponsors = $scope.users.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
-            $scope.organisers = $scope.users.filter(function(x){return x.role.toLowerCase() === 'organiser'})
+        });
+
+        $scope.mentored = []
+        $scope.attended = []
+        $scope.sponsored = []
+        $scope.organised = []
+
+        $scope.userevents = HackathorgProfile.profiles.events({}, function(){
+            $scope.mentored = $scope.userevents.filter(function(x){return x.role.toLowerCase() === 'mentor';});
+            $scope.attended = $scope.userevents.filter(function(x){return x.role.toLowerCase() === 'attendee'})
+            $scope.sponsored = $scope.userevents.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
+            $scope.organised = $scope.userevents.filter(function(x){return x.role.toLowerCase() === 'organiser'})
         });
 
         $scope.submit = function(){
