@@ -126,11 +126,11 @@
                         return false
                     }
                 } else if ($scope.discover.mentor) {
-                    if (!containsId($scope.mentors userid)) {
+                    if (!containsId($scope.mentors, userid)) {
                         return false
                     }
                 } else if ($scope.discover.sponsor) {
-                    if (!containsId($scope.sponsors userid)) {
+                    if (!containsId($scope.sponsors, userid)) {
                         return false
                     }
                 } else {
