@@ -67,7 +67,7 @@
 
         <!-- <overview> ng-if="!viewself && !user.public"-->
 
-        <div ng-if="selectedTab === 'default'" flex-gt-md="66" flex-md="50" flex-xs="100" flex-sm="100">
+        <div ng-if="selectedTab === 'default' && !(!viewself && !user.public) " flex-gt-md="66" flex-md="50" flex-xs="100" flex-sm="100">
           <md-card>
             <md-card-title style="padding:24px 16px 10px">
               <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
@@ -97,7 +97,7 @@
             </md-list-item>            
           </md-card>
         </div>
-        <div ng-if="selectedTab === 'default'" flex-gt-md="33" flex-md="50" flex-xs="100" flex-sm="100">
+        <div ng-if="selectedTab === 'default' && !(!viewself && !user.public)" flex-gt-md="33" flex-md="50" flex-xs="100" flex-sm="100">
           <md-card>
             <md-card-title>
               <md-card-title-text>

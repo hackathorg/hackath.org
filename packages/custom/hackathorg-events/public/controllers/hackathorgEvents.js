@@ -65,7 +65,7 @@
 
         var containsId = function(array, id) {
             return array.some(function(arrVal) {
-                return id === arrVal.id;
+                return id === arrVal.userId;
             })
         };
 
@@ -96,11 +96,11 @@
             if ($scope.discover.search) {
                 // TODO implement a better search
                 var found = false
-                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) > -1) {
                     found = true
-                } else if (((a.organisation.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                } else if (((a.organisation.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) > -1) {
                     found = true
-                } else if (((a.description.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                } else if (((a.description.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) > -1) {
                     found = true
                 } 
 
@@ -111,25 +111,32 @@
 
             // YourEvent filtering
             if ($scope.discover.yourevents) {
+
+                $scope.mentors = a.users.filter(function(x){return x.role.toLowerCase() === 'mentor';});
+                $scope.attendees = a.users.filter(function(x){return x.role.toLowerCase() === 'attendee'})
+                $scope.sponsors = a.users.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
+                $scope.organisers = a.users.filter(function(x){return x.role.toLowerCase() === 'organiser'})
+
                 if ($scope.discover.attendee) {
-                    if (!containsId(a.attendees, userid)) {
+                    if (!containsId($scope.attendees, userid)) {
                         return false
                     }
                 } else if ($scope.discover.host) {
-                    if (!containsId(a.hosts, userid)) {
+                    if (!containsId($scope.organisers, userid)) {
                         return false
                     }
                 } else if ($scope.discover.mentor) {
-                    if (!containsId(a.mentors, userid)) {
+                    if (!containsId($scope.mentors userid)) {
                         return false
                     }
                 } else if ($scope.discover.sponsor) {
-                    //to be implemented
-                    console.error('Unimplemented')
+                    if (!containsId($scope.sponsors userid)) {
+                        return false
+                    }
                 } else {
                     // yourevents ticked, but not specified 
                     // add sponsor check
-                    if (!containsId(a.mentors, userid) && !containsId(a.hosts, userid) && !containsId(a.attendees, userid)) {
+                    if (!containsId(a.users, userid)) {
                         return false
                     }
                 }
