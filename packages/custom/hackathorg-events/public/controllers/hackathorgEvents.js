@@ -87,15 +87,20 @@
         $scope.filterEvents = function(a) {
             var userid = $scope.user.id;
 
+            // Hide private events - this shoul be moved to backend
+            if (a.hidden) {
+                return false
+            }
+
             // search
             if ($scope.discover.search) {
                 // TODO implement a better search
-                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) > -1) {
-                    return true
-                } else if (((a.organisation.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) > -1) {
-                    return true
-                } else if (((a.description.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) > -1) {
-                    return true
+                if (((a.title.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                    return false
+                } else if (((a.organisation.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                    return false
+                } else if (((a.description.toLowerCase()).indexOf(($scope.discover.search).toLowerCase())) === -1) {
+                    return false
                 } else {
                     return false
                 }
