@@ -355,6 +355,14 @@
            // EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.event.heroku);
         };
 
+       $scope.herokurebuild = function () {
+            $http.post('/api/heroku/rebuild/' + $scope.event._id, $scope.event.heroku).then(function(result){
+                $scope.message = 'success';
+            },function(err){
+                $scope.message = err;
+            })
+           // EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.event.heroku);
+        };
 
 
 
