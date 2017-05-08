@@ -1,6 +1,5 @@
 (function() {
     'use strict';
-    var mongoose = require('mongoose')
     //var herokuPassport = require('../../passport')
     /* jshint -W098 */
 
@@ -99,14 +98,19 @@
 
         };
 
-        $scope.attendeetype = 'Attending';
+        // Attendee filtering
+
+        $scope.attendeetype = 'attendee';
 
         $scope.attendeetypes = [{
-            'type' :'Attending' 
+            'type' :'Attending',
+            'value' : 'attendee'
         }, {
-            'type' :'Organising' 
+            'type' :'Organising',
+            'value' : 'organiser' 
         }, {
-            'type' :'Mentoring' 
+            'type' :'Mentoring',
+            'value' : 'mentor'  
         }];
 
 
@@ -122,6 +126,10 @@
         $scope.event = new EventService.events()
         $scope.event.hosts = [];
         $scope.event.tags = [];
+
+        $scope.attendees = [];
+        $scope.mentors = [];
+        $scope.sponsors = [];
 
         // Event schema
         // $scope.event.title:  {type: String, unique: true},
@@ -145,6 +153,26 @@
         // mentors:[ObjectId],
         // attendees:[ObjectId]
 
+        
+        // Event applications
+
+        $scope.reviewedApplicationId = null;
+        $scope.reviewedApplication = new EventService.applications();
+
+        $scope.setReviewed = function(application_id){
+            $scope.reviewedApplicationId = application_id;
+        };
+
+        $scope.reviewApplication = function(status) {
+            $scope.reviewedApplication.status = status
+            $scope.reviewedApplication.$reviewApplication({applicationId : $scope.reviewedApplicationId}, function() {
+                $scope.reviewedApplicationId = null;
+                $scope.eventApplications = EventService.eventapplications.applications({eventId : $scope.idSelectedEvent})
+            })
+        };
+
+        // Event updating, creating etc
+
         $scope.setSelected = function (idSelectedEvent) {
 
            // Change State
@@ -158,12 +186,24 @@
                 $scope.event = new EventService.events()
                 $scope.event.hosts = [];
                 $scope.event.tags = [];
+                $scope.event.noApplication = [];
                 $scope.event.hidden = true;
            } 
            // Get the event selected from db and populate page with Update event shtuff
            else if (idSelectedEvent !== null) {
                 $scope.changeManageTab('dashboard');
-                $scope.event = EventService.events.show({name:idSelectedEvent})
+                $scope.event = EventService.events.show({name:idSelectedEvent}, function(event) {
+                    $scope.mentors = event.users.filter(function(x){return x.role.toLowerCase() === 'mentor';});
+                    $scope.attendees = event.users.filter(function(x){return x.role.toLowerCase() === 'attendee'})
+                    $scope.sponsors = event.users.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
+                    // quick fix for presentation
+                    if (!$scope.event.noApplication || $scope.event.noApplication.length === 0) {
+                        $scope.event.attendeeApplication = false;
+                    } else {
+                        $scope.event.attendeeApplication = true;
+                    }
+                })
+                $scope.eventApplications = EventService.eventapplications.applications({eventId : idSelectedEvent})
            }
         };
         
@@ -293,22 +333,53 @@
         $scope.events = EventService.events.userevents();
         $scope.sites = $scope.events;
 
-        $scope.checkCircle = function() {
-            EventService.checkCircle($stateParams.circle).then(function(response) {
-                $scope.res = response;
-                $scope.resStatus = 'info';
-            }, function(error) {
-                $scope.res = error;
-                $scope.resStatus = 'danger';
-            });
-        };
+
         $scope.herokuAuth = function(){
            // herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
         }
+<<<<<<< HEAD
         $scope.herokusubmit =
          function () {
             EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.heroku)
         }
+=======
+
+        // This is just a quick fix, to extend, just check if the type is in array, if not, add, else remove
+        $scope.updateRequiresApplication = function(type) {
+            if(!$scope.event.noApplication || $scope.event.noApplication.length === 0) {
+                $scope.event.noApplication = [type]
+            } else {
+                $scope.event.noApplication = []
+            }
+        }
+
+        $scope.showApplication = function(event, application) {
+            if(application.role.toString() === 'sponsor' || application.role.toString === 'mentor' ) {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .title(application.userId + ' userid')
+                        .htmlContent('<p>Role : ' + application.role +'</p>' +
+                            '<p>Description : ' + application.description +'</p>' +
+                            '<p>Proposal : ' + application.proposal +'</p>' +
+                            '<p>Contact : ' + application.contact +'</p>' +
+                            '<p>Status : ' + application.status +'</p>') 
+                    .ok('Roger that!')
+                    .targetEvent(event)
+                );
+            } else {
+                $mdDialog.show(
+                  $mdDialog.alert()
+                    .title(application.userId + ' userid')
+                        .htmlContent('<p>Role: ' + application.role +'</p>' +
+                             '<p>Status : ' + application.status +'</p>')
+                    .ok('Roger that!')
+                    .targetEvent(event)
+                );
+            }
+        };
+
+
+>>>>>>> refs/remotes/origin/master
         $scope.submit = function() {
             if ('create' === $scope.idSelectedEvent){
                 console.log($scope.event)
@@ -321,12 +392,6 @@
                 EventService.events.update({name:$scope.idSelectedEvent}, $scope.event);
                 $scope.newEventStatus = null;
             }
-        };
-
-        var containsId = function(array, id) {
-            return array.some(function(arrVal) {
-                return id === arrVal.id
-            })
         };
     
     }
