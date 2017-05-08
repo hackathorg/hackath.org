@@ -155,6 +155,10 @@
                   Web application
                 </md-card-title-text>
               </md-card-title>
+              <md-card-content ng-if="message">
+                <p>Message from deployment:</p>
+                <p>{{message}}</p>
+              </md-card-content>
               <md-card-content ng-if="!event.heroku">
                 <p>This event has no deployed web application associated with it.</p>
                 <p>We use Heroku for deploying your event web application - its free to sign up!</p>
@@ -197,8 +201,8 @@
                 </md-list>
               </md-card-content>
               <md-card-actions ng-if="event.heroku" layout="row" layout-align="end center">
-                <md-button class="md-primary" ng-click="herokusubmit()" ng-if="!heroku.appid">Deploy</md-button>
-                <md-button class="md-primary" ng-if="heroku.appid && heroku.req_rebuild">Rebuild</md-button>
+                <md-button class="md-primary" ng-click="herokusubmit()" ng-if="!event.heroku.appName">Deploy</md-button>
+                <md-button class="md-primary" ng-click="herokurebuild()" ng-if="event.heroku.appName && heroku.req_rebuild">Rebuild</md-button>
                 <md-button ng-if="heroku.appId && !heroku.req_rebuild">Restart</md-button>
                 <md-button ng-if="heroku.appId" class="md-warn">Shutdown</md-button>
               </md-card-actions>
