@@ -79,6 +79,10 @@
         /* This user */
         $scope.user = HackathorgProfile.profiles.show({userId:$scope.userToId($scope.vieweduser)}, function(){
             $scope.user.icon = 'https://www.gravatar.com/avatar/' +  MD5($scope.user.email) + '?s=152&r=pg&d=identicon';
+            $scope.mentors = a.users.filter(function(x){return x.role.toLowerCase() === 'mentor';});
+            $scope.attendees = a.users.filter(function(x){return x.role.toLowerCase() === 'attendee'})
+            $scope.sponsors = a.users.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
+            $scope.organisers = a.users.filter(function(x){return x.role.toLowerCase() === 'organiser'})
         });
 
         $scope.submit = function(){

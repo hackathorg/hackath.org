@@ -7,16 +7,16 @@
             <md-card-title-text  style="padding-right:32px">
               <span class="md-headline">{{user.name}}</span>
               <span class="md-subhead"><i class="p-icon material-icons">visibility</i> {{user.username}}</span>
-              <p>{{user.bio}}</p>
-              <span class="md-subhead">{{user.tags}}</span>
+              <p ng-if="!(!viewself && !user.public)">{{user.bio}}</p>
+              <span ng-if="!(!viewself && !user.public)" class="md-subhead">{{user.tags}}</span>
             </md-card-title-text>
             <md-card-title-media style="margin-top:0px;margin-right:8px;">
               <div style="background-color:gray;" class="md-media-lg card-media">
               <img ng-src="{{user.icon}}"/></div>
             </md-card-title-media>
           </md-card-title>
-          <md-divider ng-if="!viewself && !user.public"></md-divider>
-          <div ng-if="!viewself && !user.public" layout-wrap layout="row" layout-align="space-around start" layout-padding>
+          <md-divider ng-if="!(!viewself && !user.public)"></md-divider>
+          <div ng-if="!(!viewself && !user.public)" layout-wrap layout="row" layout-align="space-around start" layout-padding>
             <md-card-content flex=100>
               <p>Profile overview </p>
             </md-card-content>
@@ -30,8 +30,8 @@
               <!-- <p><i class="p-icon material-icons">star</i> 2 Prizes Won</p> -->
             </md-card-content>
           </div>
-          <md-divider ng-if="!viewself && !user.public"></md-divider>
-          <md-card-content ng-if="!viewself && !user.public">
+          <md-divider ng-if="!(!viewself && !user.public)"></md-divider>
+          <md-card-content ng-if="!(!viewself && !user.public)">
             <p><i class="p-icon material-icons">place</i> {{user.location}}</p>
             <p><i class="p-icon material-icons">public</i> {{user.website}}</p>
           </md-card-content>
@@ -74,8 +74,7 @@
               </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-              <p>The users profile is private.</p> 
-            </div>
+              <p style="padding-left:20px;">The users profile is private.</p> 
           </md-card>
         </div>
         <div ng-if="selectedTab === 'default' && !(!viewself && !user.public) " flex-gt-md="66" flex-md="50" flex-xs="100" flex-sm="100">
