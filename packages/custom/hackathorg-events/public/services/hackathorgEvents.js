@@ -27,7 +27,16 @@
                     method: 'GET',
                     isArray: true,
                     url: '/api/user/events/hosted'
+                },
+                herokuCreate: {
+                    method: 'POST',
+                    url: '/api/heroku/create/:name'
+                }, 
+                herokuRebuild:{
+                    method: 'POST',
+                    url: '/api/heroku/rebuild/:name'
                 }
+
 
             }),
 

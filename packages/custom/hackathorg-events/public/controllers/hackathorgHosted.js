@@ -3,7 +3,7 @@
     //var herokuPassport = require('../../passport')
     /* jshint -W098 */
 
-    function HackathorgHostedController($scope, Global, $stateParams, EventService, $state, $mdDialog, $filter) {
+    function HackathorgHostedController($scope, Global, $stateParams, EventService, $state, $mdDialog, $filter, $http) {
         $scope.global = Global;
 
         $scope.package = {
@@ -74,13 +74,19 @@
         }];
 
         // This will be the heroku server associated with an event
+        /*
+            apiKey: String,
+            refreshToken: String,
+            appName: String,
+            appId: String,
+            source: String
+        */
         $scope.heroku = {
-            'status' : 'offline',
-            'authenticated' : true,
-            'req_rebuild' : true,
-            'api_key' : 'tbc_s0m3_K3y39481',
-            'site' : 'https://yourwebapp.com/',
+            'source' : 'https://github.com/hackathorg/openhack.js/tarball/master',
+            'appName': 'appname',
+            // This is currently obsolete but would be added in future as build options
             'other_field' : '',
+            'req_rebuild' : true,
             'current_build_hackages' : [{
                 'id' : '0'
             }, {
@@ -187,6 +193,12 @@
                 $scope.event.tags = [];
                 $scope.event.noApplication = [];
                 $scope.event.hidden = true;
+                $scope.event.startDate = new Date();
+                $scope.event.endDate = new Date();
+                $scope.event.minDate = new Date(
+                      $scope.event.startDate.getFullYear(),
+                      $scope.event.startDate.getMonth(),
+                      $scope.event.startDate.getDate());
            } 
            // Get the event selected from db and populate page with Update event shtuff
            else if (idSelectedEvent !== null) {
@@ -201,6 +213,11 @@
                     } else {
                         $scope.event.attendeeApplication = true;
                     }
+                    // Specify default source for Heroku, if set up
+                    if ($scope.event.heroku) {
+                        $scope.event.heroku.source = 'https://github.com/hackathorg/openhack.js/tarball/master'
+                    }
+
                 })
                 $scope.eventApplications = EventService.eventapplications.applications({eventId : idSelectedEvent})
            }
@@ -322,20 +339,33 @@
             'type': 'Advanced'
         }];
 
-        $scope.startDate = new Date();
-        $scope.endDate = new Date();
-        $scope.minDate = new Date(
-              $scope.startDate.getFullYear(),
-              $scope.startDate.getMonth(),
-              $scope.startDate.getDate());
-
         $scope.events = EventService.events.userevents();
         $scope.sites = $scope.events;
-
 
         $scope.herokuAuth = function(){
            // herokuPassport.authenticate('heroku',{state:$scope.idSelectedEvent})
         }
+
+       $scope.herokusubmit = function () {
+            $http.post('/api/heroku/create/' + $scope.event._id, $scope.event.heroku).then(function(result){
+                $scope.message = 'success';
+            },function(err){
+                $scope.message = err;
+            })
+           // EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.event.heroku);
+        };
+
+       $scope.herokurebuild = function () {
+            $http.post('/api/heroku/rebuild/' + $scope.event._id, $scope.event.heroku).then(function(result){
+                $scope.message = 'success';
+            },function(err){
+                $scope.message = err;
+            })
+           // EventService.events.herokuCreate({name:$scope.idSelectedEvent}, $scope.event.heroku);
+        };
+
+
+
 
         // This is just a quick fix, to extend, just check if the type is in array, if not, add, else remove
         $scope.updateRequiresApplication = function(type) {
@@ -371,7 +401,6 @@
             }
         };
 
-
         $scope.submit = function() {
             if ('create' === $scope.idSelectedEvent){
                 console.log($scope.event)
@@ -392,5 +421,5 @@
         .module('mean.hackathorg-events')
         .controller('HackathorgHostedController', HackathorgHostedController);
 
-    HackathorgHostedController.$inject = ['$scope', 'Global', '$stateParams', 'EventService', '$state', '$mdDialog', '$filter'];
+    HackathorgHostedController.$inject = ['$scope', 'Global', '$stateParams', 'EventService', '$state', '$mdDialog', '$filter', '$http'];
 })();

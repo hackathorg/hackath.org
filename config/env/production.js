@@ -41,25 +41,25 @@ module.exports = {
    facebook: {
       clientID: process.env.facebook_client_id,
       clientSecret: process.env.facebook_client_secret,
-      callbackURL: 'http://localhost:3000/api/auth/facebook/callback',
+      callbackURL: 'https://hackath.org/api/auth/facebook/callback',
       enabled: true
     },
     twitter: {
       clientID: 'DEFAULT_CONSUMER_KEY',
       clientSecret: 'CONSUMER_SECRET',
-      callbackURL: 'http://localhost:3000/api/auth/twitter/callback',
+      callbackURL: 'https://hackath.org/api/auth/twitter/callback',
       enabled: false
     },
     github: {
       clientID: 'DEFAULT_APP_ID',
       clientSecret: 'APP_SECRET',
-      callbackURL: 'http://localhost:3000/api/auth/github/callback',
+      callbackURL: 'https://hackath.org/api/auth/github/callback',
       enabled: false
     },
     google: {
       clientID: process.env.google_client_id,
       clientSecret: process.env.google_client_secret,
-      callbackURL: 'http://localhost:3000/api/auth/google/callback',
+      callbackURL: 'https://hackath.org/api/auth/google/callback',
       enabled: true
     },
     linkedin: {
@@ -71,7 +71,7 @@ module.exports = {
     heroku: {
       clientID: process.env.heroku_client_id,
       clientSecret: process.env.heroku_client_secret,
-      callbackURL: 'http://localhost:3000/api/auth/heroku/callback',
+      callbackURL: 'https://hackath.org/api/auth/heroku/callback',
       enabled:true
 
     }

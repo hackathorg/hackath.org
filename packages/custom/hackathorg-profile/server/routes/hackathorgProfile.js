@@ -10,9 +10,12 @@
         app.param('applicationId', profiles.getUserEvents);
 
         //Profile
-        app.get('/api/users', requiresLogin, function (req, res) {res.send(req.user); });
-        app.get('/api/users/:userId', function(req, res){res.send(req.profile); });
-        app.post('/api/profile/update', requiresLogin, profiles.updateProfile)
+        app.get('/api/users', requiresLogin, profiles.getProfile);
+        app.get('/api/users/:userId', profiles.getProfile);
+        app.get('/api/users/:userId/profile', profiles.myevents);
+        app.get('/api/users/profile', profiles.myevents);
+
+        app.post('/api/profile/update', requiresLogin, profiles.updateProfile);
 
         //Followers
         app.get('/api/followers', requiresLogin, profiles.followers);

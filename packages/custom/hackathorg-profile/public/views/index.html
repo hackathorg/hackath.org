@@ -7,32 +7,32 @@
             <md-card-title-text  style="padding-right:32px">
               <span class="md-headline">{{user.name}}</span>
               <span class="md-subhead"><i class="p-icon material-icons">visibility</i> {{user.username}}</span>
-              <p>{{user.bio}}</p>
-              <span class="md-subhead">{{user.tags}}</span>
+              <p ng-if="!(!viewself && !user.public)">{{user.bio}}</p>
+              <span ng-if="!(!viewself && !user.public)" class="md-subhead">{{user.tags}}</span>
             </md-card-title-text>
             <md-card-title-media style="margin-top:0px;margin-right:8px;">
               <div style="background-color:gray;" class="md-media-lg card-media">
               <img ng-src="{{user.icon}}"/></div>
             </md-card-title-media>
           </md-card-title>
-          <md-divider></md-divider>
-          <div layout-wrap layout="row" layout-align="space-around start" layout-padding>
+          <md-divider ng-if="!(!viewself && !user.public)"></md-divider>
+          <div ng-if="!(!viewself && !user.public)" layout-wrap layout="row" layout-align="space-around start" layout-padding>
             <md-card-content flex=100>
               <p>Profile overview </p>
             </md-card-content>
             <md-card-content flex=50>
-              <p><i class="p-icon material-icons">work</i> 2 Events Mentored</p>
-              <p><i class="p-icon material-icons">event</i> 5 Events Hosted</p>
-              <p><i class="p-icon material-icons">event_seat</i> 5 Events Attended</p>
+              <p><i class="p-icon material-icons">event_seat</i> {{attended.length}} Events Attended</p>
+              <p><i class="p-icon material-icons">event</i> {{organised.length}} Events Hosted</p>
             </md-card-content>
             <md-card-content flex=50>
+              <p><i class="p-icon material-icons">work</i> {{mentored.length}} Events Mentored</p>
               <p><i class="p-icon material-icons">favorite</i> {{followers.length}} Followers</p>
-              <p><i class="p-icon material-icons">star</i> 2 Prizes Won</p>
+              <!-- <p><i class="p-icon material-icons">star</i> 2 Prizes Won</p> -->
             </md-card-content>
           </div>
-          <md-divider></md-divider>
-          <md-card-content>
-            <p><i class="p-icon material-icons">place</i> Location</p>
+          <md-divider ng-if="!(!viewself && !user.public)"></md-divider>
+          <md-card-content ng-if="!(!viewself && !user.public)">
+            <p><i class="p-icon material-icons">place</i> {{user.location}}</p>
             <p><i class="p-icon material-icons">public</i> {{user.website}}</p>
           </md-card-content>
         </md-card>
@@ -65,13 +65,24 @@
           </md-nav-bar>
         </div>
 
-        <!-- <overview> -->
-
-        <div ng-if="selectedTab === 'default'" flex-gt-md="66" flex-md="50" flex-xs="100" flex-sm="100">
-          <md-card ng-if="viewself">
+        <!-- <overview> ng-if="!viewself && !user.public"-->
+        <div ng-if="!viewself && !user.public" flex = 100>
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-title">Private profile</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-divider></md-divider>
+              <p style="padding-left:20px;">The users profile is private.</p> 
+          </md-card>
+        </div>
+        <div ng-if="selectedTab === 'default' && !(!viewself && !user.public) " flex-gt-md="66" flex-md="50" flex-xs="100" flex-sm="100">
+          <md-card>
             <md-card-title style="padding:24px 16px 10px">
               <md-card-title-text layout-wrap layout="row" layout-align="space-around start">
-                <span flex=66 class="md-title">Your events</span>
+                <span ng-if="viewself" flex=66 class="md-title">Your events</span>
+                <span ng-if="!viewself" flex=66 class="md-title">Their events</span>
                 <md-input-container style="padding:0px;margin:0px" flex=33 class="md-block">
                   <md-select ng-model="eventtype">
                     <md-option ng-repeat="type in eventtypes" value="{{type.value}}">
@@ -85,7 +96,7 @@
             <md-list-item ng-repeat="event in user.events | filter : {role : eventtype}" aria-label="/events/{{event.eventId}}" ui-sref="events eventid({eventid: event.eventId})" mean-token="person.id" class="md-3-line" ng-click="null">
               <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
               <div class="md-list-item-text" layout="column">
-                <h3>{{event.eventId}}</h3>
+                <h3>{{event.eventtitle}}</h3>
                 <h4>{{event.role}}</h4>
  <!--                <p>https://www.warwickhack.com/</p> -->
               </div>
@@ -96,7 +107,7 @@
             </md-list-item>            
           </md-card>
         </div>
-        <div ng-if="selectedTab === 'default'" flex-gt-md="33" flex-md="50" flex-xs="100" flex-sm="100">
+        <div ng-if="selectedTab === 'default' && !(!viewself && !user.public)" flex-gt-md="33" flex-md="50" flex-xs="100" flex-sm="100">
           <md-card>
             <md-card-title>
               <md-card-title-text>

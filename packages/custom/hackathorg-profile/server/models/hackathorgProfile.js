@@ -16,20 +16,23 @@ var followSchema = new Schema({
 });
 
 var profileSchema = new Schema({
+    email:String,
     bio: String,
     website: String, 
     tags: String,
     location: String,
-    public: Boolean
+    public: Boolean,
+     events: [{eventId: ObjectId, role: String, eventtitle: String}]
 });
 
 var userEventSchema = new Schema({
-    events: [{eventId: ObjectId, role: String}]
+    events: [{eventId: ObjectId, eventtitle:String, role: String}]
 });
 
 var applicationSchema = new Schema({
   userId:{type: ObjectId, index: true},
   eventId:{type: ObjectId, index: true},
+  eventtitle: String,
   username: String,
   role: String,
   description: String,

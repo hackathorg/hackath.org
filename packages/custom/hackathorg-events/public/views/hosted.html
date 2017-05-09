@@ -97,7 +97,7 @@
             </md-nav-item>
           </md-nav-bar>
         </div>
-        <div ng-if="manageTab === 'dashboard'" flex="50">
+        <div ng-if="manageTab === 'dashboard'" flex="50" flex-xs="100" flex-sm="100" >
           <md-card>
             <md-card-title>
               <md-card-title-text class="md-title">
@@ -109,7 +109,7 @@
               <md-progress-linear ng-if="event.maxMentors > 0" md-mode="determinate" value="{{(mentors.length / event.maxMentors)*100}}"></md-progress-linear>
               <p ng-click="changeManageTab('applications')" ng-if="event.maxAttendees > 0">Attendees - {{attendees.length}} / {{event.maxAttendees}}</p>
               <md-progress-linear ng-if="event.maxAttendees > 0" md-mode="determinate" value="{{(attendees.length / event.maxAttendees) * 100}}"></md-progress-linear>
-              <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - To be added to schema</p>
+              <p ng-click="changeManageTab('applications')" ng-if="event.sponsors">Sponsors - {{sponsors.length}}</p>
               <p>The event can be managed from within the web application.</p>
             </md-card-content>
           </md-card>
@@ -147,7 +147,7 @@
             </form>
           </md-card>
         </div>
-        <div ng-if="manageTab === 'dashboard'" flex="50">
+        <div ng-if="manageTab === 'dashboard'" flex="50" flex-xs="100" flex-sm="100" >
           <form name="herokuform" ng-submit="herokusubmit()" novalidate>
             <md-card>
               <md-card-title>
@@ -155,24 +155,28 @@
                   Web application
                 </md-card-title-text>
               </md-card-title>
-              <md-card-content ng-if="!heroku.authenticated">
+              <md-card-content ng-if="message">
+                <p>Message from deployment:</p>
+                <p>{{message.data.statusCode}} - {{message.data.body.message}}</p>
+              </md-card-content>
+              <md-card-content ng-if="!event.heroku">
                 <p>This event has no deployed web application associated with it.</p>
                 <p>We use Heroku for deploying your event web application - its free to sign up!</p>
                 <p>For advanced users who want to use a custom web application and use our API, we offer a custom deployment option.</p>
               </md-card-content>
-              <md-card-actions ng-if="!heroku.authenticated" layout="row" layout-align="end center">
+              <md-card-actions ng-if="!event.heroku" layout="row" layout-align="end center">
                 <!--<md-button class="md-raised md-primary">Custom deployment</md-button>-->
-                <md-button ng-click="herokuAuth()" class="md-raised md-primary">Login with Heroku</md-button>
+                <md-button target="_blank" ng-href="/api/auth/heroku/{{event._id}}"  class="md-raised md-primary">Login with Heroku</md-button>
               </md-card-actions>
-              <md-card-content ng-if="heroku.authenticated">
+              <md-card-content ng-if="event.heroku">
                 <p>Status : {{heroku.status}}</p>
                 <md-input-container style="margin-top:32px;margin-bottom: 0px" class="md-block">
-                  <label>Heroku site</label>
-                  <input required ng-model="heroku.site">
+                  <label>Github url</label>
+                  <input required ng-model="event.heroku.source">
                 </md-input-container>
                 <md-input-container style="margin-top:0px;margin-bottom: 0px" class="md-block">
                   <label>Heroku app name</label>
-                  <input required ng-model="heroku.appname">
+                  <input required ng-model="event.heroku.appName">
                 </md-input-container>
                 <!--<p>site : {{heroku.site}}{{heroku.api_key}}/</p>-->
                 <md-card>
@@ -181,7 +185,7 @@
                   </md-card-title>
                   <md-card-content>
                     <p>This event has been set up with Heroku.</p>
-                    <p>The account used is: {{heroku.api_key}}</p>
+                   <!--  <p>The account used is: {{event.heroku.apiKey}}</p> -->
                   </md-card-content>
                   <md-card-actions layout="row" layout-align="end center">
                     <md-button ng-click="herokuAuth()" class="md-raised md-primary">Use an alternate account</md-button>
@@ -196,11 +200,11 @@
                   </md-list-item>
                 </md-list>
               </md-card-content>
-              <md-card-actions ng-if="heroku.authenticated" layout="row" layout-align="end center">
-                <md-button class="md-primary" ng-click="herokusubmit()" ng-if="!heroku.appid">Deploy</md-button>
-                <md-button class="md-primary" ng-if="heroku.appid && heroku.req_rebuild">Rebuild</md-button>
-                <md-button ng-if="heroku.appid && !heroku.req_rebuild">Restart</md-button>
-                <md-button ng-if="heroku.appid" class="md-warn">Shutdown</md-button>
+              <md-card-actions ng-if="event.heroku" layout="row" layout-align="end center">
+                <md-button class="md-primary" ng-click="herokusubmit()" ng-if="!event.heroku.appName">Deploy</md-button>
+                <md-button class="md-primary" ng-click="herokurebuild()" ng-if="event.heroku.appName && heroku.req_rebuild">Rebuild</md-button>
+                <md-button ng-if="heroku.appId && !heroku.req_rebuild">Restart</md-button>
+                <md-button ng-if="heroku.appId" class="md-warn">Shutdown</md-button>
               </md-card-actions>
             </md-card>
           </form>
@@ -294,12 +298,12 @@
                   <div flex="50">
                     Start date
                     <br>
-                    <md-datepicker ng-model="startDate" md-min-date="minDate" md-placeholder="Enter date"></md-datepicker>
+                    <md-datepicker ng-model="event.startDate" md-min-date="minDate" md-placeholder="Enter date"></md-datepicker>
                   </div>
                   <div flex="50">
                     End date
                     <br>
-                    <md-datepicker ng-model="endDate" md-min-date="startDate" md-placeholder="Enter date"></md-datepicker>
+                    <md-datepicker ng-model="event.date" md-min-date="startDate" md-placeholder="Enter date"></md-datepicker>
                   </div>
                   <div flex="100" style="padding-top: 20px;">
                   </div>
@@ -311,7 +315,7 @@
                   <md-input-container style="padding-left: 60px;" flex-gt-sm="50" flex-xs="100" flex-sm="50"  >
                     <md-checkbox md-no-ink aria-label="attendeeapplications" ng-model="event.attendeeApplication" ng-click="updateRequiresApplication('attendee')" class="md-primary">
 
-                      Requires application?
+                      No application?
                       {{event.noApplication}}
                       
                     </md-checkbox>
@@ -338,7 +342,7 @@
               </div>
             </div>
           </md-card>
-          <div flex="50">
+          <div flex="50" flex-xs="100">
             <md-card>
                 <md-card-title>
                   <md-card-title-text>
@@ -353,7 +357,7 @@
                 </div>
             </md-card>
           </div>
-          <div flex="50">
+          <div flex="50" flex-xs="100">
             <md-card>
                 <md-card-title>
                   <md-card-title-text>
@@ -368,13 +372,16 @@
                 </div>
             </md-card>
           </div>
-          <div flex="50">
+          <div flex="50" flex-xs="100">
             <md-card>
               <md-card-title>
                 <md-card-title-text>
                   <span class="md-headline">Event discovery image</span>
                   <span class="md-subhead">600x400</span>
-                  <span class="md-subhead">File upload and selection here</span>
+                  <md-input-container class="md-block">
+                    <label>Image location</label>
+                    <input required ng-model="event.image">
+                  </md-input-container>
                 </md-card-title-text>
                 <md-card-title-media>
                   <div class="card-media placeholder"></div>
@@ -392,7 +399,7 @@
               </md-card-title>
             </md-card>
           </div>
-          <div ng-if="manageTab === 'update'" flex="50">
+          <div ng-if="manageTab === 'update'" flex="50" flex-xs="100">
             <md-card>
               <md-card-title class="md-title">
                 Event Discovery
@@ -410,7 +417,7 @@
             </md-card>
           </div>
           <!-- if already created event -->
-          <div ng-if="manageTab === 'update'" flex="50">
+          <div ng-if="manageTab === 'update'" flex="50" flex-xs="100">
             <md-card>
               <md-card-title>
                 <md-card-title-text>
@@ -423,7 +430,7 @@
               </md-card-actions>
             </md-card>
           </div>
-          <div ng-if="manageTab === 'update'" flex="50">
+          <div ng-if="manageTab === 'update'" flex="50"flex-xs="100">
             <md-card>
               <md-card-title>
                 <md-card-title-text>
@@ -436,7 +443,7 @@
               </md-card-actions>
             </md-card>
             </div>
-          <div ng-if="'create' === idSelectedEvent" flex="50">
+          <div ng-if="'create' === idSelectedEvent" flex="50" flex-xs="100">
             <!-- if create event -->
             <md-card>
               <md-card-title>

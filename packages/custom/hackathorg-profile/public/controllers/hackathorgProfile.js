@@ -81,6 +81,18 @@
             $scope.user.icon = 'https://www.gravatar.com/avatar/' +  MD5($scope.user.email) + '?s=152&r=pg&d=identicon';
         });
 
+        $scope.mentored = []
+        $scope.attended = []
+        $scope.sponsored = []
+        $scope.organised = []
+
+        $scope.userevents = HackathorgProfile.profiles.events({userId:$scope.vieweduser}, function(){
+            $scope.mentored = $scope.userevents.filter(function(x){return x.role.toLowerCase() === 'mentor';});
+            $scope.attended = $scope.userevents.filter(function(x){return x.role.toLowerCase() === 'attendee'})
+            $scope.sponsored = $scope.userevents.filter(function(x){return x.role.toLowerCase() === 'sponsor'})
+            $scope.organised = $scope.userevents.filter(function(x){return x.role.toLowerCase() === 'organiser'})
+        });
+
         $scope.submit = function(){
             $scope.user.$save();
         };

@@ -24,12 +24,15 @@ var eventSchema = new Schema({
   noApplication: [String],
   users: [{
     userId: ObjectId,
+    username: String,
     role: String
+
   }],
   heroku:{
     apiKey: String,
     refreshToken: String,
     appName: String,
+    appId: String,
     source: String
   }
 });
@@ -48,7 +51,10 @@ eventSchema.methods.isattendee = function (userId){
 }
 eventSchema.methods.toJSON = function() {
   var obj = this.toObject();
-  delete obj.heroku;
+  if (obj.heroku){
+    delete obj.heroku.apiKey;
+    delete obj.heroku.refreshToken;
+  }
   return obj;
 };
 mongoose.model('Event', eventSchema);
