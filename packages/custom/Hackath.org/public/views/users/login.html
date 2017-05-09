@@ -18,14 +18,14 @@
   <md-card-actions layout="row" layout-align="end center">
     <md-button ui-sref="forgot-password">Forgot Password</md-button></div>
     <md-button ui-sref="auth.register">Join</md-button>
-    <button ui-route="/api/auth/google" ui-sref="api.auth.facebook" href="api/auth/facebook" class="loginBtn loginBtn--facebook">
-      Login with Facebook
-    </button>
-
-    <button ui-route="/api/auth/google" href="api/auth/google"  class="loginBtn loginBtn--google">
-      Login with Google
-    </button>
     <span flex></span>
     <md-button class="md-primary" type="submit">Login</md-button>
   </md-card-actions>
 </form>
+    <a target="_self" ng-href="api/auth/facebook" class="loginBtn loginBtn--facebook">
+      Login with Facebook
+    </a>
+
+    <a target="_self" ng-href="api/auth/google"  class="loginBtn loginBtn--google">
+      Login with Google
+    </a>

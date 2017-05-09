@@ -14,7 +14,25 @@
         </p>
       </div>
       <div hide-md hide-sm hide-xs flex="33">
-        <md-card style="min-width:320px;">
+
+        <md-card style="max-width:350px;min-width:200px">
+          <img ng-src="/meanStarter/assets/img/london.jpg" class="md-card-image" alt="{{event.title}} image">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">ExampleHack 1</span>
+                <span class="md-subhead">Hackathorg</span>
+                <span class="md-subhead">This is an example hackathon which will be held in London. The main theme of the hackathon will be Cyber Security, with a focus on finding security vulnerabilities in Python and Java.</span>
+                <!-- event tags here -->
+                <!--<span class="md-subhead">{{event.maxMentors - event.mentors.length}} / {{event.maxMentors}} mentor spots available</span>-->
+                <span style="padding-bottom:10px" class="md-subhead">28 / 30 tickets remaining</span>
+                <md-progress-linear md-mode="determinate" value="92"></md-progress-linear>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button ng-if="!event.url" ng-href="/events/{{event._id}}">More Info</md-button>
+            </md-card-actions>
+        </md-card>
+        <!--<md-card style="min-width:320px;">
         <span style="text-align:center;padding:10px" class="md-headline">Featured Hackathon!</span>
           <img ng-src="/meanStarter/assets/img/placeholder.png" class="md-card-image" alt="user avatar">
             <md-card-title>
@@ -29,7 +47,7 @@
             <md-card-actions layout="row" layout-align="end center">
               <md-button ng-href="{{site.link}}" target="_blank">Check it out!</md-button>
             </md-card-actions>
-        </md-card>
+        </md-card>-->
         </div>
       </md-card>
 <!--     <md-fab-toolbar md-open="false" count="0" md-direction="right">

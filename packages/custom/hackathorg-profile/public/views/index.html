@@ -96,7 +96,7 @@
             <md-list-item ng-repeat="event in user.events | filter : {role : eventtype}" aria-label="/events/{{event.eventId}}" ui-sref="events eventid({eventid: event.eventId})" mean-token="person.id" class="md-3-line" ng-click="null">
               <img ng-src="{{application.face}}?{{$index}}" class="md-avatar" alt="{{application.name}}" />
               <div class="md-list-item-text" layout="column">
-                <h3>{{event.eventId}}</h3>
+                <h3>{{event.eventtitle}}</h3>
                 <h4>{{event.role}}</h4>
  <!--                <p>https://www.warwickhack.com/</p> -->
               </div>

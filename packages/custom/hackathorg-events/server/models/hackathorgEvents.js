@@ -24,7 +24,9 @@ var eventSchema = new Schema({
   noApplication: [String],
   users: [{
     userId: ObjectId,
+    username: String,
     role: String
+
   }],
   heroku:{
     apiKey: String,

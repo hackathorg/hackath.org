@@ -22,15 +22,15 @@ function profileOrUser(req, res){
 function addToEvent(req, res, callback){
 
       if (req.event.users){
-        req.event.users.push({userId: req.application.userId, role: req.application.role});
+        req.event.users.push({userId: req.application.userId, username: req.application.username, role: req.application.role});
       } else {
-        req.event.users = [{userId: req.application.userId, role: req.application.role}];
+        req.event.users = [{userId: req.application.userId, username: req.application.username, role: req.application.role}];
       }
       req.event.save();
       if (req.userevents.events){
-        req.userevents.events.push({eventId: req.application.eventId, role: req.application.role});
+        req.userevents.events.push({eventId: req.application.eventId, eventtitle: req.application.eventtitle,role: req.application.role});
       } else {
-        req.userevents.events = [{eventId: req.application.eventId, role: req.application.role}];
+        req.userevents.events = [{eventId: req.application.eventId, eventtitle: req.application.eventtitle, role: req.application.role}];
       }
       req.userevents.save();
       callback(null, 'OK');
@@ -90,8 +90,22 @@ module.exports = function(HackathorgProfile){
   },
     updateProfile: function (req, res){
       UserProfile.findOneAndUpdate({_id: req.user._id}, {$set: req.body}, {new: true, projection:{
-        public:1, name:1, tags:1, username:1, location:1, bio:1, website:1, events: 1}
+        email:1,public:1, name:1, tags:1, username:1, location:1, bio:1, website:1, events: 1}
       }).exec(function(err, result){
+        if (err){
+          console.log(err);
+          res.status(500).send(err);
+        } else {
+          res.send(result); 
+        }
+      })
+      
+    },
+    getProfile: function (req, res){
+      
+      UserProfile.findOne({_id: profileOrUser(req, res)},{
+        public:1, name:1, tags:1, username:1, location:1, bio:1, website:1, events: 1}
+      ).exec(function(err, result){
         if (err){
           console.log(err);
           res.status(500).send(err);
@@ -134,12 +148,17 @@ module.exports = function(HackathorgProfile){
           res.send(500, err);
         }
         req.event = result[0];
+        
         req.userevents = result[1];
         req.application = new Application(req.body);
         req.application.userId = req.user._id;
         req.application.username = req.user.username;
         req.application.status = 'Pending';
         req.application.response = '';
+        req.application.eventtitle = req.event._doc.title;
+        console.log(req.application.eventtitle);
+        console.log(req.event._doc);
+        console.log(req.event);
         if (err){
           res.send(500, 'Error: ' + err);
         }
@@ -155,7 +174,7 @@ module.exports = function(HackathorgProfile){
       });
     },
     cancelTicket: function (req, res) {
-      Event.update({_id: req.params.eventid}, {$pull:{users:{userId:req.user._id}}}, responseCallback(res));
+      Event.update({_id: req.params.eventid}, {$pull:{users: {userId:req.user._id}}}, responseCallback(res));
       UserEvent.update({_id: req.user._id}, {$pull: {events: {eventId: req.params.eventid}}});
     },
     cancelApplication: function (req, res) {
